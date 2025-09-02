@@ -1,0 +1,113 @@
+pageextension 50135 CustomerCardExt extends "Customer Card"
+{
+    layout
+    {
+        addfirst(factboxes)
+        {
+            part(cutomer; factbox)
+            {
+                SubPageLink = "No." = field("No.");
+                ApplicationArea = all;
+            }
+            // part("INVOICECOUNT"; "INVOICECOUNT")
+            // {
+            //     ApplicationArea = all;
+            // }
+        }
+    }
+    actions
+    {
+        addlast(Processing)
+        {
+            action(modifiedlog)
+            {
+                ApplicationArea = All;
+                Caption = 'modified log';
+                Image = View;
+                trigger OnAction()
+                var
+                    modifiedlog: Record logtable;
+
+                begin
+                    modifiedlog.Init();
+                    modifiedlog.SetRange(customer_no, Rec."No.");
+                    Page.RunModal(PAGE::logpage, modifiedlog);
+                end;
+
+
+            }
+        }
+
+        addlast(Processing)
+        {
+            action(VisitLog)
+            {
+                ApplicationArea = All;
+                Caption = 'Visit Log';
+                Image = View;
+                trigger OnAction()
+                var
+                    visitlogrec: Record Visitlog;
+                begin
+                    visitlogrec.Init();
+                    visitlogrec.SetRange(CustomerNo, Rec."No.");
+                    Page.RunModal(PAGE::"Visit Log list", visitlogrec);
+                end;
+
+
+            }
+        }
+        addlast(Processing)
+        {
+            action(Raise_Problem)
+            {
+                ApplicationArea = All;
+                Caption = 'raise_problem';
+                Image = View;
+                trigger OnAction()
+                var
+                    problemrec: Record problems;
+                    customerrec: Record Customer;
+                begin
+                    customerrec.Get(Rec."No.");
+                    problemrec.Init();
+                    problemrec.cust_id := customerrec."No.";
+                    problemrec.cust_name := customerrec.Name;
+                    problemrec.phone_no := customerrec."Phone No.";
+                    problemrec.Insert();
+                    Page.Run(Page::problems_page, problemrec);
+                end;
+            }
+        }
+
+    }
+
+    var
+        isNewCustomer: Boolean;
+
+    trigger OnOpenPage()
+    begin
+        if Rec."No." = '' then
+            isNewCustomer := true;
+    end;
+
+    trigger OnQueryClosePage(CloseAction: Action): Boolean
+    begin
+        if isNewCustomer and (Rec.Name = '') then begin
+            Message('Please enter a customer name');
+            exit(false)
+        end;
+        exit(true)
+    end;
+
+    trigger OnClosePage()
+    Var
+        publisher: Codeunit mupublisher;
+    begin
+        if isNewCustomer and (Rec.Name <> '') then begin
+            publisher.onaftercustomercreation(Rec.Name);
+            publisher.onaftercustomerc(Rec);
+        end;
+    end;
+}
+
