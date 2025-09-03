@@ -30,6 +30,29 @@ page 50125 "role Center"
 
                 }
             }
+            group("Employye Managment")
+            {
+                action(AssetList)
+                {
+                    ApplicationArea = all;
+                    RunObject = page AssetsListPage;
+
+                    Image = FixedAssetLedger;
+                }
+                action(AssetType)
+                {
+                    ApplicationArea = all;
+                    RunObject = page AssetTypeListPage;
+                    Image = FixedAssets;
+                }
+                action(EmployeeAsset)
+                {
+                    ApplicationArea = all;
+                    RunObject = page EmployeeAssetsListPage;
+
+                    Image = Employee;
+                }
+            }
         }
     }
 }

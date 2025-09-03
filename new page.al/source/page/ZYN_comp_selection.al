@@ -17,12 +17,11 @@ page 50127 "Field Selection Page"
                     ApplicationArea = All;
                     TableRelation = "AllObjWithCaption"."Object ID" where("Object Type" = const(Table));
                 }
+
                 field(RecordField; RecordField)
                 {
                     ApplicationArea = All;
                     TableRelation = "Field Buffer Storage"."Field Name";
-
-
                 }
                 field(Value; Value)
                 {

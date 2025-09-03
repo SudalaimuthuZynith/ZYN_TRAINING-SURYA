@@ -25,6 +25,14 @@ page 50173 EmployeeListPage
                 field(Role; Rec.Role) { }
             }
         }
+        area(FactBoxes)
+        {
+            part(EmployeeAssetsHistoryPage; EmployeeAssetsHistoryPage)
+            {
+                ApplicationArea = all;
+                SubPageLink = Employee = field("Employee ID");
+            }
+        }
 
     }
 
