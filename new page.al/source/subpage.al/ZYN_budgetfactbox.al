@@ -73,7 +73,7 @@ page 50170 BudgetFactboxPage
         MonthNo: Integer;
         CurrentYear: Integer;
         expenses: Record BudgetTable;
-        budget: Record BudgetTable;
+        //budget: Record BudgetTable;
 
     trigger OnAfterGetRecord()
     begin

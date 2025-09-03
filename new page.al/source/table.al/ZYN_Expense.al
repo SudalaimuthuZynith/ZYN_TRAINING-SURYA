@@ -4,20 +4,6 @@ table 50180 Expenses
 
     fields
     {
-        // field(20; "Budget Amount"; Decimal)
-        // {
-        //     FieldClass = FlowField;
-        //     CalcFormula = lookup(BudgetTable.Amount
-        //                  where("Catagory Name" = field("Catagory"),
-        //                        "Budget Month" = field("Date Filter")));
-        // }
-        // field(21; "Spent This Period"; Decimal)
-        // {
-        //     FieldClass = FlowField;
-        //     CalcFormula = sum(Expenses.Amount
-        //                       where(Catagory = field(Catagory),
-        //                             Date = field("Date Filter")));
-        // }
 
         field(1; "Expense ID"; code[20])
         {
