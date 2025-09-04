@@ -36,11 +36,27 @@ page 50185 EmployeeAssetsCardPage
                 field(status; Rec.status)
                 {
                     trigger OnValidate()
+
                     var
+                        AssetRec: Record AssetsListTable;
                     begin
                         UpdateEditableFields();
+                        AssetRec.Reset();
+                        AssetRec.SetRange("Serial No", Rec."serial no");
+                        if AssetRec.FindFirst() then begin
+                            case Rec.Status of
+                                Rec.Status::Assigned:
+                                    AssetRec.Available := false;
+                                Rec.Status::Returned:
+                                    AssetRec.Available := true;
+                                Rec.Status::Lost:
+                                    AssetRec.Available := false;
+                            end;
+                            AssetRec.Modify();
+                        end;
 
                     end;
+
 
                 }
                 field("Assigned Date"; Rec."Assigned Date")
@@ -110,33 +126,37 @@ page 50185 EmployeeAssetsCardPage
                 begin
                     ReturnDateEditable := false;
                     LostDateEditable := false;
-                    OtherAsset.Reset();
-                    OtherAsset.SetRange("serial no", Rec."serial no");
-                    OtherAsset.SetRange(Status, OtherAsset.Status::Assigned);
-                    if OtherAsset.FindFirst() then begin
-                        if (OtherAsset."Employee" <> Rec."Employee") then
-                            Error('This asset is already assigned to another employee.');
-                    end;
+                    
+                   if Rec."serial no" = '' then
+                        Error('Serial No. must be entered.');
 
                     AssetRec.Reset();
                     AssetRec.SetRange("Serial No", Rec."serial no");
-                    if AssetRec.FindFirst() then begin
-                       
+                    if not AssetRec.FindFirst() then
+                        Error('Asset with Serial No %1 not found.', Rec."serial no");
 
-                        AssetRec.Available := false;
-                        AssetRec.Modify();
+                    // If Available = false → check why
+                    if not AssetRec.Available then begin
+                        // Case 1: Already assigned to another employee
+                        OtherAsset.Reset();
+                        OtherAsset.SetRange("serial no", Rec."serial no");
+                        OtherAsset.SetRange(Status, OtherAsset.Status::Assigned);
+                        OtherAsset.SetFilter("Employee", '<>%1', Rec."Employee");
+                        if OtherAsset.FindFirst() then
+                            Error('This asset is already assigned to %1 and not available.', OtherAsset."Employee");
+
+                        // Case 2: Marked as Lost in history
+                        OtherAsset.Reset();
+                        OtherAsset.SetRange("serial no", Rec."serial no");
+                        OtherAsset.SetRange(Status, OtherAsset.Status::Lost);
+                        if OtherAsset.FindFirst() then
+                            Error('This asset is marked as Lost and cannot be assigned.');
                     end;
                 end;
             Rec.Status::returned:
                 begin
                     ReturnDateEditable := true;
-                    LostDateEditable := false;
-                    AssetRec.Reset();
-                    AssetRec.SetRange("Serial No", Rec."serial no");
-                    if AssetRec.FindFirst() then begin
-                        AssetRec.Available := true;
-                        AssetRec.Modify();
-                    end;
+                   
                     OtherAsset.Reset();
                     OtherAsset.SetRange("serial no", Rec."serial no");
                     OtherAsset.SetRange(Status, OtherAsset.Status::Assigned);
@@ -148,12 +168,7 @@ page 50185 EmployeeAssetsCardPage
                 begin
                     ReturnDateEditable := false;
                     LostDateEditable := true;
-                    AssetRec.Reset();
-                    AssetRec.SetRange("Serial No", Rec."serial no");
-                    if AssetRec.FindFirst() then begin
-                        AssetRec.Available := false;
-                        AssetRec.Modify();
-                    end;
+                   
                 end;
             else begin
                 ReturnDateEditable := true;

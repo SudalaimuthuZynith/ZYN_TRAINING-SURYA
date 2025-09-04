@@ -53,7 +53,7 @@ table 50188 EmployeeAssetListTable
 
     keys
     {
-        key(Key1; Employee, "serial no",status,"Assigned date","Returned date date")
+        key(Key1; Employee, "serial no",status)
         {
             Clustered = true;
         }

@@ -11,7 +11,7 @@ page 50157 ReturnedAssetsPage
         {
             cuegroup(income)
             {
-                field(AssignedAssets; AssignedAssets)
+                field(ReturnedAssets; ReturnedAssets)
                 {
                     ApplicationArea = All;
                     DrillDown = true;
@@ -58,7 +58,7 @@ page 50157 ReturnedAssetsPage
     }
 
     var
-        AssignedAssets: Integer;
+        ReturnedAssets: Integer;
         income: Record EmployeeAssetListTable;
 
     trigger OnAfterGetCurrRecord()
@@ -66,7 +66,7 @@ page 50157 ReturnedAssetsPage
         AssetRec: Record AssetsListTable;
         HistRec: Record EmployeeAssetListTable;
     begin
-        AssignedAssets := 0;
+        ReturnedAssets := 0;
 
         AssetRec.Reset();
         if AssetRec.FindSet() then
@@ -75,7 +75,7 @@ page 50157 ReturnedAssetsPage
                 HistRec.SetRange("serial no", AssetRec."Serial No");
                 if HistRec.FindLast() then begin
                     if HistRec.Status = HistRec.Status::returned then
-                        AssignedAssets += 1;
+                        ReturnedAssets += 1;
                 end;
             until AssetRec.Next() = 0;
     end;

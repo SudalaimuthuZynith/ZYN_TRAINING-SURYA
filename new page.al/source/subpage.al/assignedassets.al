@@ -75,7 +75,7 @@ page 50193 AssignedAssetsPage
                         HistRec: Record EmployeeAssetListTable;
                         TempRec: Record EmployeeAssetListTable temporary;
                     begin
-                       
+
                         TempRec.DeleteAll();
 
                         AssetRec.Reset();
@@ -83,10 +83,10 @@ page 50193 AssignedAssetsPage
                             repeat
                                 HistRec.Reset();
                                 HistRec.SetRange("serial no", AssetRec."Serial No");
-                               
+
                                 if HistRec.FindLast() then
                                     if HistRec.Status = HistRec.Status::Assigned then begin
-                                        TempRec := HistRec;     
+                                        TempRec := HistRec;
                                         TempRec.Insert();
                                     end;
                             until AssetRec.Next() = 0;
@@ -104,7 +104,9 @@ page 50193 AssignedAssetsPage
         {
             action(ActionName)
             {
-                trigger OnAction() begin end;
+                trigger OnAction()
+                begin
+                end;
             }
         }
     }
@@ -131,4 +133,5 @@ page 50193 AssignedAssetsPage
                 end;
             until AssetRec.Next() = 0;
     end;
+
 }
