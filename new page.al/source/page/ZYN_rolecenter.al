@@ -12,6 +12,15 @@ page 50125 "role Center"
             {
                 ApplicationArea = All;
             }
+            part(Subscriptions; ActiveSubscriptionsPage)
+            {
+                ApplicationArea = All;
+            }
+            part(RevenueGeneratedPage; RevenueGeneratedPage)
+            {
+                ApplicationArea = all;
+            }
+
         }
     }
     actions
@@ -68,7 +77,7 @@ page 50125 "role Center"
                     Image = Ledger;
                 }
             }
-             group(Income)
+            group(Income)
             {
                 action(IncomeList)
                 {
@@ -80,7 +89,7 @@ page 50125 "role Center"
                 {
                     ApplicationArea = all;
                     RunObject = page IncomeCatagoryPage;
-                    Image =Purchase;
+                    Image = Purchase;
                 }
             }
             group(Budget)
@@ -91,7 +100,7 @@ page 50125 "role Center"
                     RunObject = page BudgetListPage;
                     Image = LedgerBudget;
                 }
-               
+
             }
             group(Attendace)
             {
@@ -109,10 +118,26 @@ page 50125 "role Center"
                 }
                 action(LeaveRequestList)
                 {
-                    ApplicationArea=all;
-                    RunObject=page LeaveRequestListPage;
-                    Image=ListPage;
+                    ApplicationArea = all;
+                    RunObject = page LeaveRequestListPage;
+                    Image = ListPage;
                 }
+            }
+            group(SubscriptionManagment)
+            {
+                action(Plans)
+                {
+                    ApplicationArea = all;
+                    RunObject = page PlanListPage;
+                    Image = LedgerBudget;
+                }
+                action(Subscrptions)
+                {
+                    ApplicationArea = all;
+                    RunObject = page SubscriptionListPage;
+                    Image = LedgerBudget;
+                }
+
             }
         }
     }

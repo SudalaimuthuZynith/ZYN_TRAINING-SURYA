@@ -13,6 +13,11 @@ pageextension 50138 CustomerListExt extends "Customer List"
             // {
             //     ApplicationArea = all;
             // }
+            part(CustomerSubscriptionsPage; CustomerSubscriptionsPage)
+            {
+                SubPageLink = "Customer ID" = field("No.");
+                ApplicationArea=all;
+            }
         }
     }
 }

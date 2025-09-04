@@ -115,6 +115,11 @@ tableextension 50112 salesheaderext extends "Sales Header"
             //     ExtTextHandler.LoadExtendedTextGeneric(Rec, Rec.ending, Selection);
             // end;
         }
+        field(5010; "From Subscription"; Boolean)
+        {
+            Caption = 'From Subscription';
+            DataClassification = ToBeClassified;
+        }
 
 
     }

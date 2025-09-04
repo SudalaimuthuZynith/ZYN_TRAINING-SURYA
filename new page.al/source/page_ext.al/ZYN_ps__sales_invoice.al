@@ -16,6 +16,7 @@ pageextension 50131 "salesinvoiceext" extends "Sales Invoice"
                     ApplicationArea = All;
 
                 }
+                
 
                 part(SalesInvoiceTexts; extentdtext)
                 {
@@ -27,6 +28,13 @@ pageextension 50131 "salesinvoiceext" extends "Sales Invoice"
                     SubPageLink = "Document No." = field("No."), selection = const("end text");
                     ApplicationArea = All;
                 }
+            }
+        }
+         addlast(General)
+        {
+            field("From Subscription"; Rec."From Subscription")
+            {
+                ApplicationArea = All;
             }
         }
     }
