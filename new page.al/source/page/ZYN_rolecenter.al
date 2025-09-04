@@ -53,6 +53,67 @@ page 50125 "role Center"
                     Image = Employee;
                 }
             }
+            group(Expense)
+            {
+                action(ExpenseList)
+                {
+                    ApplicationArea = all;
+                    RunObject = page ExpenseListPage;
+                    Image = LedgerEntries;
+                }
+                action(ExpenseCatagoryList)
+                {
+                    ApplicationArea = all;
+                    RunObject = page ExpenseCatagoryPage;
+                    Image = Ledger;
+                }
+            }
+             group(Income)
+            {
+                action(IncomeList)
+                {
+                    ApplicationArea = all;
+                    RunObject = page IncomeListPage;
+                    Image = Sales;
+                }
+                action(IncomeCatagoryList)
+                {
+                    ApplicationArea = all;
+                    RunObject = page IncomeCatagoryPage;
+                    Image =Purchase;
+                }
+            }
+            group(Budget)
+            {
+                action(BudgetList)
+                {
+                    ApplicationArea = all;
+                    RunObject = page BudgetListPage;
+                    Image = LedgerBudget;
+                }
+               
+            }
+            group(Attendace)
+            {
+                action(EmployeeList)
+                {
+                    ApplicationArea = all;
+                    RunObject = page EmployeeListPage;
+                    Image = Employee;
+                }
+                action(LeaveCatagoryList)
+                {
+                    ApplicationArea = all;
+                    RunObject = page IncomeCatagoryPage;
+                    Image = ApplyEntries;
+                }
+                action(LeaveRequestList)
+                {
+                    ApplicationArea=all;
+                    RunObject=page LeaveRequestListPage;
+                    Image=ListPage;
+                }
+            }
         }
     }
 }

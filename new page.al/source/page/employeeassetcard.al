@@ -27,8 +27,8 @@ page 50185 EmployeeAssetsCardPage
                             if (CalcDate('<-5Y>', WorkDate) > AssetRec."Procured Date") then
                                 Error('This asset is older than 5 years and cannot be assigned.');
 
-                            if not AssetRec.Available then
-                                Error('This asset is already lost or unavailable.');
+                            // if not AssetRec.Available then
+                            //     Error('This asset is already lost or unavailable.');
                         end;
                     end;
                 }
@@ -68,14 +68,8 @@ page 50185 EmployeeAssetsCardPage
                         AssetRec.Reset();
                         AssetRec.SetRange("Serial No", Rec."serial no");
                         if AssetRec.FindFirst() then begin
-
-
                             if Rec."Assigned Date" > CalcDate('<+5Y>', AssetRec."Procured Date") then
                                 Error('This asset is older than 5 years and cannot be assigned.');
-
-
-                            // if not AssetRec.Available then
-                            //     Error('This asset is already lost or unavailable.');
                         end;
                     end;
                 }
@@ -92,27 +86,14 @@ page 50185 EmployeeAssetsCardPage
         }
     }
 
-    actions
-    {
-        area(Processing)
-        {
-            action(ActionName)
-            {
-
-                trigger OnAction()
-                begin
-
-                end;
-            }
-        }
-    }
+    
 
     var
         ReturnDateEditable: Boolean;
         LostDateEditable: Boolean;
         OtherAsset: Record EmployeeAssetListTable;
         AssetRec: Record AssetsListTable;
-        NewAssetRec: Record EmployeeAssetListTable;
+       
 
     trigger OnAfterGetCurrRecord()
     begin
@@ -137,7 +118,7 @@ page 50185 EmployeeAssetsCardPage
 
                     // If Available = false → check why
                     if not AssetRec.Available then begin
-                        // Case 1: Already assigned to another employee
+                       // Error('This asset is marked as Lost and cannot be assigned.');
                         OtherAsset.Reset();
                         OtherAsset.SetRange("serial no", Rec."serial no");
                         OtherAsset.SetRange(Status, OtherAsset.Status::Assigned);
@@ -156,7 +137,7 @@ page 50185 EmployeeAssetsCardPage
             Rec.Status::returned:
                 begin
                     ReturnDateEditable := true;
-                   
+                   LostDateEditable := false;
                     OtherAsset.Reset();
                     OtherAsset.SetRange("serial no", Rec."serial no");
                     OtherAsset.SetRange(Status, OtherAsset.Status::Assigned);
@@ -170,10 +151,10 @@ page 50185 EmployeeAssetsCardPage
                     LostDateEditable := true;
                    
                 end;
-            else begin
-                ReturnDateEditable := true;
-                LostDateEditable := true;
-            end;
+            // else begin
+            //     ReturnDateEditable := true;
+            //     LostDateEditable := true;
+            // end;
         end;
         CurrPage.Update(false);
     end;
