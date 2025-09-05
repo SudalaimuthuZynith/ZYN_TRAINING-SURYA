@@ -38,10 +38,10 @@ table 50198 PlanSubscriptionTable
                     Rec."Next Billing Date" := CalcDate('<+1M>', Rec."Start Date");
 
                     // If Duration already set, recalc End Date
-                    if Rec.Duration > 0 then
-                        Rec."End Date" := CalcDate('<+' + Format(Rec.Duration) + 'M>', Rec."Start Date")
-                    else
-                        Rec."End Date" := Rec."Start Date";
+                    // if Rec.Duration > 0 then
+                    //     Rec."End Date" := CalcDate('<+' + Format(Rec.Duration) + 'M>', Rec."Start Date")
+                    // else
+                    //     Rec."End Date" := Rec."Start Date";
                 end;
             end;
         }
@@ -104,32 +104,32 @@ table 50198 PlanSubscriptionTable
         SalesLine: Record "Sales Line";
     begin
         if "Invoice Created" then
-            exit; // avoid duplicate invoice creation
+            exit;
 
         if "Customer ID" = '' then
-            exit; // wait until customer is entered
+            exit; 
 
         if "Plan ID" = '' then
-            exit; // wait until plan is entered
-
+            exit; 
         Plan.Get("Plan ID");
 
-        // Create Sales Header
+        
         SalesHeader.Init();
         SalesHeader.Validate("Document Type", SalesHeader."Document Type"::Invoice);
         SalesHeader.Validate("Sell-to Customer No.", "Customer ID");
-        SalesHeader.Validate("Document Date", WorkDate()); // Use WorkDate instead of Next Billing Date
+        SalesHeader.Validate("Document Date", WorkDate()); 
         SalesHeader.Insert(true);
 
-        // Create Sales Line
+       
         SalesLine.Init();
         SalesLine.Validate("Document Type", SalesLine."Document Type"::Invoice);
         SalesLine.Validate("Document No.", SalesHeader."No.");
         SalesLine.Validate(Type, SalesLine.Type::Item);
-        SalesLine.Validate("No.", 'SUB001'); // service item
+        SalesLine.Validate("No.", 'SUB001');
         SalesLine.Description := 'Subscription Fee for Plan ' + "Plan ID";
         SalesLine.Validate(Quantity, 1);
         SalesLine.Validate("Unit Price", Plan.Fee);
+        //SalesLine.Validate(Amount,Plan.Fee);
         SalesLine.Insert(true);
 
         "Invoice Created" := true;
