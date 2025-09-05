@@ -34,14 +34,10 @@ table 50198 PlanSubscriptionTable
             trigger OnValidate()
             begin
                 if Rec."Start Date" <> 0D then begin
-                    // Always set Next Billing = Start Date + 1 Month
+
                     Rec."Next Billing Date" := CalcDate('<+1M>', Rec."Start Date");
 
-                    // If Duration already set, recalc End Date
-                    // if Rec.Duration > 0 then
-                    //     Rec."End Date" := CalcDate('<+' + Format(Rec.Duration) + 'M>', Rec."Start Date")
-                    // else
-                    //     Rec."End Date" := Rec."Start Date";
+
                 end;
             end;
         }
@@ -56,7 +52,7 @@ table 50198 PlanSubscriptionTable
                 else
                     Rec."End Date" := Rec."Start Date";
 
-                // Reset Next Billing Date when duration changes
+
                 if Rec."Start Date" <> 0D then
                     Rec."Next Billing Date" := CalcDate('<+1M>', Rec."Start Date");
             end;
@@ -96,31 +92,34 @@ table 50198 PlanSubscriptionTable
     var
         myInt: Integer;
 
- 
-     procedure CreateInvoiceAutomatically()
+
+    procedure CreateInvoiceAutomatically()
     var
         Plan: Record PlanTable;
         SalesHeader: Record "Sales Header";
         SalesLine: Record "Sales Line";
+        
     begin
         if "Invoice Created" then
             exit;
 
         if "Customer ID" = '' then
-            exit; 
+            exit;
 
         if "Plan ID" = '' then
-            exit; 
+            exit;
         Plan.Get("Plan ID");
 
-        
+
         SalesHeader.Init();
         SalesHeader.Validate("Document Type", SalesHeader."Document Type"::Invoice);
         SalesHeader.Validate("Sell-to Customer No.", "Customer ID");
-        SalesHeader.Validate("Document Date", WorkDate()); 
+        
+
+        SalesHeader.Validate("Document Date", WorkDate());
         SalesHeader.Insert(true);
 
-       
+
         SalesLine.Init();
         SalesLine.Validate("Document Type", SalesLine."Document Type"::Invoice);
         SalesLine.Validate("Document No.", SalesHeader."No.");
@@ -129,7 +128,7 @@ table 50198 PlanSubscriptionTable
         SalesLine.Description := 'Subscription Fee for Plan ' + "Plan ID";
         SalesLine.Validate(Quantity, 1);
         SalesLine.Validate("Unit Price", Plan.Fee);
-        //SalesLine.Validate(Amount,Plan.Fee);
+
         SalesLine.Insert(true);
 
         "Invoice Created" := true;
