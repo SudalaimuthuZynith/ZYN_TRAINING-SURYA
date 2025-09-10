@@ -10,7 +10,56 @@
     "help": "",
     "url": "",
     "logo": "",
-    "dependencies": [],
+    "dependencies": [
+        {
+            "id": "ea130081-c669-460f-a5f4-5dde14f03131",
+            "name": "Statistical Accounts",
+            "publisher": "Microsoft",
+            "version": "26.3.36158.36536"
+        },
+        {
+            "id": "e1d97edc-c239-46b4-8d84-6368bdf67c8b",
+            "name": "E-Document Core",
+            "publisher": "Microsoft",
+            "version": "26.3.36158.36536"
+        },
+        {
+            "id": "e4e86220-cac0-4ec3-b853-7c2fa610399d",
+            "name": "PowerBI Reports",
+            "publisher": "Microsoft",
+            "version": "26.3.36158.36536"
+        },
+        {
+            "id": "3099ffc7-4cf7-4df6-9b96-7e4bc2bb587c",
+            "name": "Subscription Billing",
+            "publisher": "Microsoft",
+            "version": "26.3.36158.36536"
+        },
+        {
+            "id": "cc11c22e-5ca3-423f-8804-88cac6d91983",
+            "name": "Dynamics BC Excel Reports",
+            "publisher": "Microsoft",
+            "version": "26.3.36158.36536"
+        },
+        {
+            "id": "c512d720-63b9-4b26-b062-a0c09b4ed322",
+            "name": "Company Hub",
+            "publisher": "Microsoft",
+            "version": "26.3.36158.36536"
+        },
+        {
+            "id": "ac14293f-1eb7-4a7b-9936-b280da31970b",
+            "name": "Data Search",
+            "publisher": "Microsoft",
+            "version": "26.3.36158.36536"
+        },
+        {
+            "id": "ec255f57-31d0-4ca2-b751-f2fa7c745abb",
+            "name": "Shopify Connector",
+            "publisher": "Microsoft",
+            "version": "26.3.36158.36536"
+        }
+    ],
     "screenshots": [],
     "platform": "1.0.0.0",
     "application": "26.3.36158.36536",

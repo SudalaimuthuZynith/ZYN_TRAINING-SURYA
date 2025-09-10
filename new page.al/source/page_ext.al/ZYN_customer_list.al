@@ -13,7 +13,7 @@ pageextension 50138 CustomerListExt extends "Customer List"
             // {
             //     ApplicationArea = all;
             // }
-            part(CustomerSubscriptionsPage; CustomerSubscriptionsPage)
+            part(CustomerSubscriptionsPage; ZYN_CustomerSubscriptionsPage)
             {
                 SubPageLink = "Customer ID" = field("No.");
                 ApplicationArea=all;

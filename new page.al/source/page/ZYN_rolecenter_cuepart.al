@@ -52,12 +52,16 @@ page 50107 "My Cue Part"
         today: Date;
 
     trigger OnOpenPage()
+    var
+
+        mynotify: Codeunit ZYN_notifysubscriptionrenewal;
     begin
         today := WorkDate();
         Visitlogcount := 0;
         visitlogRec.Reset();
         visitlogRec.SetRange(Date, today);
         Visitlogcount := visitlogRec.Count;
+        mynotify.Run();
     end;
 
 

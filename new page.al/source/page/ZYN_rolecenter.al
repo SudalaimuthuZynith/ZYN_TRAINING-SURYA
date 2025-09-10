@@ -12,15 +12,15 @@ page 50125 "role Center"
             {
                 ApplicationArea = All;
             }
-            part(Subscriptions; ActiveSubscriptionsPage)
+            part(Subscriptions; ZYN_ActiveSubscriptionsPage)
             {
                 ApplicationArea = All;
             }
-            part(RevenueGeneratedPage; RevenueGeneratedPage)
+            part(RevenueGeneratedPage; ZYN_RevenueGeneratedPage)
             {
                 ApplicationArea = all;
             }
-
+           
         }
     }
     actions
@@ -128,17 +128,19 @@ page 50125 "role Center"
                 action(Plans)
                 {
                     ApplicationArea = all;
-                    RunObject = page PlanListPage;
+                    RunObject = page ZYN_PlanListPage;
                     Image = LedgerBudget;
                 }
                 action(Subscrptions)
                 {
                     ApplicationArea = all;
-                    RunObject = page SubscriptionListPage;
+                    RunObject = page ZYN_SubscriptionListPage;
                     Image = LedgerBudget;
                 }
 
             }
         }
     }
+
 }
+
