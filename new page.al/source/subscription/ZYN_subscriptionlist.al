@@ -18,7 +18,7 @@ page 50269 ZYN_SubscriptionListPage
                 field(Duration; Rec.Duration) { }
                 field("End Date"; Rec."End Date") { }
                 field("Next Billing Date"; Rec."Next Billing Date") { }
-                field("Remainder Date"; Rec."Remainder Date") { }
+                //field("Remainder Date"; Rec."Remainder Date") { }
                 field("Next renewal Date"; Rec."Next renewal Date") { }
 
                 field(substatus; Rec.substatus) { }

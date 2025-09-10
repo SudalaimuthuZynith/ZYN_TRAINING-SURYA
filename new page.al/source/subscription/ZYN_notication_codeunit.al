@@ -12,7 +12,7 @@ codeunit 50233 ZYN_notifysubscriptionrenewal
         notification: Notification;
     begin
         Sub.SetRange("Remainder Date", WorkDate());
-
+        Sub.SetRange(substatus, Sub.substatus::Active);
         if Sub.FindSet() then
             repeat
                 Sub."Remainder send" := true;
