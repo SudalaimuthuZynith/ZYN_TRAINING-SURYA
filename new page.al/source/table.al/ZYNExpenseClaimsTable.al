@@ -16,18 +16,7 @@ table 50234 ZYNExpenseClaimsTable
         }
         field(3; "Catagory Name"; Text[20])
         {
-            trigger OnValidate()
-            var
-                expcat: Record ZYNExpenseCatagoryTable;
-            begin
-                expcat.Reset();
-                expcat.SetRange(Catagory, Rec."Catagory Name");
-
-
-                if PAGE.RunModal(Page::ZYNExpenseCatagoryListPage, expcat) = ACTION::LookupOK then
-                    Rec."Subtype" := expcat.Name;
-            end;
-
+        DataClassification=ToBeClassified;
         }
         field(4; "Subtype"; Text[20])
         {
@@ -86,20 +75,12 @@ table 50234 ZYNExpenseClaimsTable
             Clustered = true;
         }
     }
-
-    fieldgroups
-    {
-        // Add changes to field groups here
-    }
-
-    var
-        myInt: Integer;
-
     trigger OnInsert()
     var
         Expense: Record ZYNExpenseClaimsTable;
         Lastid: Integer;
     begin
+        //Automaticlly increments expense id
         if "Expense ID" = '' then begin
             if expense.FindLast() then
                 Evaluate(lastid, CopyStr(expense."Expense ID", 8))
@@ -109,34 +90,7 @@ table 50234 ZYNExpenseClaimsTable
             "Expense ID" := 'EXPENSE' + PadStr(Format(lastid), 3, '0');
         end;
     end;
-
-   
-
-    trigger OnDelete()
-    begin
-
-    end;
-
-    trigger OnRename()
-    begin
-
-    end;
-
-   
-
-
-
-
-
-
 }
 
 
 
-enum 50234 claimstatus
-{
-    value(1; Pending) { }
-    value(2; Approved) { }
-    value(3; Rejected) { }
-    value(4; Cancelled) { }
-}

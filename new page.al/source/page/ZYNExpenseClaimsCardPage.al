@@ -59,7 +59,6 @@ page 50232 ZYNExpenseClaimsCardPage
                     begin
                         ExpenseMgt.CheckAmountLimit(Rec."Catagory Name", Rec.Subtype, Rec.Amount);
                         RecalculateClaimedAmount();
-                        //ExpenseMgt.CalculateAmount(Rec."Catagory Name", Rec.Subtype, Rec.Amount);
                     end;
                 }
                 field("Claim Date"; Rec."Claim Date")
@@ -79,7 +78,6 @@ page 50232 ZYNExpenseClaimsCardPage
                 field("Bill"; Rec."Bill")
                 {
                     ApplicationArea = All;
-
                 }
             }
             field(Remarks; Rec.Remarks) { ApplicationArea = all; }
@@ -87,8 +85,6 @@ page 50232 ZYNExpenseClaimsCardPage
             field("Claimed Amount"; Rec."Claimed Amount") { ApplicationArea = all; }
             field("Subtype Limit Amount"; Rec."Subtype Limit Amount") { ApplicationArea = all; }
             field("Remaining Amount"; Rec."Remaining Amount") { ApplicationArea = all; }
-
-            // field("Date Filter"; Rec."Date Filter") { ApplicationArea = all; }
         }
     }
 
@@ -116,7 +112,6 @@ page 50232 ZYNExpenseClaimsCardPage
                         // Save uploaded file into the Blob
                         Rec."Bill".CreateOutStream(OutStream);
                         CopyStream(OutStream, InStream);
-
                         Rec.Modify(true);
                         Message('File %1 uploaded successfully.', FileName);
                     end;
@@ -135,6 +130,7 @@ page 50232 ZYNExpenseClaimsCardPage
                     FileName: Text;
                 begin
                     if Rec."Bill".HasValue then begin
+                        // Save downloaded file into the Blob
                         Rec."Bill".CreateInStream(InStream);
                         FileName := 'Bill.pdf'; // or store original FileName in a Text field
                         DownloadFromStream(InStream, '', '', '', FileName);
@@ -148,12 +144,14 @@ page 50232 ZYNExpenseClaimsCardPage
     }
     procedure RecalculateClaimedAmount()
     begin
+        //calculate claimed amount
         if (Rec."Employee ID" <> '') and (Rec."Catagory Name" <> '') and (Rec.Subtype <> '') then
             Rec.CALCFIELDS("Claimed Amount");
     end;
 
     procedure UpdateDateFilter()
     begin
+        //Gives Start of the Year according to claim date
         if Rec."Claim Date" <> 0D then
             Rec."Date Filter" := CalcDate('<-CY>', Rec."Claim Date");
     end;

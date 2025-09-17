@@ -62,7 +62,7 @@ page 50244 ZYNExpenseClaimApprovedPage
 
                     // Calculate amount and approve
                     ExpenseMgt.CheckAmountLimit(Rec."Catagory Name", Rec.Subtype, Rec.Amount);
-                    ExpenseMgt.CalculateAmount(Rec."Catagory Name", Rec.Subtype, Rec.Amount);
+                    ExpenseMgt.CalculateAmount(Rec."Employee ID",Rec."Catagory Name", Rec.Subtype, Rec.Amount);
                     Rec.Status := Rec.Status::Approved;
                     Rec.Modify();
 
@@ -75,7 +75,7 @@ page 50244 ZYNExpenseClaimApprovedPage
             {
                 trigger OnAction()
                 begin
-
+                    //Rejection Condition
                     if Rec.Status <> Rec.Status::Pending then
                         Error('Expense claim with amount %1 cannot be rejected. Status: %2', Rec.Amount, Rec.Status);
 
@@ -91,10 +91,6 @@ page 50244 ZYNExpenseClaimApprovedPage
     var
         expclaim: Record ZYNExpenseClaimsTable;
     begin
-        // Show only Pending claims when page opens
-        // expclaim.SetRange(Status, Rec.Status::Pending);
-        // if expclaim.FindSet() then
-        //     Page.RunModal(Page::ZYNExpenseClaimsListPage, expclaim);
         Rec.SetRange(Status, Rec.Status::Pending);
     end;
 }

@@ -1,5 +1,6 @@
 codeunit 50100 "ZYN Expense Management"
 {
+    //  Throws error if CurrentAmount entered itself crossed Limit in catagory table
     procedure CheckAmountLimit(CategoryName: Text[20]; Subtype: Text[20]; CurrentAmount: Decimal)
     var
         expcat: Record ZYNExpenseCatagoryTable;
@@ -16,25 +17,29 @@ codeunit 50100 "ZYN Expense Management"
         end;
     end;
 
-
-    procedure CalculateAmount(CategoryName: Text[20]; Subtype: Text[20];CurrentAmount: Decimal)
+    //Thows error if total calculated amount of subtype exceeds limit amount in current year when approving
+    procedure CalculateAmount(EmployeeID:Code[20];CategoryName: Text[20]; Subtype: Text[20];CurrentAmount: Decimal)
     var
         expcat: Record ZYNExpenseCatagoryTable;
         expclaim: Record ZYNExpenseClaimsTable;
         totalamount: Decimal;
     begin
-        
+        //Calculates total amount
         expclaim.Reset();
+        expclaim.SetRange("Employee ID",EmployeeID);
         expclaim.SetRange("Catagory Name", CategoryName);
         expclaim.SetRange("Subtype", Subtype);
         expclaim.SetRange(Status, expclaim.Status::Approved);
-
+        expclaim.SetRange("Date Filter",CalcDate('<-CY>',expclaim."Claim Date"));
         if expclaim.FindSet() then
             repeat
                 totalamount += expclaim.Amount;
             until expclaim.Next() = 0;
 
+        //calculates totalamount with currentamount
         totalamount += CurrentAmount;
+
+        //throws error
         expcat.Reset();
         expcat.SetRange(Catagory, CategoryName);
         expcat.SetRange(Name, Subtype);
