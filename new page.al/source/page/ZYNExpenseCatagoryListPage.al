@@ -1,12 +1,12 @@
-page 50223 ZYNExpenseCatagoryListPage
+page 50223 ZYN_ExpenseCatagoryListPage
 {
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Administration;
-    SourceTable = ZYNExpenseCatagoryTable;
-    CardPageId = ZYNExpenseCatagoryCardPage;
-    Editable=false;
-    InsertAllowed=false;
+    SourceTable = ZYN_ExpenseCatagoryTable;
+    CardPageId = ZYN_ExpenseCatagoryCardPage;
+    Editable = false;
+    InsertAllowed = false;
     layout
     {
         area(Content)

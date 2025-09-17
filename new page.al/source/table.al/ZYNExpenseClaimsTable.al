@@ -1,4 +1,4 @@
-table 50234 ZYNExpenseClaimsTable
+table 50234 ZYN_ExpenseClaimsTable
 {
     DataClassification = ToBeClassified;
 
@@ -16,7 +16,7 @@ table 50234 ZYNExpenseClaimsTable
         }
         field(3; "Catagory Name"; Text[20])
         {
-        DataClassification=ToBeClassified;
+            DataClassification = ToBeClassified;
         }
         field(4; "Subtype"; Text[20])
         {
@@ -30,7 +30,7 @@ table 50234 ZYNExpenseClaimsTable
         field(12; "Claimed Amount"; Decimal)
         {
             FieldClass = FlowField;
-            CalcFormula = sum(ZYNExpenseClaimsTable.Amount where("Employee ID" = field("Employee ID"), "Catagory Name" = field("Catagory Name"), Subtype = field(Subtype), Status = const(Approved), "Date Filter" = field("Date Filter")));
+            CalcFormula = sum(ZYN_ExpenseClaimsTable.Amount where("Employee ID" = field("Employee ID"), "Catagory Name" = field("Catagory Name"), Subtype = field(Subtype), Status = const(Approved), "Date Filter" = field("Date Filter")));
         }
         field(13; "Date Filter"; Date)
         {
@@ -40,9 +40,9 @@ table 50234 ZYNExpenseClaimsTable
         {
             DataClassification = ToBeClassified;
         }
-        field(14;"Remaining Amount";Decimal)
+        field(14; "Remaining Amount"; Decimal)
         {
-            DataClassification=ToBeClassified;
+            DataClassification = ToBeClassified;
         }
         field(5; "Claim Date"; Date)
         {
@@ -66,6 +66,11 @@ table 50234 ZYNExpenseClaimsTable
         {
             DataClassification = ToBeClassified;
         }
+        field(20; "Rejection Reason"; Text[250])
+        {
+            Caption = 'Rejection Reason';
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
@@ -77,13 +82,13 @@ table 50234 ZYNExpenseClaimsTable
     }
     trigger OnInsert()
     var
-        Expense: Record ZYNExpenseClaimsTable;
+        ZYN_ExpenseClaimsTable: Record ZYN_ExpenseClaimsTable;
         Lastid: Integer;
     begin
         //Automaticlly increments expense id
         if "Expense ID" = '' then begin
-            if expense.FindLast() then
-                Evaluate(lastid, CopyStr(expense."Expense ID", 8))
+            if ZYN_ExpenseClaimsTable.FindLast() then
+                Evaluate(lastid, CopyStr(ZYN_ExpenseClaimsTable."Expense ID", 8))
             else
                 lastid := 0;
             Lastid += 1;

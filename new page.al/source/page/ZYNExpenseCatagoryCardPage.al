@@ -1,9 +1,9 @@
-page 50213 ZYNExpenseCatagoryCardPage
+page 50213 ZYN_ExpenseCatagoryCardPage
 {
     PageType = Card;
     ApplicationArea = All;
     UsageCategory = Administration;
-    SourceTable = ZYNExpenseCatagoryTable;
+    SourceTable = ZYN_ExpenseCatagoryTable;
 
     layout
     {

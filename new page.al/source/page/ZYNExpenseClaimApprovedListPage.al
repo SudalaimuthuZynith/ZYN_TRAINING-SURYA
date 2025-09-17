@@ -1,10 +1,10 @@
-page 50244 ZYNExpenseClaimApprovedPage
+page 50244 ZYN_ExpenseClaimApprovedPage
 {
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Administration;
-    SourceTable = ZYNExpenseClaimsTable;
-    CardPageId=ZYNExpenseClaimsCardPage;
+    SourceTable = ZYN_ExpenseClaimsTable;
+    CardPageId = ZYN_ExpenseClaimsCardPage;
     Editable = false;
     InsertAllowed = false;
     layout
@@ -23,6 +23,7 @@ page 50244 ZYNExpenseClaimApprovedPage
                 field(Bill; Rec.Bill) { ApplicationArea = all; }
                 field(Remarks; Rec.Remarks) { ApplicationArea = all; }
                 field(Status; Rec.Status) { ApplicationArea = all; }
+                field("Rejection Reason"; Rec."Rejection Reason") { ApplicationArea = All; }
             }
         }
     }
@@ -36,61 +37,77 @@ page 50244 ZYNExpenseClaimApprovedPage
             {
                 trigger OnAction()
                 var
-                    ExpenseMgt: Codeunit "ZYN Expense Management";
+                    "ZYN Expense Management": Codeunit "ZYN Expense Management";
                     ThreeMonthsAgo: Date;
-                    TempRec: Record ZYNExpenseClaimsTable;
+                    ZYN_ExpenseClaimsTable: Record ZYN_ExpenseClaimsTable;
                 begin
                     // Validate Status
                     if Rec.Status <> Rec.Status::Pending then
-                        Error('Expense claim with amount %1 cannot be processed. Status: %2', Rec.Amount, Rec.Status);
+                        Error(StatusError, Rec.Amount, Rec.Status);
                     //Bill Status
                     if not Rec."Bill".HasValue then
-                        Error('You must upload a Bill before approving this expense.');
+                        Error(BillError);
                     // Check 3-month limit
                     ThreeMonthsAgo := CalcDate('<-3M>', WorkDate());
                     if Rec."Bill Date" < ThreeMonthsAgo then
-                        Error('Expense claim with amount %1 has a Bill Date older than 3 months: %2', Rec.Amount, Rec."Bill Date");
+                        Error(validityerror, Rec.Amount, Rec."Bill Date");
 
                     // Check duplicate
-                    TempRec.SetRange("Employee ID", Rec."Employee ID");
-                    TempRec.SetRange("Catagory Name", Rec."Catagory Name");
-                    TempRec.SetRange(Subtype, Rec.Subtype);
-                    TempRec.SetRange("Bill Date", Rec."Bill Date");
-                    TempRec.SetRange(Status, Rec.Status::Approved);
-                    if TempRec.FindFirst() then
-                        Error('This already exists, this is duplicate');
+                    "ZYN Expense Management".Duplicate(Rec."Employee ID", Rec."Catagory Name", rec.Subtype, Rec."Bill Date", Rec.Status);
 
                     // Calculate amount and approve
-                    ExpenseMgt.CheckAmountLimit(Rec."Catagory Name", Rec.Subtype, Rec.Amount);
-                    ExpenseMgt.CalculateAmount(Rec."Employee ID",Rec."Catagory Name", Rec.Subtype, Rec.Amount);
+                    "ZYN Expense Management".CheckAmountLimit(Rec."Catagory Name", Rec.Subtype, Rec.Amount);
+                    "ZYN Expense Management".CalculateAmount(Rec."Employee ID", Rec."Catagory Name", Rec.Subtype, Rec.Amount);
                     Rec.Status := Rec.Status::Approved;
                     Rec.Modify();
 
-                    Message('Expense claim approved successfully.');
+                    Message(ApprovalMessage);
                 end;
             }
 
-
-            action(Reject)
+            action(RejectClaim)
             {
-                trigger OnAction()
-                begin
-                    //Rejection Condition
-                    if Rec.Status <> Rec.Status::Pending then
-                        Error('Expense claim with amount %1 cannot be rejected. Status: %2', Rec.Amount, Rec.Status);
+                ApplicationArea = All;
+                Caption = 'Reject';
+                Image = Cancel;
 
-                    Rec.Status := Rec.Status::Rejected;
-                    Rec.Modify();
-                    Message('Expense claim rejected successfully.');
+                trigger OnAction()
+                var
+                    ZYN_ExpenseRejectReason: Page ZYN_ExpenseRejectReason;
+                    Reason: Text[250];
+                begin
+
+
+                    if ZYN_ExpenseRejectReason.RunModal() <> Action::OK then
+                        Error(RejectionReasonError);
+
+                    Reason := ZYN_ExpenseRejectReason.GetReason();
+
+
+                    Rec.Validate(Status, Rec.Status::Rejected);
+                    Rec."Rejection Reason" := Reason;
+                    Rec.Modify(true);
+
+                    Message(RejectionMessage, Rec."Expense ID", Reason);
                 end;
+
+
             }
         }
     }
+    var
+        ValidityError: Label 'Expense claim with amount %1 has a Bill Date older than 3 months: %2';
+        BillError: Label 'You must upload a Bill before approving this expense.';
+        StatusError: Label 'Expense claim with amount %1 cannot be processed. Status: %2';
+        ApprovalMessage: Label 'Expense claim approved successfully.';
+        RejectionReasonError: Label 'You must provide a rejection reason.';
+        RejectionMessage: Label 'Claim %1 has been rejected. Reason: %2';
 
     trigger OnOpenPage()
     var
-        expclaim: Record ZYNExpenseClaimsTable;
+        ZYN_ExpenseClaimsTable: Record ZYN_ExpenseClaimsTable;
     begin
         Rec.SetRange(Status, Rec.Status::Pending);
     end;
 }
+

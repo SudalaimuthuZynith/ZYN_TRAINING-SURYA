@@ -1,9 +1,9 @@
-page 50232 ZYNExpenseClaimsCardPage
+page 50232 ZYN_ExpenseClaimsCardPage
 {
     PageType = Card;
     ApplicationArea = All;
     UsageCategory = Administration;
-    SourceTable = ZYNExpenseClaimsTable;
+    SourceTable = ZYN_ExpenseClaimsTable;
 
     layout
     {
@@ -26,13 +26,13 @@ page 50232 ZYNExpenseClaimsCardPage
                     DrillDown = true;
                     trigger OnDrillDown()
                     var
-                        expcat: Record ZYNExpenseCatagoryTable;
+                        ZYNExpenseCatagoryTable: Record ZYN_ExpenseCatagoryTable;
                     begin
-                        expcat.Reset();
-                        if PAGE.RunModal(Page::ZYNExpenseCatagoryListPage, expcat) = ACTION::LookupOK then begin
-                            Rec."Subtype" := expcat.Name;
-                            Rec."Catagory Name" := expcat.Catagory;
-                            Rec."Subtype Limit Amount" := expcat.Amount;
+                        ZYNExpenseCatagoryTable.Reset();
+                        if PAGE.RunModal(Page::ZYN_ExpenseCatagoryListPage, ZYNExpenseCatagoryTable) = ACTION::LookupOK then begin
+                            Rec."Subtype" := ZYNExpenseCatagoryTable.Name;
+                            Rec."Catagory Name" := ZYNExpenseCatagoryTable.Catagory;
+                            Rec."Subtype Limit Amount" := ZYNExpenseCatagoryTable.Amount;
                         end;
                     end;
 
@@ -55,9 +55,9 @@ page 50232 ZYNExpenseClaimsCardPage
                     ApplicationArea = all;
                     trigger OnValidate()
                     var
-                        ExpenseMgt: Codeunit "ZYN Expense Management";
+                        "ZYN Expense Management": Codeunit "ZYN Expense Management";
                     begin
-                        ExpenseMgt.CheckAmountLimit(Rec."Catagory Name", Rec.Subtype, Rec.Amount);
+                        "ZYN Expense Management".CheckAmountLimit(Rec."Catagory Name", Rec.Subtype, Rec.Amount);
                         RecalculateClaimedAmount();
                     end;
                 }
@@ -82,9 +82,11 @@ page 50232 ZYNExpenseClaimsCardPage
             }
             field(Remarks; Rec.Remarks) { ApplicationArea = all; }
             field(Status; Rec.Status) { ApplicationArea = all; }
-            field("Claimed Amount"; Rec."Claimed Amount") { ApplicationArea = all; }
-            field("Subtype Limit Amount"; Rec."Subtype Limit Amount") { ApplicationArea = all; }
-            field("Remaining Amount"; Rec."Remaining Amount") { ApplicationArea = all; }
+
+            field("Claimed Amount"; Rec."Claimed Amount") { ApplicationArea = all; Editable = false; }
+            field("Subtype Limit Amount"; Rec."Subtype Limit Amount") { ApplicationArea = all; Editable = false; }
+            field("Remaining Amount"; Rec."Remaining Amount") { ApplicationArea = all; Editable = false; }
+            field("Rejection Reason"; Rec."Rejection Reason") { ApplicationArea = all; Editable = false; }
         }
     }
 
@@ -113,7 +115,7 @@ page 50232 ZYNExpenseClaimsCardPage
                         Rec."Bill".CreateOutStream(OutStream);
                         CopyStream(OutStream, InStream);
                         Rec.Modify(true);
-                        Message('File %1 uploaded successfully.', FileName);
+                        Message(FileUploadMsg, FileName);
                     end;
                 end;
             }
@@ -134,14 +136,16 @@ page 50232 ZYNExpenseClaimsCardPage
                         Rec."Bill".CreateInStream(InStream);
                         FileName := 'Bill.pdf'; // or store original FileName in a Text field
                         DownloadFromStream(InStream, '', '', '', FileName);
-                    end else
-                        Message('No file uploaded.');
+                    end
                 end;
             }
 
         }
 
     }
+    var
+        FileUploadMsg: Label 'File %1 uploaded successfully.';
+
     procedure RecalculateClaimedAmount()
     begin
         //calculate claimed amount
@@ -155,9 +159,4 @@ page 50232 ZYNExpenseClaimsCardPage
         if Rec."Claim Date" <> 0D then
             Rec."Date Filter" := CalcDate('<-CY>', Rec."Claim Date");
     end;
-
-
-
-
-
 }
