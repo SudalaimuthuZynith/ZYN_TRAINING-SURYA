@@ -153,10 +153,15 @@ page 50232 ZYN_ExpenseClaimsCardPage
             Rec.CALCFIELDS("Claimed Amount");
     end;
 
+
+    //Gives Start of the Year according to claim date
     procedure UpdateDateFilter()
+    var
     begin
-        //Gives Start of the Year according to claim date
-        if Rec."Claim Date" <> 0D then
-            Rec."Date Filter" := CalcDate('<-CY>', Rec."Claim Date");
+        if Rec."Claim Date" <> 0D then begin
+            Rec.SetRange("Date Filter", CalcDate('<-CY>', Rec."Claim Date"), CalcDate('<CY>', Rec."Claim Date"));
+        end;
     end;
+
+
 }
