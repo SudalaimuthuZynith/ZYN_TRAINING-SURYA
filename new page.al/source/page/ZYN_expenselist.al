@@ -1,28 +1,36 @@
-page 50137 ExpenseListPage
+page 50137 ZYNExpenseList
 {
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Administration;
     SourceTable = Expenses;
-    CardPageId = ExpenseCardPage;
+    CardPageId = ZYNExpenseCard;
     InsertAllowed = false;
     Editable = false;
+    Caption='Expense List';
+
     layout
     {
         area(Content)
         {
             repeater(general)
             {
-                field("Expense ID"; Rec."Expense ID") { }
-                field(Description; Rec.Description) { }
-                field(Amount; Rec.Amount) { }
-                field(Date; Rec.Date) { }
+                field("Expense ID"; Rec."Expense ID") 
+                { 
+                }
+                field(Description; Rec.Description) 
+                { 
+                }
+                field(Amount; Rec.Amount) 
+                { 
+                }
+                field(Date; Rec.Date) 
+                { 
+                }
                 field("Category Name"; Rec.Catagory)
                 {
-
                 }
             }
-
         }
         area(FactBoxes)
         {
@@ -30,7 +38,6 @@ page 50137 ExpenseListPage
             {
                 ApplicationArea = All;
             }
-            
         }
     }
 
@@ -40,19 +47,14 @@ page 50137 ExpenseListPage
         {
             action(catagories)
             {
-
-                RunObject = page ExpenseCatagoryPage;
+                RunObject = page ZYNExpenseCatagory;
             }
             action(ExportReport)
             {
                 RunObject = report "Expense Excel Report";
             }
         }
-
     }
-
-    var
-        myInt: Decimal;
 }
 
 

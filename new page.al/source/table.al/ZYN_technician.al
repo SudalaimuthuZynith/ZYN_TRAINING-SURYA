@@ -13,7 +13,7 @@ table 50130 technicians
         {
             DataClassification = SystemMetadata;
 
-            
+
         }
         field(3; tech_phone_no; code[10])
         {
@@ -29,7 +29,7 @@ table 50130 technicians
         field(7; count; Integer)
         {
             FieldClass = FlowField;
-            CalcFormula = count(problems where(tech_id = field(tech_id)));
+            CalcFormula = count(ZYNProblems where(tech_id = field(tech_id)));
         }
 
     }

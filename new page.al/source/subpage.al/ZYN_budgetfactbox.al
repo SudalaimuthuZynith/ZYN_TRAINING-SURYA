@@ -3,7 +3,7 @@ page 50170 BudgetFactboxPage
     PageType = CardPart;
     ApplicationArea = All;
     //UsageCategory = Administration;
-    SourceTable = BudgetTable;
+    SourceTable = ZYNBudgetTable;
 
     layout
     {
@@ -20,7 +20,7 @@ page 50170 BudgetFactboxPage
                         expenses.Reset();
                         expenses.SetRange("From Date", CalcDate('<-CM>', WorkDate), CalcDate('<CM>', WorkDate));
                         expenses.SetRange("Catagory Name", Rec."Catagory Name");
-                        Page.RunModal(Page::BudgetListPage, expenses)
+                        Page.RunModal(Page::ZYNBudgetList, expenses)
                     end;
                 }
                 field("CurrentQuarter"; Rec."Total Amount CurrentQuarter")
@@ -31,7 +31,7 @@ page 50170 BudgetFactboxPage
                         expenses.Reset();
                         expenses.SetRange("From Date", CalcDate('<-CQ>', WorkDate), CalcDate('<CQ>', WorkDate));
                         expenses.SetRange("Catagory Name", Rec."Catagory Name");
-                        Page.RunModal(Page::BudgetListPage, expenses)
+                        Page.RunModal(Page::ZYNBudgetList, expenses)
                     end;
                 }
                 field("CurrentHalf"; Rec."Total Amount CurrentHalf")
@@ -49,7 +49,7 @@ page 50170 BudgetFactboxPage
                         expenses.Reset();
                         expenses.SetRange("From Date", StartDate, EndDate);
                         expenses.SetRange("Catagory Name", Rec."Catagory Name");
-                        Page.RunModal(Page::BudgetListPage, expenses)
+                        Page.RunModal(Page::ZYNBudgetList, expenses)
                     end;
 
                 }
@@ -61,7 +61,7 @@ page 50170 BudgetFactboxPage
                         expenses.Reset();
                         expenses.SetRange("From Date", CalcDate('<-CY>', WorkDate), CalcDate('<CY>', WorkDate));
                         expenses.SetRange("Catagory Name", Rec."Catagory Name");
-                        Page.RunModal(Page::BudgetListPage, expenses)
+                        Page.RunModal(Page::ZYNBudgetList, expenses)
                     end;
                 }
             }
@@ -72,8 +72,8 @@ page 50170 BudgetFactboxPage
         EndDate: Date;
         MonthNo: Integer;
         CurrentYear: Integer;
-        expenses: Record BudgetTable;
-        //budget: Record BudgetTable;
+        expenses: Record ZYNBudgetTable;
+    //budget: Record BudgetTable;
 
     trigger OnAfterGetRecord()
     begin

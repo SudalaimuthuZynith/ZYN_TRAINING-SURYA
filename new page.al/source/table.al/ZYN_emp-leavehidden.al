@@ -1,6 +1,6 @@
 table 50159 EmpLeaveHiddenTable
 {
-  DataClassification = ToBeClassified;
+    DataClassification = ToBeClassified;
 
     fields
     {
@@ -17,13 +17,13 @@ table 50159 EmpLeaveHiddenTable
         field(3; Catagory; Code[20])
         {
             DataClassification = CustomerContent;
-            TableRelation = LeaveCatagoryTable."Catagory Name";
+            TableRelation = ZYNLeaveCatagory."Catagory Name";
         }
 
         field(4; "Remaining Days"; Integer)
         {
             DataClassification = CustomerContent;
-            Editable = false; 
+            Editable = false;
         }
     }
 
@@ -47,13 +47,13 @@ table 50159 EmpLeaveHiddenTable
 
     local procedure CalcRemainingDays()
     var
-    
-        LeaveCat: Record LeaveCatagoryTable;
-        LeaveReq: Record LeaveRequestTable;
+
+        LeaveCat: Record ZYNLeaveCatagory;
+        LeaveReq: Record ZYNLeaveRequest;
         used: Integer;
         allowed: Integer;
     begin
-       
+
         if LeaveCat.Get(Catagory) then
             allowed := LeaveCat."No of days allowed";
 

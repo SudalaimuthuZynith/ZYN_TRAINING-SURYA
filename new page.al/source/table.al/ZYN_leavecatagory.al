@@ -1,4 +1,4 @@
-table 50182 LeaveCatagoryTable
+table 50182 ZYNLeaveCatagory
 {
     DataClassification = ToBeClassified;
 

@@ -1,4 +1,4 @@
-table 50197 AssetsListTable
+table 50197 ZYNAssetsList
 {
     DataClassification = ToBeClassified;
 
@@ -7,7 +7,7 @@ table 50197 AssetsListTable
         field(1; "Asset type"; Text[30])
         {
             DataClassification = ToBeClassified;
-            TableRelation = AssetTypeTable.Name;
+            TableRelation = ZYNAssetType.Name;
         }
         field(2; "Serial No"; Code[20])
         {
@@ -58,7 +58,7 @@ table 50197 AssetsListTable
     //     end;
     // end;
 
-    
+
 
 
     trigger OnModify()

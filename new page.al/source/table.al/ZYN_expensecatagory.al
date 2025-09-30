@@ -1,4 +1,4 @@
-table 50105 ExpenseCatagoryTable
+table 50105 ZYNExpenseCatagory
 {
     DataClassification = ToBeClassified;
 
@@ -27,24 +27,24 @@ table 50105 ExpenseCatagoryTable
                                 Date = field("Date Filter")
                               ));
         }
-        field(11;"Remaining Budget";Decimal)
+        field(11; "Remaining Budget"; Decimal)
         {
-            DataClassification=ToBeClassified;
+            DataClassification = ToBeClassified;
         }
 
         // Normal fields to store calculated values
         field(70010; "Total Amount CurrentMonth"; Decimal)
-        {}
-        field(70011; "Total Amount CurrentQuarter"; Decimal) 
+        { }
+        field(70011; "Total Amount CurrentQuarter"; Decimal)
         { }
         field(70012; "Total Amount CurrentHalf"; Decimal) { }
-        field(70013; "Total Amount CurrentYear"; Decimal) 
+        field(70013; "Total Amount CurrentYear"; Decimal)
         {
-        //     FieldClass=FlowField;
-        //     CalcFormula = sum(Expenses.Amount 
-        // where(Date=filter(CalcDate('-CY', WorkDate)..CalcDate('CY', WorkDate))));
-         }
-        
+            //     FieldClass=FlowField;
+            //     CalcFormula = sum(Expenses.Amount 
+            // where(Date=filter(CalcDate('-CY', WorkDate)..CalcDate('CY', WorkDate))));
+        }
+
 
     }
 
@@ -71,7 +71,7 @@ table 50105 ExpenseCatagoryTable
 
     trigger OnDelete()
     var
-        catagory: Record ExpenseCatagoryTable;
+        catagory: Record ZYNExpenseCatagory;
     begin
         catagory.SetRange(Name, Name);
         if catagory.FindSet() then

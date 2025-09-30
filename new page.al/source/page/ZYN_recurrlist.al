@@ -3,8 +3,8 @@ page 50179 RecurrListPage
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Administration;
-    CardPageId = RecurrCardPage;
-    SourceTable = recurring_expense;
+    CardPageId = ZYNRecurrCard;
+    SourceTable = ZYNRecurringExpense;
     Editable = false;
     layout
     {
@@ -28,7 +28,7 @@ page 50179 RecurrListPage
                 {
 
                 }
-                field(Period;Rec.Period){}
+                field(Period; Rec.Period) { }
                 field(" StarDate"; Rec." StarDate")
                 {
 

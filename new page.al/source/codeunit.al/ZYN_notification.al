@@ -2,7 +2,7 @@ codeunit 50104 "My Notification Actions"
 {
     procedure OpenLeaveBalance(Notification: Notification)
     var
-        LeavePage: Page LeaveRequestListPage;
+        LeavePage: Page ZYNLeaveRequestList;
     begin
         LeavePage.Run();
     end;
@@ -13,7 +13,7 @@ codeunit 50105 "My Notification Mgt"
     procedure ShowLeaveBalanceNotification()
     var
         Notification: Notification;
-        LeaveReq: Record LeaveRequestTable;
+        LeaveReq: Record ZYNLeaveRequest;
         remaining: integer;
     begin
         LeaveReq.Reset();
@@ -39,8 +39,8 @@ codeunit 50105 "My Notification Mgt"
     procedure ShowLeaveRejectNotification()
     var
         Notification: Notification;
-        LeaveReq: Record LeaveRequestTable;
-        leaveBal: page LeaveRequestCardPage;
+        LeaveReq: Record ZYNLeaveRequest;
+        leaveBal: page ZYNLeaveRequestCard;
         remaining: integer;
     begin
         LeaveReq.Reset();
@@ -65,8 +65,8 @@ codeunit 50105 "My Notification Mgt"
     procedure ShowLeavePendingNotification()
     var
         Notification: Notification;
-        LeaveReq: Record LeaveRequestTable;
-        leaveBal: page LeaveRequestCardPage;
+        LeaveReq: Record ZYNLeaveRequest;
+        leaveBal: page ZYNLeaveRequestCard;
         remaining: integer;
         pending: integer;
     begin

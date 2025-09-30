@@ -64,7 +64,7 @@ page 50154 "LeaveHeadlinePart"
 {
     PageType = HeadlinePart;
     ApplicationArea = All;
-    SourceTable = LeaveRequestTable;
+    SourceTable = ZYNLeaveRequest;
 
     layout
     {
@@ -79,7 +79,7 @@ page 50154 "LeaveHeadlinePart"
                 {
                     Caption = 'Pending Requests';
                     ApplicationArea = All;
-                    DrillDownPageId = LeaveRequestListPage;
+                    DrillDownPageId = ZYNLeaveRequestList;
                 }
 
                 // Approved requests
@@ -87,7 +87,7 @@ page 50154 "LeaveHeadlinePart"
                 {
                     Caption = 'Approved Requests';
                     ApplicationArea = All;
-                    DrillDownPageId = LeaveRequestListPage;
+                    DrillDownPageId = ZYNLeaveRequestList;
                 }
             }
         }
@@ -95,7 +95,7 @@ page 50154 "LeaveHeadlinePart"
 
     local procedure GetPendingCount(): Integer
     var
-        LReq: Record LeaveRequestTable;
+        LReq: Record ZYNLeaveRequest;
     begin
         LReq.SetRange(Status, LReq.Status::Pending);
         exit(LReq.Count);
@@ -103,7 +103,7 @@ page 50154 "LeaveHeadlinePart"
 
     local procedure GetApprovedCount(): Integer
     var
-        LReq: Record LeaveRequestTable;
+        LReq: Record ZYNLeaveRequest;
     begin
         LReq.SetRange(Status, LReq.Status::Pending);
         exit(LReq.Count);

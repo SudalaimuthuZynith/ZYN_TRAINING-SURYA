@@ -1,4 +1,4 @@
-page 50133 "Vendor Contact Temp List"
+page 50133 "ZYN Vendor Contact Temp"
 {
     PageType = List;
     SourceTable = Contact;
@@ -14,17 +14,13 @@ page 50133 "Vendor Contact Temp List"
             {
                 field(Name; Rec.Name)
                 {
-                    ApplicationArea = All;
                 }
                 field("Contact relation"; rec."Contact Business Relation")
                 {
-                    ApplicationArea = All;
                 }
                 field("E-Mail"; rec."E-Mail")
                 {
-                    ApplicationArea = All;
                 }
-                // Add more fields as you want
             }
         }
     }

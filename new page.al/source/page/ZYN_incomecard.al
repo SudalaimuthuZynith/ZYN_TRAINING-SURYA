@@ -1,40 +1,31 @@
-page 50184 IncomeCardPage
+page 50184 ZYNIncomeCard
 {
     PageType = Card;
     ApplicationArea = All;
     SourceTable = income;
-
+    Caption = 'Income Card';
     layout
     {
         area(Content)
         {
             group(general)
             {
-                field("Expense ID"; Rec."Income ID") { }
-                field(Description; Rec.Description) { }
-                field(Amount; Rec.Amount) { }
-                field(Date; Rec.Date) { }
-                field(Catagory; Rec.Catagory) { }
-            }
-
-        }
-    }
-
-    actions
-    {
-        area(Processing)
-        {
-            action(ActionName)
-            {
-
-                trigger OnAction()
-                begin
-
-                end;
+                field("Expense ID"; Rec."Income ID")
+                {
+                }
+                field(Description; Rec.Description)
+                {
+                }
+                field(Amount; Rec.Amount)
+                {
+                }
+                field(Date; Rec.Date)
+                {
+                }
+                field(Catagory; Rec.Catagory)
+                {
+                }
             }
         }
     }
-
-    var
-        myInt: Integer;
 }

@@ -1,10 +1,11 @@
-page 50127 "Field Selection Page"
+page 50127 "ZYN Field Selection"
 {
     PageType = Card;
     ApplicationArea = All;
     UsageCategory = Administration;
     SourceTableTemporary = true;
-    SourceTable = "Field Buffer Storage";
+    SourceTable = "ZYN Field Buffer Storage";
+    Caption = 'Field Selection';
 
     layout
     {
@@ -21,7 +22,7 @@ page 50127 "Field Selection Page"
                 field(RecordField; RecordField)
                 {
                     ApplicationArea = All;
-                    TableRelation = "Field Buffer Storage"."Field Name";
+                    TableRelation = "ZYN Field Buffer Storage"."Field Name";
                 }
                 field(Value; Value)
                 {
@@ -31,7 +32,6 @@ page 50127 "Field Selection Page"
                 field(newvalue; newvalue)
                 {
                     ApplicationArea = all;
-
                 }
             }
         }
@@ -80,12 +80,13 @@ page 50127 "Field Selection Page"
         recordid: RecordId;
         recordvalue: RecordId;
         newvalue: Text[1000];
+
     procedure fieldbuff()
     var
         RecRef: RecordRef;
         FieldRef: FieldRef;
         i: Integer;
-        FieldStorage: Record "Field Buffer Storage";
+        FieldStorage: Record "ZYN Field Buffer Storage";
     begin
         FieldStorage.DeleteAll();
         RecRef.Open(Tablename);
@@ -103,6 +104,7 @@ page 50127 "Field Selection Page"
         end;
         RecRef.Close();
     end;
+
     procedure PopulateFieldValueBuffer()
     var
         RecRef: RecordRef;
@@ -128,6 +130,7 @@ page 50127 "Field Selection Page"
         end;
         RecRef.Close();
     end;
+
     procedure modifyvalue()
     var
         recref: RecordRef;

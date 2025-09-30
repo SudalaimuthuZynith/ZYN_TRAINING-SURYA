@@ -1,28 +1,28 @@
-table 50186 EmployeeTable
+table 50186 ZYNEmployee
 {
     DataClassification = ToBeClassified;
-    
+
     fields
     {
-        field(1;"Employee ID"; Code[20])
+        field(1; "Employee ID"; Code[20])
         {
-            DataClassification = ToBeClassified;  
+            DataClassification = ToBeClassified;
         }
-        field(2;"Employee Name";Text[100])
+        field(2; "Employee Name"; Text[100])
         {
-            DataClassification=ToBeClassified;
+            DataClassification = ToBeClassified;
         }
-        field(4;Department;Enum Department)
+        field(4; Department; Enum Department)
         {
-            DataClassification=ToBeClassified;
+            DataClassification = ToBeClassified;
         }
-        field(3;Role;Text[100])
+        field(3; Role; Text[100])
         {
-            DataClassification=ToBeClassified;
+            DataClassification = ToBeClassified;
         }
-        
+
     }
-    
+
     keys
     {
         key(Key1; "Employee ID")
@@ -30,18 +30,18 @@ table 50186 EmployeeTable
             Clustered = true;
         }
     }
-    
+
     fieldgroups
     {
         // Add changes to field groups here
     }
-    
+
     var
         myInt: Integer;
-    
+
     trigger OnInsert()
     var
-        employeetable: Record EmployeeTable;
+        employeetable: Record ZYNEmployee;
 
         Lastid: Integer;
     begin
@@ -55,26 +55,26 @@ table 50186 EmployeeTable
         end;
 
     end;
-    
+
     trigger OnModify()
     begin
-        
+
     end;
-    
+
     trigger OnDelete()
     begin
-        
+
     end;
-    
+
     trigger OnRename()
     begin
-        
+
     end;
-    
+
 }
 enum 50155 Department
 {
-    value(1;Developer){}
-    value(2;HR){}
-    value(3;Finance){}
+    value(1; Developer) { }
+    value(2; HR) { }
+    value(3; Finance) { }
 }

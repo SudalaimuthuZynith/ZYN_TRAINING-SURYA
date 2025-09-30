@@ -1,4 +1,4 @@
-table 50126 "Field Buffer Storage"
+table 50126 "ZYN Field Buffer Storage"
 {
     DataClassification = ToBeClassified;
 

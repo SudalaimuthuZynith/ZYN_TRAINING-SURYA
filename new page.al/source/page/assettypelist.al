@@ -1,53 +1,30 @@
-page 50192 AssetTypeListPage
+page 50192 ZYNAssetTypeList
 {
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Administration;
-    SourceTable = AssetTypeTable;
-    CardPageId=AssetTypeCardtPage;
-    Editable=false;
-    InsertAllowed=false;
+    SourceTable = ZYNAssetType;
+    CardPageId = ZYNAssetTypeCard;
+    Editable = false;
+    InsertAllowed = false;
+    Caption = 'Asset Type List';
+    
     layout
     {
         area(Content)
         {
             repeater(general)
             {
-                field("catagory id";Rec."catagory id")
+                field("catagory id"; Rec."catagory id")
                 {
-                    
                 }
-                field(Catagory;Rec.Catagory)
+                field(Catagory; Rec.Catagory)
                 {
-                    
                 }
-                field(Name;Rec.Name)
+                field(Name; Rec.Name)
                 {
-                    
                 }
-                
-                
-                
-
             }
         }
     }
-    
-    actions
-    {
-        area(Processing)
-        {
-            action(ActionName)
-            {
-                
-                trigger OnAction()
-                begin
-                    
-                end;
-            }
-        }
-    }
-    
-    var
-        myInt: Integer;
 }

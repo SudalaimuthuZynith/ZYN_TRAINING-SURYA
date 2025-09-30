@@ -2,8 +2,8 @@ page 50176 IncomeCatagoryPage
 {
     PageType = List;
     ApplicationArea = All;
-    //Editable = false;
     SourceTable = IncomeCatagoryTable;
+    Caption = 'Income Catagory List';
 
     layout
     {
@@ -13,13 +13,11 @@ page 50176 IncomeCatagoryPage
             {
                 field(Name; Rec.Name)
                 {
-
                 }
                 field(Description; Rec.Description)
-                { }
-
+                {
+                }
             }
-
         }
         area(FactBoxes)
         {
@@ -29,9 +27,4 @@ page 50176 IncomeCatagoryPage
             }
         }
     }
-
-
-
-    var
-        myInt: Integer;
 }

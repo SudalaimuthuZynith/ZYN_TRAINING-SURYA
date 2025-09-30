@@ -1,11 +1,11 @@
-page 50148 "Bank Contact Temp List"
+page 50148 "ZYN Bank Contact Temp"
 {
     PageType = List;
     SourceTable = Contact;
     SourceTableTemporary = true;
     ApplicationArea = All;
     Caption = 'bank Contacts (Temp)';
-
+    
     layout
     {
         area(content)
@@ -14,17 +14,13 @@ page 50148 "Bank Contact Temp List"
             {
                 field(Name; Rec.Name)
                 {
-                    ApplicationArea = All;
                 }
                 field("Contact relation"; rec."Contact Business Relation")
                 {
-                    ApplicationArea = All;
                 }
                 field("E-Mail"; rec."E-Mail")
                 {
-                    ApplicationArea = All;
                 }
-                // Add more fields as you want
             }
         }
     }

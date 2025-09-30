@@ -1,4 +1,4 @@
-page 50200 ZYN_ExpenseRejectReason
+page 50200 ZYNExpenseRejectReason
 {
     PageType = StandardDialog;
     Caption = 'Enter Rejection Reason';

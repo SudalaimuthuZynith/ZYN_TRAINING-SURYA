@@ -10,7 +10,7 @@ table 50234 ZYN_ExpenseClaimsTable
         }
         field(2; "Employee ID"; Code[20])
         {
-            TableRelation = EmployeeTable;
+            TableRelation = ZYNEmployee;
             DataClassification = ToBeClassified;
 
         }

@@ -20,7 +20,7 @@ page 50125 "role Center"
             {
                 ApplicationArea = all;
             }
-           
+
         }
     }
     actions
@@ -44,20 +44,20 @@ page 50125 "role Center"
                 action(AssetList)
                 {
                     ApplicationArea = all;
-                    RunObject = page AssetsListPage;
+                    RunObject = page ZYNAssetsList;
 
                     Image = FixedAssetLedger;
                 }
                 action(AssetType)
                 {
                     ApplicationArea = all;
-                    RunObject = page AssetTypeListPage;
+                    RunObject = page ZYNAssetTypeList;
                     Image = FixedAssets;
                 }
                 action(EmployeeAsset)
                 {
                     ApplicationArea = all;
-                    RunObject = page EmployeeAssetsListPage;
+                    RunObject = page ZYNEmployeeAssetsList;
 
                     Image = Employee;
                 }
@@ -67,13 +67,13 @@ page 50125 "role Center"
                 action(ExpenseList)
                 {
                     ApplicationArea = all;
-                    RunObject = page ExpenseListPage;
+                    RunObject = page ZYNExpenseList;
                     Image = LedgerEntries;
                 }
                 action(ExpenseCatagoryList)
                 {
                     ApplicationArea = all;
-                    RunObject = page ExpenseCatagoryPage;
+                    RunObject = page ZYNExpenseCatagory;
                     Image = Ledger;
                 }
             }
@@ -97,7 +97,7 @@ page 50125 "role Center"
                 action(BudgetList)
                 {
                     ApplicationArea = all;
-                    RunObject = page BudgetListPage;
+                    RunObject = page ZYNBudgetList;
                     Image = LedgerBudget;
                 }
 
@@ -107,7 +107,7 @@ page 50125 "role Center"
                 action(EmployeeList)
                 {
                     ApplicationArea = all;
-                    RunObject = page EmployeeListPage;
+                    RunObject = page ZYNEmployeeList;
                     Image = Employee;
                 }
                 action(LeaveCatagoryList)
@@ -119,7 +119,7 @@ page 50125 "role Center"
                 action(LeaveRequestList)
                 {
                     ApplicationArea = all;
-                    RunObject = page LeaveRequestListPage;
+                    RunObject = page ZYNLeaveRequestList;
                     Image = ListPage;
                 }
             }

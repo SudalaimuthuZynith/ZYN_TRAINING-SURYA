@@ -3,7 +3,7 @@ page 50188 BudgetPage
     PageType = ListPart;
     ApplicationArea = All;
     UsageCategory = Administration;
-    SourceTable = BudgetTable;
+    SourceTable = ZYNBudgetTable;
 
     layout
     {
@@ -17,7 +17,7 @@ page 50188 BudgetPage
                 field(Amount; Rec.Amount) { }
             }
         }
-        
+
     }
 
     actions

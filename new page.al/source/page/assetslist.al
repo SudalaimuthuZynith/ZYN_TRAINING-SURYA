@@ -1,45 +1,48 @@
-page 50194 AssetsListPage
+page 50194 ZYNAssetsList
 {
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Administration;
-    SourceTable = AssetsListTable;
-    CardPageId=AssetsCardtPage;
-    Editable=false;
-    InsertAllowed=false;
+    SourceTable = ZYNAssetsList;
+    CardPageId = ZYNAssetsCard;
+    Editable = false;
+    InsertAllowed = false;
+    Caption = 'Asset List';
+
     layout
     {
         area(Content)
         {
             repeater(general)
             {
-                field("Asset type";Rec."Asset type")
+                field("Asset type"; Rec."Asset type")
                 {
-                    
                 }
-                field("Serial No";Rec."Serial No")
+                field("Serial No"; Rec."Serial No")
                 {
-                    
                 }
-                field("procured date";Rec."procured date")
+                field("procured date"; Rec."procured date")
                 {
-                    
                 }
-                field("Vendor name";Rec."Vendor name"){}
-                field(Available;Rec.Available){}
+                field("Vendor name"; Rec."Vendor name")
+                {
+                }
+                field(Available; Rec.Available)
+                {
+                }
             }
         }
         area(FactBoxes)
         {
-            part(AssignedAssetsPage;AssignedAssetsPage)
+            part(AssignedAssetsPage; AssignedAssetsPage)
             {
-                ApplicationArea = all;
-                
             }
-            part(ReturnedAssetsPage;ReturnedAssetsPage){ApplicationArea=all;}
+            part(ReturnedAssetsPage; ReturnedAssetsPage)
+            {
+            }
         }
     }
-    
+
     actions
     {
         area(Processing)
@@ -47,18 +50,15 @@ page 50194 AssetsListPage
             action(assettype)
             {
 
-                RunObject = page AssetTypeListPage;
+                RunObject = page ZYNAssetTypeList;
             }
             action(employeeasset)
             {
 
-                RunObject = page EmployeeAssetsListPage;
+                RunObject = page ZYNEmployeeAssetsList;
             }
-            
+
         }
 
     }
-    
-    var
-        myInt: Integer;
 }

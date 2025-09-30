@@ -1,9 +1,9 @@
-page 50106 ExpenseCatagoryPage
+page 50106 ZYNExpenseCatagory
 {
     PageType = List;
     ApplicationArea = All;
-
-    SourceTable = ExpenseCatagoryTable;
+    SourceTable = ZYNExpenseCatagory;
+    Caption='Expense Catagory List';
 
     layout
     {
@@ -13,11 +13,10 @@ page 50106 ExpenseCatagoryPage
             {
                 field(Name; Rec.Name)
                 {
-
                 }
                 field(Description; Rec.Description)
-                { }
-
+                {
+                }
             }
 
         }
@@ -34,18 +33,4 @@ page 50106 ExpenseCatagoryPage
             }
         }
     }
-
-
-    // trigger OnAfterGetRecord()
-    // var
-    //     budget:Record BudgetTable;
-    //     start:Date;
-    //     endin:Date;
-    //     expense:Record Expenses;
-    //     begin
-    //         start:=CalcDate('<-CM>',WorkDate());
-    //         endin:=CalcDate('<CM>',WorkDate());
-    //         expense.Reset();
-    //         expense.SetRange(Catagory,);
-    //     end;
 }

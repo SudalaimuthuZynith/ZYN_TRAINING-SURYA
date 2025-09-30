@@ -1,4 +1,4 @@
-table 50120 problems
+table 50120 ZYNProblems
 {
     DataClassification = ToBeClassified;
 

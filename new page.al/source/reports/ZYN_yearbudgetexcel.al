@@ -27,8 +27,8 @@ report 50161 "Export Budget vs Actual"
         EndDate: Date;
         ExcelBuf: Record "Excel Buffer" temporary;
         Expense: Record Expenses;
-        Budget: Record BudgetTable;
-        Category: Record ExpenseCatagoryTable;
+        Budget: Record ZYNBudgetTable;
+        Category: Record ZYNExpenseCatagory;
         income: Record income;
         MonthStart: Date;
         MonthEnd: Date;

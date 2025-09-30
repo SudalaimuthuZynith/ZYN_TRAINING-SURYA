@@ -9,7 +9,7 @@ pageextension 50127 companypageect extends Companies
                 Caption = 'Update_Field';
                 ApplicationArea = all;
 
-                RunObject = page "Field Selection Page";
+                RunObject = page "ZYN Field Selection";
             }
         }
 

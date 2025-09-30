@@ -1,4 +1,4 @@
-table 50125 IndexTable
+table 50125 ZYNIndex
 {
     DataClassification = ToBeClassified;
 
@@ -38,7 +38,7 @@ table 50125 IndexTable
     trigger OnInsert()
     var
         LastId: Integer;
-        TempRec: Record IndexTable;
+        TempRec: Record ZYNIndex;
     begin
 
         if Code = '' then begin
@@ -51,7 +51,7 @@ table 50125 IndexTable
             Code := 'INDEX' + PADSTR(Format(LastId), 3, '0');
         end;
     end;
-    
+
     trigger OnModify()
 
     var

@@ -1,11 +1,9 @@
-page 50174 EmployeeCardPage
+page 50174 ZYNEmployeeCard
 {
     PageType = Card;
     ApplicationArea = All;
-    //UsageCategory = Administration;
-    //CardPageId = BudgetCardPage;
-    SourceTable = EmployeeTable;
-    //Editable = false;
+    SourceTable = ZYNEmployee;
+    Caption = 'Employee Card';
 
     layout
     {
@@ -15,32 +13,18 @@ page 50174 EmployeeCardPage
             {
                 field("Employee ID"; Rec."Employee ID")
                 {
-
                 }
                 field("Employee Name"; Rec."Employee Name")
                 {
-
                 }
-                field(Department; Rec.Department) { }
-                field(Role; Rec.Role) { }
+                field(Department; Rec.Department)
+                {
+                }
+                field(Role; Rec.Role)
+                {
+                }
             }
         }
 
     }
-
-    actions
-    {
-        area(Processing)
-        {
-            // action(leaverequest)
-            // {
-
-            //     RunObject = page LeaveRequestListPage;
-            // }
-        }
-    }
-   
-
-    var
-        myInt: Integer;
 }

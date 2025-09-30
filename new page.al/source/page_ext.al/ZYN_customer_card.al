@@ -26,12 +26,12 @@ pageextension 50135 CustomerCardExt extends "Customer Card"
                 Image = View;
                 trigger OnAction()
                 var
-                    modifiedlog: Record logtable;
+                    modifiedlog: Record ZYNlog;
 
                 begin
                     modifiedlog.Init();
                     modifiedlog.SetRange(customer_no, Rec."No.");
-                    Page.RunModal(PAGE::logpage, modifiedlog);
+                    Page.RunModal(PAGE::ZYNlog, modifiedlog);
                 end;
 
 
@@ -66,7 +66,7 @@ pageextension 50135 CustomerCardExt extends "Customer Card"
                 Image = View;
                 trigger OnAction()
                 var
-                    problemrec: Record problems;
+                    problemrec: Record ZYNProblems;
                     customerrec: Record Customer;
                 begin
                     customerrec.Get(Rec."No.");
@@ -75,7 +75,22 @@ pageextension 50135 CustomerCardExt extends "Customer Card"
                     problemrec.cust_name := customerrec.Name;
                     problemrec.phone_no := customerrec."Phone No.";
                     problemrec.Insert();
-                    Page.Run(Page::problems_page, problemrec);
+                    Page.Run(Page::ZYNProblemsCard, problemrec);
+                end;
+            }
+             action("Send To Slave")
+            {
+                ApplicationArea=all;
+                Caption='Send to';
+                Image=SendTo;
+                trigger OnAction()
+                var
+                zyncompany:Record ZYN_Company;
+                begin
+                     if PAGE.RunModal(Page::ZYN_Company,zyncompany) = ACTION::LookupOK then
+                     begin
+                        
+                     end; ;
                 end;
             }
         }

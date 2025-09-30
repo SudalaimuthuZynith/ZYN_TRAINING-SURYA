@@ -1,9 +1,10 @@
-page 50135 IndexPage
+page 50135 ZYNIndex
 {
     PageType = Card;
     ApplicationArea = All;
     UsageCategory = Administration;
-    SourceTable = IndexTable;
+    SourceTable = ZYNIndex;
+    Caption = 'Index Card';
 
     layout
     {
@@ -13,16 +14,19 @@ page 50135 IndexPage
             {
                 field(Code; Rec.Code)
                 {
-
                 }
-                field(Description; Rec.Description) { }
-                field("percentage increase"; Rec."percentage increase") { }
+                field(Description; Rec.Description)
+                {
+                }
+                field("percentage increase"; Rec."percentage increase")
+                {
+                }
                 field("Start Year"; Rec."Start Year")
                 {
-
-
                 }
-                field("End Year"; Rec."End Year") { }
+                field("End Year"; Rec."End Year")
+                {
+                }
             }
             group(subpage)
             {
@@ -30,28 +34,8 @@ page 50135 IndexPage
                 {
                     SubPageLink = Code = field(Code);
                     ApplicationArea = all;
-
                 }
             }
         }
     }
-
-    actions
-    {
-        area(Processing)
-        {
-            action(ActionName)
-            {
-
-                trigger OnAction()
-                begin
-
-                end;
-            }
-        }
-    }
-
-    var
-        myInt: Integer;
-
 }

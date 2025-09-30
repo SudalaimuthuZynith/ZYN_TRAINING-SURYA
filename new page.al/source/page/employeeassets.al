@@ -1,11 +1,14 @@
-page 50195 EmployeeAssetsListPage
+page 50195 ZYNEmployeeAssetsList
 {
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Administration;
-    SourceTable = EmployeeAssetListTable;
-    CardPageId = EmployeeAssetsCardPage;
-    Editable=false;InsertAllowed=false;
+    SourceTable = ZYNEmployeeAssetList;
+    CardPageId = ZYNEmployeeAssetsCard;
+    Editable = false;
+    InsertAllowed = false;
+    Caption = 'Employee Asset List';
+    
     layout
     {
         area(Content)
@@ -14,39 +17,26 @@ page 50195 EmployeeAssetsListPage
             {
                 field(Employee; Rec.Employee)
                 {
-
                 }
                 field("serial no"; Rec."serial no")
                 {
-
                 }
-                field("Asset Type";Rec."Asset Type"){}
+                field("Asset Type"; Rec."Asset Type")
+                {
+                }
                 field(status; Rec.status)
                 {
-                    
                 }
-                field("Assigned date"; Rec."Assigned date") { }
-                field("Returned date date"; Rec."Returned date date") { }
-                field("Lost date"; Rec."Lost date") { }
+                field("Assigned date"; Rec."Assigned date")
+                {
+                }
+                field("Returned date date"; Rec."Returned date date")
+                {
+                }
+                field("Lost date"; Rec."Lost date")
+                {
+                }
             }
         }
     }
-
-    actions
-    {
-        area(Processing)
-        {
-            action(ActionName)
-            {
-
-                trigger OnAction()
-                begin
-
-                end;
-            }
-        }
-    }
-
-    var
-        myInt: Integer;
 }

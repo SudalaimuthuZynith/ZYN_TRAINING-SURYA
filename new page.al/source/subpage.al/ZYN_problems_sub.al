@@ -3,7 +3,7 @@ page 50138 sub_problems
     PageType = ListPart;
     ApplicationArea = All;
     UsageCategory = Administration;
-    SourceTable = problems;
+    SourceTable = ZYNProblems;
     layout
     {
         area(Content)

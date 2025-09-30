@@ -1,4 +1,4 @@
-page 50136 custom_customer_list
+page 50136 ZYNTempCustomer
 {
     PageType = List;
     ApplicationArea = All;
@@ -6,6 +6,7 @@ page 50136 custom_customer_list
     SourceTable = Customer;
     Caption = 'customer list';
     CardPageId = "Sales Order";
+
     layout
     {
         area(Content)
@@ -15,31 +16,40 @@ page 50136 custom_customer_list
                 repeater(general)
                 {
 
-                    field("No."; Rec."No.") { ApplicationArea = all; }
-                    field(Name; Rec.Name) { ApplicationArea = all; }
-                    field(Address; Rec.Address) { ApplicationArea = all; }
-                    field("Post Code"; Rec."Post Code") { ApplicationArea = all; }
-                    field(City; Rec.City) { ApplicationArea = all; }
-                    field("Contact Type"; Rec."Contact Type") { ApplicationArea = all; }
+                    field("No."; Rec."No.")
+                    {
+                    }
+                    field(Name; Rec.Name)
+                    {
+                    }
+                    field(Address; Rec.Address)
+                    {
+                    }
+                    field("Post Code"; Rec."Post Code")
+                    {
+                    }
+                    field(City; Rec.City)
+                    {
+                    }
+                    field("Contact Type"; Rec."Contact Type")
+                    {
+                    }
                 }
             }
             part(salesorder; sales_order_subpage)
             {
                 SubPageLink = "Sell-to Customer No." = field("No.");
                 ApplicationArea = all;
-
             }
             part(salesinvoice; sales_invoice_subpage)
             {
                 SubPageLink = "Sell-to Customer No." = field("No.");
                 ApplicationArea = all;
-
             }
             part(salescreditmemo; sales_creditmemo_subpage)
             {
                 SubPageLink = "Sell-to Customer No." = field("No.");
                 ApplicationArea = all;
-
             }
         }
     }

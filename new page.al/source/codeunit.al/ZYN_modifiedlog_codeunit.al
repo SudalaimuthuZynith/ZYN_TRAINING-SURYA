@@ -8,12 +8,12 @@ codeunit 50123 modifylogt
         fieldref: FieldRef;
         xfieldref: FieldRef;
         i: Integer;
-        changelog: Record logtable;
+        changelog: Record ZYNlog;
         userid: Code[20];
     begin
         recref.GetTable(Rec);
         xrecref.GetTable(xRec);
-    
+
         for i := 1 to recref.FieldCount do begin
             fieldref := recref.FieldIndex(i);
             xfieldref := xrecref.FieldIndex(i);

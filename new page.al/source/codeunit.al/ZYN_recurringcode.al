@@ -4,7 +4,7 @@ codeunit 50191 Recurring
 
     trigger OnRun()
     var
-        recurr: Record recurring_expense;
+        recurr: Record ZYNRecurringExpense;
         expense: Record Expenses;
         NextDate: Date;
         CurrentCycleDate: Date;

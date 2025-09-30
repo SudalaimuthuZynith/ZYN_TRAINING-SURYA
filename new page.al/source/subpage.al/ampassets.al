@@ -3,7 +3,7 @@ page 50196 EmployeeAssetsHistoryPage
     PageType = ListPart;
     ApplicationArea = All;
     UsageCategory = Administration;
-    SourceTable = EmployeeAssetListTable;
+    SourceTable = ZYNEmployeeAssetList;
 
     layout
     {
@@ -19,7 +19,7 @@ page 50196 EmployeeAssetsHistoryPage
                     begin
                         income.Reset();
                         income.SetRange(Employee, Rec.Employee);
-                        Page.RunModal(Page::EmployeeAssetsListPage, income);
+                        Page.RunModal(Page::ZYNEmployeeAssetsList, income);
                     end;
                 }
             }
@@ -43,7 +43,7 @@ page 50196 EmployeeAssetsHistoryPage
 
     var
         AssignedAssets: Integer;
-        income: Record EmployeeAssetListTable;
+        income: Record ZYNEmployeeAssetList;
 
     trigger OnAfterGetCurrRecord()
     begin

@@ -3,49 +3,34 @@ page 50132 IndexListPage
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Administration;
-    SourceTable = IndexTable;
-    CardPageId = IndexPage;
+    SourceTable = ZYNIndex;
+    CardPageId = ZYNIndex;
     InsertAllowed = false;
     Editable = false;
+    Caption = 'Index List';
+
     layout
     {
         area(Content)
         {
             repeater(general)
             {
-                field(Code; Rec.Code) { }
-                field(Description; Rec.Description) { }
-                field("percentage increase"; Rec."percentage increase") { }
-                field("Start Year"; Rec."Start Year") { }
-                field("End Year"; Rec."End Year") { }
-            }
-            // group(subpage)
-            // {
-            //     part(indexlinespage; indexlinespage)
-            //     {
-            //         SubPageLink = Code = field(Code);
-            //         ApplicationArea = all;
-            //         Editable = false;
-            //     }
-            // }
-        }
-    }
-
-    actions
-    {
-        area(Processing)
-        {
-            action(ActionName)
-            {
-
-                trigger OnAction()
-                begin
-
-                end;
+                field(Code; Rec.Code)
+                {
+                }
+                field(Description; Rec.Description)
+                {
+                }
+                field("percentage increase"; Rec."percentage increase")
+                {
+                }
+                field("Start Year"; Rec."Start Year")
+                {
+                }
+                field("End Year"; Rec."End Year")
+                {
+                }
             }
         }
     }
-
-    var
-        myInt: Integer;
 }

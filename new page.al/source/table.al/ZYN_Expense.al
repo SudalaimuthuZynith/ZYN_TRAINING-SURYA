@@ -31,10 +31,10 @@ table 50180 Expenses
         field(4; Catagory; Code[30])
         {
             DataClassification = ToBeClassified;
-            TableRelation = ExpenseCatagoryTable.Name;
+            TableRelation = ZYNExpenseCatagory.Name;
             trigger OnValidate()
             var
-                budget: Record BudgetTable;
+                budget: Record ZYNBudgetTable;
                 expense: Record Expenses;
                 totalexpense: Decimal;
                 startDate: Date;
@@ -43,7 +43,7 @@ table 50180 Expenses
                 startDate := CalcDate('<-CM>', WorkDate());
                 endDate := CalcDate('<CM>', WorkDate());
 
-                
+
                 expense.Reset();
                 expense.SetRange(Catagory, Rec.Catagory);
                 expense.SetRange(Date, startDate, endDate);
@@ -52,7 +52,7 @@ table 50180 Expenses
                         totalexpense += expense.Amount;
                     until expense.Next() = 0;
 
-           
+
                 budget.Reset();
                 budget.SetRange("From Date", startDate);
                 budget.SetRange("To Date", endDate);

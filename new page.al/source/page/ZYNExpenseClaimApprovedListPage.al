@@ -73,7 +73,7 @@ page 50244 ZYN_ExpenseClaimApprovedPage
 
                 trigger OnAction()
                 var
-                    ZYN_ExpenseRejectReason: Page ZYN_ExpenseRejectReason;
+                    ZYN_ExpenseRejectReason: Page ZYNExpenseRejectReason;
                     Reason: Text[250];
                 begin
 

@@ -1,10 +1,10 @@
-page 50185 EmployeeAssetsCardPage
+page 50185 ZYNEmployeeAssetsCard
 {
     PageType = Card;
     ApplicationArea = All;
     UsageCategory = Administration;
-    SourceTable = EmployeeAssetListTable;
-    //CardPageId=AssetsCardtPage;
+    SourceTable = ZYNEmployeeAssetList;
+    Caption = 'Employee Assets Card';
 
     layout
     {
@@ -14,13 +14,12 @@ page 50185 EmployeeAssetsCardPage
             {
                 field(Employee; Rec.Employee)
                 {
-
                 }
                 field("serial no"; Rec."serial no")
                 {
                     trigger OnValidate()
                     var
-                        AssetRec: Record AssetsListTable;
+                        AssetRec: Record ZYNAssetsList;
                     begin
                         if AssetRec.Get(Rec."serial no") then begin
 
@@ -32,13 +31,15 @@ page 50185 EmployeeAssetsCardPage
                         end;
                     end;
                 }
-                field("Asset Type"; Rec."Asset Type") { }
+                field("Asset Type"; Rec."Asset Type")
+                 {
+                  }
                 field(status; Rec.status)
                 {
                     trigger OnValidate()
 
                     var
-                        AssetRec: Record AssetsListTable;
+                        AssetRec: Record ZYNAssetsList;
                     begin
                         UpdateEditableFields();
                         AssetRec.Reset();
@@ -56,14 +57,12 @@ page 50185 EmployeeAssetsCardPage
                         end;
 
                     end;
-
-
                 }
                 field("Assigned Date"; Rec."Assigned Date")
                 {
                     trigger OnValidate()
                     var
-                        AssetRec: Record AssetsListTable;
+                        AssetRec: Record ZYNAssetsList;
                     begin
                         AssetRec.Reset();
                         AssetRec.SetRange("Serial No", Rec."serial no");
@@ -86,14 +85,12 @@ page 50185 EmployeeAssetsCardPage
         }
     }
 
-    
-
     var
         ReturnDateEditable: Boolean;
         LostDateEditable: Boolean;
-        OtherAsset: Record EmployeeAssetListTable;
-        AssetRec: Record AssetsListTable;
-       
+        OtherAsset: Record ZYNEmployeeAssetList;
+        AssetRec: Record ZYNAssetsList;
+
 
     trigger OnAfterGetCurrRecord()
     begin
@@ -107,8 +104,8 @@ page 50185 EmployeeAssetsCardPage
                 begin
                     ReturnDateEditable := false;
                     LostDateEditable := false;
-                    
-                   if Rec."serial no" = '' then
+
+                    if Rec."serial no" = '' then
                         Error('Serial No. must be entered.');
 
                     AssetRec.Reset();
@@ -118,7 +115,7 @@ page 50185 EmployeeAssetsCardPage
 
                     // If Available = false → check why
                     if not AssetRec.Available then begin
-                       // Error('This asset is marked as Lost and cannot be assigned.');
+                        // Error('This asset is marked as Lost and cannot be assigned.');
                         OtherAsset.Reset();
                         OtherAsset.SetRange("serial no", Rec."serial no");
                         OtherAsset.SetRange(Status, OtherAsset.Status::Assigned);
@@ -137,7 +134,7 @@ page 50185 EmployeeAssetsCardPage
             Rec.Status::returned:
                 begin
                     ReturnDateEditable := true;
-                   LostDateEditable := false;
+                    LostDateEditable := false;
                     OtherAsset.Reset();
                     OtherAsset.SetRange("serial no", Rec."serial no");
                     OtherAsset.SetRange(Status, OtherAsset.Status::Assigned);
@@ -149,37 +146,13 @@ page 50185 EmployeeAssetsCardPage
                 begin
                     ReturnDateEditable := false;
                     LostDateEditable := true;
-                   
+
                 end;
-            // else begin
-            //     ReturnDateEditable := true;
-            //     LostDateEditable := true;
-            // end;
+        // else begin
+        //     ReturnDateEditable := true;
+        //     LostDateEditable := true;
+        // end;
         end;
         CurrPage.Update(false);
     end;
-
-
-
-
-
-
-    // local procedure PrefillAssignedDateFromHistory()
-    // var
-    //     Hist: Record EmployeeAssetListTable;
-    // begin
-    //     if Rec."Assigned Date" <> 0D then
-    //         exit;
-
-    //     Hist.Reset();
-    //     Hist.SetRange("serial no", Rec."serial no");
-
-    //     Hist.SetRange(Status, Hist.Status::Assigned);
-
-
-    //     Hist.SetCurrentKey("serial no", "Assigned Date");
-    //     if Hist.FindLast() then
-
-    //         Rec.Validate("Assigned Date", Hist."Assigned Date");
-    // end;
 }

@@ -3,7 +3,7 @@ page 50157 ReturnedAssetsPage
     PageType = ListPart;
     ApplicationArea = All;
     UsageCategory = Administration;
-    SourceTable = EmployeeAssetListTable;
+    SourceTable = ZYNEmployeeAssetList;
 
     layout
     {
@@ -17,9 +17,9 @@ page 50157 ReturnedAssetsPage
                     DrillDown = true;
                     trigger OnDrillDown()
                     var
-                        AssetRec: Record AssetsListTable;
-                        HistRec: Record EmployeeAssetListTable;
-                        TempRec: Record EmployeeAssetListTable temporary;
+                        AssetRec: Record ZYNAssetsList;
+                        HistRec: Record ZYNEmployeeAssetList;
+                        TempRec: Record ZYNEmployeeAssetList temporary;
                     begin
 
                         TempRec.DeleteAll();
@@ -37,7 +37,7 @@ page 50157 ReturnedAssetsPage
                                     end;
                             until AssetRec.Next() = 0;
 
-                        Page.RunModal(Page::EmployeeAssetsListPage, TempRec);
+                        Page.RunModal(Page::ZYNEmployeeAssetsList, TempRec);
                     end;
                 }
             }
@@ -59,12 +59,12 @@ page 50157 ReturnedAssetsPage
 
     var
         ReturnedAssets: Integer;
-        income: Record EmployeeAssetListTable;
+        income: Record ZYNEmployeeAssetList;
 
     trigger OnAfterGetCurrRecord()
     var
-        AssetRec: Record AssetsListTable;
-        HistRec: Record EmployeeAssetListTable;
+        AssetRec: Record ZYNAssetsList;
+        HistRec: Record ZYNEmployeeAssetList;
     begin
         ReturnedAssets := 0;
 

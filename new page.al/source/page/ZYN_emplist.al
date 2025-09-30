@@ -1,11 +1,12 @@
-page 50173 EmployeeListPage
+page 50173 ZYNEmployeeList
 {
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Administration;
-    CardPageId = EmployeeCardPage;
-    SourceTable = EmployeeTable;
+    CardPageId = ZYNEmployeeCard;
+    SourceTable = ZYNEmployee;
     Editable = false;
+    Caption = 'Employee List';
 
     layout
     {
@@ -15,14 +16,16 @@ page 50173 EmployeeListPage
             {
                 field("Employee ID"; Rec."Employee ID")
                 {
-
                 }
                 field("Employee Name"; Rec."Employee Name")
                 {
-
                 }
-                field(Department; Rec.Department) { }
-                field(Role; Rec.Role) { }
+                field(Department; Rec.Department)
+                {
+                }
+                field(Role; Rec.Role)
+                {
+                }
             }
         }
         area(FactBoxes)
@@ -33,7 +36,6 @@ page 50173 EmployeeListPage
                 SubPageLink = Employee = field("Employee ID");
             }
         }
-
     }
 
     actions
@@ -42,24 +44,12 @@ page 50173 EmployeeListPage
         {
             action(Leavecatagory)
             {
-
-                RunObject = page LeaveCatagoryListPage;
+                RunObject = page ZYNLeaveCatagoryList;
             }
             action(leaverequest)
             {
-
-                RunObject = page LeaveRequestListPage;
+                RunObject = page ZYNLeaveRequestList;
             }
         }
     }
-    // trigger OnOpenPage()
-    // var
-    //     budget: Record BudgetTable;
-    // begin
-    //     budget."From Date" := CalcDate('<-CM>', WorkDate);
-    //     budget."To Date" := CalcDate('<-CM>', WorkDate);
-    // end;
-
-    var
-        myInt: Integer;
 }

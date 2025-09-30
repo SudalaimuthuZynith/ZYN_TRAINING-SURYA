@@ -4,25 +4,32 @@ page 50167 IncomeListPage
     ApplicationArea = All;
     UsageCategory = Administration;
     SourceTable = income;
-    CardPageId = IncomeCardPage;
+    CardPageId = ZYNIncomeCard;
     InsertAllowed = false;
     Editable = false;
+
     layout
     {
         area(Content)
         {
             repeater(general)
             {
-                field("Expense ID"; Rec."Income ID") { }
-                field(Description; Rec.Description) { }
-                field(Amount; Rec.Amount) { }
-                field(Date; Rec.Date) { }
+                field("Expense ID"; Rec."Income ID")
+                {
+                }
+                field(Description; Rec.Description)
+                {
+                }
+                field(Amount; Rec.Amount)
+                {
+                }
+                field(Date; Rec.Date)
+                {
+                }
                 field("Category Name"; Rec.Catagory)
                 {
-
                 }
             }
-
         }
     }
 
@@ -37,14 +44,8 @@ page 50167 IncomeListPage
             }
             action(ExportReport)
             {
-                RunObject = report "  Income Excel Report"
-                
-                
-                
-                ;
+                RunObject = report "  Income Excel Report";
             }
         }
     }
-
-   
 }

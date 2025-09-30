@@ -1,4 +1,4 @@
-table 50176 recurring_expense
+table 50176 ZYNRecurringExpense
 {
     DataClassification = ToBeClassified;
 
@@ -27,7 +27,7 @@ table 50176 recurring_expense
             DataClassification = ToBeClassified;
             trigger OnValidate()
             var
-                Recurr: Record "Recurring_Expense";
+                Recurr: Record ZYNRecurringExpense;
             begin
                 if Period = Period::Weekly then begin
                     Rec."Next Cycle Date" := CalcDate('1W', " StarDate")
@@ -55,7 +55,7 @@ table 50176 recurring_expense
         field(4; Catagory; Code[30])
         {
             DataClassification = ToBeClassified;
-            TableRelation = ExpenseCatagoryTable.Name;
+            TableRelation = ZYNExpenseCatagory.Name;
 
         }
         // field(6; "Category Name"; Text[100])
@@ -84,7 +84,7 @@ table 50176 recurring_expense
 
     trigger OnInsert()
     var
-        Expense: Record recurring_expense;
+        Expense: Record ZYNRecurringExpense;
 
         Lastid: Integer;
     begin
@@ -107,7 +107,7 @@ table 50176 recurring_expense
     trigger OnDelete()
 
     var
-        Expense: Record recurring_expense;
+        Expense: Record ZYNRecurringExpense;
     begin
         Expense.SetRange("Recurring ID", "Recurring ID");
         if Expense.FindSet() then

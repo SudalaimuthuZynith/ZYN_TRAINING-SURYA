@@ -2,6 +2,25 @@ pageextension 50109 contactext extends "Contact List"
 {
     actions
     {
+        // modify(Customer)
+        // {
+        //     trigger OnBeforeAction()
+        //     var
+        //         SingleInstanceMgt: Codeunit "Single Instance Management";
+        //     begin
+        //         SingleInstanceMgt.SetFromCreateAs();
+        //     end;
+        // }
+ 
+        // modify(Vendor)
+        // {
+        //     trigger OnBeforeAction()
+        //     var
+        //         SingleInstanceMgt: Codeunit "Single Instance Management";
+        //     begin
+        //         SingleInstanceMgt.SetFromCreateAs();
+        //     end;
+        // }
         addlast(processing)
         {
             action(tempcontactlist)
@@ -41,9 +60,9 @@ pageextension 50109 contactext extends "Contact List"
 
                             end;
                         until contactlist.Next() = 0;
-                    PAGE.RunModal(PAGE::"Customer Contact Temp List", tempcustomlist);
-                    PAGE.RunModal(PAGE::"Vendor Contact Temp List", tempvendorlist);
-                    PAGE.RunModal(PAGE::"Bank Contact Temp List", tempbanklist);
+                    PAGE.RunModal(PAGE::"ZYN Customer Contact Temp", tempcustomlist);
+                    PAGE.RunModal(PAGE::"ZYN Vendor Contact Temp", tempvendorlist);
+                    PAGE.RunModal(PAGE::"ZYN Bank Contact Temp", tempbanklist);
                 end;
             }
         }

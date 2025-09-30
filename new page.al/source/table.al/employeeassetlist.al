@@ -1,4 +1,4 @@
-table 50188 EmployeeAssetListTable
+table 50188 ZYNEmployeeAssetList
 {
     DataClassification = ToBeClassified;
 
@@ -7,15 +7,15 @@ table 50188 EmployeeAssetListTable
         field(1; "Employee"; Code[200])
         {
             DataClassification = ToBeClassified;
-            TableRelation = EmployeeTable."Employee ID";
+            TableRelation = ZYNEmployee."Employee ID";
         }
         field(2; "serial no"; Code[20])
         {
             DataClassification = ToBeClassified;
-            TableRelation = AssetsListTable."Serial No";
+            TableRelation = ZYNAssetsList."Serial No";
             trigger OnValidate()
             var
-                emp: Record AssetsListTable;
+                emp: Record ZYNAssetsList;
             begin
 
                 emp.SetRange("Serial No", Rec."serial no");
@@ -53,7 +53,7 @@ table 50188 EmployeeAssetListTable
 
     keys
     {
-        key(Key1; Employee, "serial no",status)
+        key(Key1; Employee, "serial no", status)
         {
             Clustered = true;
         }

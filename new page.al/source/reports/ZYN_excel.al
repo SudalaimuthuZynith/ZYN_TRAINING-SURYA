@@ -112,7 +112,7 @@ report 50169 "Expense Excel Report"
                     {
                         ApplicationArea = All;
                         Caption = 'Category';
-                        TableRelation = ExpenseCatagoryTable.Name;
+                        TableRelation = ZYNExpenseCatagory.Name;
                     }
                     field(FromDate; FromDate)
                     {
@@ -134,7 +134,7 @@ report 50169 "Expense Excel Report"
         FromDate: Date;
         ToDate: Date;
         ExcelBuffer: Record "Excel Buffer";
-        CatRec: Record ExpenseCatagoryTable;
+        CatRec: Record ZYNExpenseCatagory;
         ExpenseRec: Record Expenses;
         CompanyInfo: Record "Company Information";
         CompanyName: Text[100];

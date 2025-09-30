@@ -1,4 +1,4 @@
-table 50129 logtable
+table 50129 ZYNlog
 {
     DataClassification = ToBeClassified;
 

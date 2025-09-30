@@ -1,10 +1,10 @@
-page 50177 LeaveCatagoryListPage
+page 50177 ZYNLeaveCatagoryList
 {
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Administration;
-    CardPageId = LeaveCatagoryCardPage;
-    SourceTable = LeaveCatagoryTable;
+    CardPageId = ZYNLeaveCatagoryCard;
+    SourceTable = ZYNLeaveCatagory;
     Editable = false;
 
     layout
@@ -15,52 +15,14 @@ page 50177 LeaveCatagoryListPage
             {
                 field("Catagory Name"; Rec."Catagory Name")
                 {
-
                 }
                 field(Description; Rec.Description)
                 {
-
                 }
-                field("No of days allowed"; Rec."No of days allowed") { }
-                //field(Role;Rec.Role) { }
-            }
-        }
-
-    }
-
-    actions
-    {
-        area(Processing)
-        {
-            action(ActionName)
-            {
-
-                trigger OnAction()
-                begin
-
-                end;
+                field("No of days allowed"; Rec."No of days allowed")
+                {
+                }
             }
         }
     }
-    // trigger OnOpenPage()
-    // var
-    //     budget: Record BudgetTable;
-    // begin
-    //     budget."From Date" := CalcDate('<-CM>', WorkDate);
-    //     budget."To Date" := CalcDate('<-CM>', WorkDate);
-    // end;
-
-    var
-        myInt: Integer;
-
-    // trigger OnOpenPage()
-    // var
-    //     emp: Record EmployeeTable;
-    //     req: Record LeaveRequestTable;
-    //     ee: Record EmpLeaveHiddenTable;
-    // begin
-    //     ee.DeleteAll();
-    //     emp.DeleteAll();
-    //     req.DeleteAll();
-    //end;
 }

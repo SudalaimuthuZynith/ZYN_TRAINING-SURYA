@@ -1,11 +1,12 @@
-page 50187 LeaveRequestListPage
+page 50187 ZYNLeaveRequestList
 {
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Administration;
-    CardPageId = LeaveRequestCardPage;
-    SourceTable = LeaveRequestTable;
+    CardPageId = ZYNLeaveRequestCard;
+    SourceTable = ZYNLeaveRequest;
     Editable = false;
+    Caption = 'Leave Request List';
 
     layout
     {
@@ -15,19 +16,31 @@ page 50187 LeaveRequestListPage
             {
                 field("Employee ID"; Rec."Employee ID")
                 {
-
                 }
                 field("Employee Name"; Rec."Employee Name")
                 {
-
                 }
-                field(Catagory; Rec.Catagory) { }
-                field(Reason; Rec.Reason) { }
-                field("Start Date"; Rec."Start Date") { }
-                field("End Date"; Rec."End Date") { }
-                field("total days"; Rec."total days") { }
-                field("Remaining leave days"; Rec."Remaining leave days") { }
-                field(Status; Rec.Status) { }
+                field(Catagory; Rec.Catagory)
+                {
+                }
+                field(Reason; Rec.Reason)
+                {
+                }
+                field("Start Date"; Rec."Start Date")
+                {
+                }
+                field("End Date"; Rec."End Date")
+                {
+                }
+                field("total days"; Rec."total days")
+                {
+                }
+                field("Remaining leave days"; Rec."Remaining leave days")
+                {
+                }
+                field(Status; Rec.Status)
+                {
+                }
             }
         }
 
@@ -47,14 +60,4 @@ page 50187 LeaveRequestListPage
             }
         }
     }
-    // trigger OnOpenPage()
-    // var
-    //     budget: Record BudgetTable;
-    // begin
-    //     budget."From Date" := CalcDate('<-CM>', WorkDate);
-    //     budget."To Date" := CalcDate('<-CM>', WorkDate);
-    // end;
-
-    var
-        myInt: Integer;
 }

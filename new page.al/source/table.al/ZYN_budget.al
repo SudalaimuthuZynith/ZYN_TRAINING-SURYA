@@ -1,4 +1,4 @@
-table 50164 BudgetTable
+table 50164 ZYNBudgetTable
 {
     DataClassification = ToBeClassified;
 
@@ -15,24 +15,24 @@ table 50164 BudgetTable
         field(3; "Catagory Name"; Code[30])
         {
             DataClassification = ToBeClassified;
-            TableRelation = ExpenseCatagoryTable.Name;
+            TableRelation = ZYNExpenseCatagory.Name;
         }
         field(4; Amount; Decimal)
         {
             DataClassification = ToBeClassified;
         }
-        field(16;"Date Filter";Date)
+        field(16; "Date Filter"; Date)
         {
-            FieldClass=FlowFilter;
+            FieldClass = FlowFilter;
         }
         // field(29;"Budget Month";Date)
         // {
-            
+
         // }
         field(111; "Total Amount Filtered"; Decimal)
         {
             FieldClass = FlowField;
-            CalcFormula = sum(BudgetTable.Amount where(
+            CalcFormula = sum(ZYNBudgetTable.Amount where(
                                 "Catagory Name" = field("Catagory Name"),
                                 "From Date" = field("Date Filter")
                               ));
@@ -44,11 +44,11 @@ table 50164 BudgetTable
 
         // Normal fields to store calculated values
         field(70010; "Total Amount CurrentMonth"; Decimal)
-        {}
-        field(70011; "Total Amount CurrentQuarter"; Decimal) 
+        { }
+        field(70011; "Total Amount CurrentQuarter"; Decimal)
         { }
         field(70012; "Total Amount CurrentHalf"; Decimal) { }
-        field(70013; "Total Amount CurrentYear"; Decimal) {}
+        field(70013; "Total Amount CurrentYear"; Decimal) { }
     }
 
     keys

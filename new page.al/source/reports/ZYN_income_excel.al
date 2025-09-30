@@ -112,7 +112,7 @@ report 50199 "  Income Excel Report"
                     {
                         ApplicationArea = All;
                         Caption = 'Category';
-                        TableRelation = ExpenseCatagoryTable.Name;
+                        TableRelation = ZYNExpenseCatagory.Name;
                     }
                     field(FromDate; FromDate)
                     {

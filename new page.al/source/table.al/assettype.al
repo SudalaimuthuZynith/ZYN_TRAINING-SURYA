@@ -1,43 +1,43 @@
-table 50187 AssetTypeTable
+table 50187 ZYNAssetType
 {
     DataClassification = ToBeClassified;
-    
+
     fields
     {
-        field(10;"catagory id";Code[20])
+        field(10; "catagory id"; Code[20])
         {
-            DataClassification=ToBeClassified;
+            DataClassification = ToBeClassified;
         }
-        field(1;"Catagory";Enum "asset catagory" )
+        field(1; "Catagory"; Enum "asset catagory")
         {
-            DataClassification = ToBeClassified; 
+            DataClassification = ToBeClassified;
         }
-        field(2;"Name";Text[30])
+        field(2; "Name"; Text[30])
         {
-            DataClassification=ToBeClassified;
+            DataClassification = ToBeClassified;
         }
-        
+
     }
-    
+
     keys
     {
-        key(Key1; "catagory id",Name)
+        key(Key1; "catagory id", Name)
         {
             Clustered = true;
         }
     }
-    
+
     fieldgroups
     {
-        fieldgroup(name;Name){}
+        fieldgroup(name; Name) { }
     }
-    
+
     var
         myInt: Integer;
-    
+
     trigger OnInsert()
-   var
-        assettype: Record AssetTypeTable;
+    var
+        assettype: Record ZYNAssetType;
         Lastid: Integer;
     begin
         if "catagory id" = '' then begin
@@ -49,26 +49,26 @@ table 50187 AssetTypeTable
             "catagory id" := 'CAT' + PadStr(Format(lastid), 3, '0');
         end;
     end;
-    
+
     trigger OnModify()
     begin
-        
+
     end;
-    
+
     trigger OnDelete()
     begin
-        
+
     end;
-    
+
     trigger OnRename()
     begin
-        
+
     end;
-    
+
 }
 enum 50189 "asset catagory"
 {
-    value(1;Infrastructure){}
-    value(2;Electronics){}
-    value(3;Documents){}
+    value(1; Infrastructure) { }
+    value(2; Electronics) { }
+    value(3; Documents) { }
 }

@@ -1,12 +1,13 @@
-page 50169 BudgetListPage
+page 50169 ZYNBudgetList
 {
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Administration;
-    CardPageId = BudgetCardPage;
-    SourceTable = BudgetTable;
+    CardPageId = ZYNBudgetCard;
+    SourceTable = ZYNBudgetTable;
     Editable = false;
-
+    Caption = 'Budget List';
+    
     layout
     {
         area(Content)
@@ -15,14 +16,16 @@ page 50169 BudgetListPage
             {
                 field("From Date"; Rec."From Date")
                 {
-
                 }
                 field("To Date"; Rec."To Date")
                 {
-
                 }
-                field("Catagory Name"; Rec."Catagory Name") { }
-                field(Amount; Rec.Amount) { }
+                field("Catagory Name"; Rec."Catagory Name")
+                {
+                }
+                field(Amount; Rec.Amount)
+                {
+                }
             }
         }
         area(FactBoxes)
@@ -34,29 +37,4 @@ page 50169 BudgetListPage
             }
         }
     }
-
-    actions
-    {
-        area(Processing)
-        {
-            action(ActionName)
-            {
-
-                trigger OnAction()
-                begin
-
-                end;
-            }
-        }
-    }
-    // trigger OnOpenPage()
-    // var
-    //     budget: Record BudgetTable;
-    // begin
-    //     budget."From Date" := CalcDate('<-CM>', WorkDate);
-    //     budget."To Date" := CalcDate('<-CM>', WorkDate);
-    // end;
-
-    var
-        myInt: Integer;
 }

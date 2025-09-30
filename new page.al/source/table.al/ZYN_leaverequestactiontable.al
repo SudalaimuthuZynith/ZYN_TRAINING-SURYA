@@ -1,4 +1,4 @@
-table 50183 LeaveRequestTable
+table 50183 ZYNLeaveRequest
 {
     DataClassification = ToBeClassified;
 
@@ -12,10 +12,10 @@ table 50183 LeaveRequestTable
         field(1; "Employee ID"; Code[20])
         {
             DataClassification = ToBeClassified;
-            TableRelation = EmployeeTable."Employee ID";
+            TableRelation = ZYNEmployee."Employee ID";
             trigger OnValidate()
             var
-                emp: Record EmployeeTable;
+                emp: Record ZYNEmployee;
             begin
                 UpdateHiddenTable();
                 emp.SetRange("Employee ID", Rec."Employee ID");
@@ -31,7 +31,7 @@ table 50183 LeaveRequestTable
         field(2; "Catagory"; Text[20])
         {
             DataClassification = ToBeClassified;
-            TableRelation = LeaveCatagoryTable."Catagory Name";
+            TableRelation = ZYNLeaveCatagory."Catagory Name";
             trigger OnValidate()
             begin
                 UpdateHiddenTable();
