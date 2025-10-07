@@ -2,25 +2,24 @@ pageextension 50109 contactext extends "Contact List"
 {
     actions
     {
-        // modify(Customer)
-        // {
-        //     trigger OnBeforeAction()
-        //     var
-        //         SingleInstanceMgt: Codeunit "Single Instance Management";
-        //     begin
-        //         SingleInstanceMgt.SetFromCreateAs();
-        //     end;
-        // }
- 
-        // modify(Vendor)
-        // {
-        //     trigger OnBeforeAction()
-        //     var
-        //         SingleInstanceMgt: Codeunit "Single Instance Management";
-        //     begin
-        //         SingleInstanceMgt.SetFromCreateAs();
-        //     end;
-        // }
+        modify(Customer)
+        {
+            trigger OnBeforeAction()
+            var
+                SingleInstanceMgt: Codeunit Zyn_SingleInstanceManagment;
+            begin
+                SingleInstanceMgt.SetFromCreateAs();
+            end;
+        }
+        modify(Vendor)
+        {
+            trigger OnBeforeAction()
+            var
+                SingleInstanceMgt: Codeunit Zyn_SingleInstanceManagment;
+            begin
+                SingleInstanceMgt.SetFromCreateAs();
+            end;
+        }
         addlast(processing)
         {
             action(tempcontactlist)

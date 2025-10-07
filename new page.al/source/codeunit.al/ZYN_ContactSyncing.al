@@ -285,7 +285,7 @@ codeunit 50107 "Zyn_ContactMaster-SlaveSync"
 
     // Procedure: ContactOnBeforeModify
     // Purpose: Event subscriber for Contact OnBeforeModifyEvent, delegates logic to handler
-   [EventSubscriber(ObjectType::Table, Database::Contact, 'OnBeforeModifyEvent', '', true, true)]
+    [EventSubscriber(ObjectType::Table, Database::Contact, 'OnBeforeModifyEvent', '', true, true)]
     local procedure ContactOnBeforeModify(var Rec: Record Contact; var xRec: Record Contact; RunTrigger: Boolean)
     begin
         HandleOnBeforeModify(Rec, xRec, RunTrigger);
@@ -501,10 +501,13 @@ codeunit 50107 "Zyn_ContactMaster-SlaveSync"
         MasterCompany: Record ZYN_Company;
         SlaveCompany: Record ZYN_Company;
         NewContact: Record Contact;
+        SingleInstanceManagment: Codeunit Zyn_SingleInstanceManagment;
+
     begin
         // Validation: prevent recursive sync
         if IsSyncing then
             exit;
+    
         IsSyncing := true;
 
         // Condition: get current company
@@ -533,6 +536,7 @@ codeunit 50107 "Zyn_ContactMaster-SlaveSync"
         IsSyncing := false;
     end;
 
+
     // Procedure: HandleOnAfterModify
     // Purpose: Syncs modifications of contact from master to slave companies
     local procedure HandleOnAfterModify(var Rec: Record Contact; var xRec: Record Contact; RunTrigger: Boolean)
@@ -546,12 +550,18 @@ codeunit 50107 "Zyn_ContactMaster-SlaveSync"
         SlaveField: FieldRef;
         i: Integer;
         IsDifferent: Boolean;
-        slavebusinessrelation: Enum "Contact Business Relation";
+        //slavebusinessrelation: Enum "Contact Business Relation";
         ZynCompany: Record ZYN_Company;
+        SingleInstanceManagment: Codeunit Zyn_SingleInstanceManagment;
+
     begin
         // Validation: prevent recursive sync
         if IsSyncing then
             exit;
+        if SingleInstanceManagment.GetFromCreateAs() then begin
+            SingleInstanceManagment.ClearCreateAs();
+            exit;
+        end;
 
         // Condition: master company exists
         if MasterCompany.Get(COMPANYNAME) then begin
@@ -568,7 +578,7 @@ codeunit 50107 "Zyn_ContactMaster-SlaveSync"
 
                         // Condition: contact exists in slave
                         if SlaveContact.Get(Rec."No.") then begin
-                            slavebusinessrelation := SlaveContact."Contact Business Relation";
+                            //slavebusinessrelation := SlaveContact."Contact Business Relation";
 
                             // Open RecordRefs for comparison
                             MasterRef.GetTable(Rec);
@@ -598,7 +608,7 @@ codeunit 50107 "Zyn_ContactMaster-SlaveSync"
                             if IsDifferent then begin
                                 IsSyncing := true;
                                 SlaveContact.TransferFields(Rec, true);
-                                SlaveContact."Contact Business Relation" := slavebusinessrelation;
+                                // SlaveContact."Contact Business Relation" := slavebusinessrelation;
                                 SlaveContact."No." := Rec."No."; // restore PK
                                 SlaveContact.Modify(true);
                                 IsSyncing := false;
@@ -623,6 +633,9 @@ codeunit 50107 "Zyn_ContactMaster-SlaveSync"
     end;
 
 
+
+
+
     // ───────────────────────────────
     // Helper
     // ───────────────────────────────
@@ -638,34 +651,38 @@ codeunit 50107 "Zyn_ContactMaster-SlaveSync"
         exit(false);
     end;
 
-//    [EventSubscriber(ObjectType::Table, Database::"Contact Business Relation", 'OnBeforeUpdateContactBusinessRelation', '', true, true)]
-//     local procedure OnBeforeUpdateContactBusinessRelation(ContactBusinessRelation: Record "Contact Business Relation"; var IsHandled: Boolean)
-//     var
-//         SingleInstanceMgt: Codeunit "Single Instance Management";
-//         Contact: Record Contact;
-//     begin
-//         if SingleInstanceMgt.GetFromCreateAs() then
-//             IsHandled := true;
- 
-//         if ContactBusinessRelation."Contact No." <> '' then
-//             if Contact.Get(ContactBusinessRelation."Contact No.") then begin
-//                 if Contact.UpdateBusinessRelation() then
-//                     Contact.Modify();
- 
-//                 Contact.SetFilter("No.", '<>%1', ContactBusinessRelation."Contact No.");
-//                 Contact.SetRange("Company No.", ContactBusinessRelation."Contact No.");
-//                 if Contact.FindSet(true) then
-//                     repeat
-//                         if Contact.UpdateBusinessRelation() then
-//                             Contact.Modify();
-//                     until Contact.Next() = 0;
-//             end;
-//     end;
+
+    //    [EventSubscriber(ObjectType::Table, Database::"Contact Business Relation", 'OnBeforeUpdateContactBusinessRelation', '', true, true)]
+    //     local procedure OnBeforeUpdateContactBusinessRelation(ContactBusinessRelation: Record "Contact Business Relation"; var IsHandled: Boolean)
+    //     var
+    //         SingleInstanceMgt: Codeunit "Single Instance Management";
+    //         Contact: Record Contact;
+    //     begin
+    //         if SingleInstanceMgt.GetFromCreateAs() then
+    //             IsHandled := true;
+
+    //         if ContactBusinessRelation."Contact No." <> '' then
+    //             if Contact.Get(ContactBusinessRelation."Contact No.") then begin
+    //                 if Contact.UpdateBusinessRelation() then
+    //                     Contact.Modify();
+
+    //                 Contact.SetFilter("No.", '<>%1', ContactBusinessRelation."Contact No.");
+    //                 Contact.SetRange("Company No.", ContactBusinessRelation."Contact No.");
+    //                 if Contact.FindSet(true) then
+    //                     repeat
+    //                         if Contact.UpdateBusinessRelation() then
+    //                             Contact.Modify();
+    //                     until Contact.Next() = 0;
+    //             end;
+    //     end;
 
 
     // ───────────────────────────────
     // Labels
     // ───────────────────────────────
+    // used to skip replication for 'Create as Customer/Vendor'
+
+
     var
         CreateContacteInSlaveErr: Label 'Cannot create contacts in a slave company';
         ContactModifyingInSlaveErr: Label 'Cannot modify contacts in a slave company';
@@ -674,3 +691,4 @@ codeunit 50107 "Zyn_ContactMaster-SlaveSync"
         OpenSalesInvoiceError: Label 'Contact %1 cannot be deleted because it has open or released Sales Invoices in company %2.';
         OpenPurchaseInvoiceError: Label 'Contact %1 cannot be deleted because it has open or released Purchase Invoices in company %2.';
 }
+
