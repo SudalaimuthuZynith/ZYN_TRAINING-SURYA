@@ -4,7 +4,7 @@ pageextension 50138 CustomerListExt extends "Customer List"
     {
         addfirst(factboxes)
         {
-            part(cutomer; factbox)
+            part(cutomer; ZYN_Factbox)
             {
                 SubPageLink = "No." = field("No.");
                 ApplicationArea = all;

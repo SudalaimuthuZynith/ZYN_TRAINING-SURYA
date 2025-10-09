@@ -1,74 +1,74 @@
-table 50187 ZYNAssetType
+table 50187 "ZYNAssetType"
 {
-    DataClassification = ToBeClassified;
+    DataClassification = ToBeClassified; // Data classification to be reviewed
 
     fields
     {
         field(10; "catagory id"; Code[20])
         {
-            DataClassification = ToBeClassified;
-        }
-        field(1; "Catagory"; Enum "asset catagory")
-        {
-            DataClassification = ToBeClassified;
-        }
-        field(2; "Name"; Text[30])
-        {
+            Caption = 'Category ID'; // Auto-generated unique ID (e.g., CAT001)
             DataClassification = ToBeClassified;
         }
 
+        field(1; "Catagory"; Enum "asset catagory")
+        {
+            Caption = 'Category'; // Asset category type
+            DataClassification = ToBeClassified;
+        }
+
+        field(2; "Name"; Text[30])
+        {
+            Caption = 'Asset Type Name'; // Descriptive name for the asset type
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
     {
         key(Key1; "catagory id", Name)
         {
-            Clustered = true;
+            Clustered = true; // Primary key ensuring unique category entries
         }
     }
 
     fieldgroups
     {
-        fieldgroup(name; Name) { }
+        fieldgroup(Name; Name) { } // Used for lookups
     }
-
-    var
-        myInt: Integer;
 
     trigger OnInsert()
     var
-        assettype: Record ZYNAssetType;
-        Lastid: Integer;
+        assetType: Record "ZYNAssetType";
+        lastId: Integer;
     begin
+        // Auto-generate unique Category ID (e.g., CAT001, CAT002)
         if "catagory id" = '' then begin
-            if assettype.FindLast() then
-                Evaluate(lastid, CopyStr(assettype."catagory id", 4))
+            if assetType.FindLast() then
+                Evaluate(lastId, CopyStr(assetType."catagory id", 4))
             else
-                lastid := 0;
-            Lastid += 1;
-            "catagory id" := 'CAT' + PadStr(Format(lastid), 3, '0');
+                lastId := 0;
+
+            lastId += 1;
+            "catagory id" := 'CAT' + PadStr(Format(lastId), 3, '0');
         end;
     end;
-
-    trigger OnModify()
-    begin
-
-    end;
-
-    trigger OnDelete()
-    begin
-
-    end;
-
-    trigger OnRename()
-    begin
-
-    end;
-
 }
 enum 50189 "asset catagory"
 {
-    value(1; Infrastructure) { }
-    value(2; Electronics) { }
-    value(3; Documents) { }
+    Extensible = true; // Allows adding new categories in the future
+
+    value(1; Infrastructure)
+    {
+        Caption = 'Infrastructure'; // Physical setup assets
+    }
+
+    value(2; Electronics)
+    {
+        Caption = 'Electronics'; // Electronic devices like laptops, printers
+    }
+
+    value(3; Documents)
+    {
+        Caption = 'Documents'; // Files, agreements, and paper assets
+    }
 }

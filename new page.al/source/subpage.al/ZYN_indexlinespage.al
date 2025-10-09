@@ -1,41 +1,34 @@
-page 50113 indexlinespage
+page 50113 ZYN_IndexLinesPage
 {
     PageType = ListPart;
     ApplicationArea = All;
     UsageCategory = Administration;
-    SourceTable = IndexLines;
+    SourceTable = ZYN_IndexLines;
     Editable = false;
+
     layout
     {
         area(Content)
         {
             repeater(general)
             {
-                field(Code; Rec.Code) { }
-                field(entryno; Rec.entryno) { }
-                field(year; Rec.year) { }
-                field(percentage; Rec.percentage) { }
-            }
-        }
-    }
-
-    actions
-    {
-        area(Processing)
-        {
-            action(ActionName)
-            {
-
-                trigger OnAction()
-                begin
-
-                end;
+                field(Code; Rec.Code)
+                {
+                }
+                field(entryno; Rec.entryno)
+                {
+                }
+                field(year; Rec.year)
+                {
+                }
+                field(percentage; Rec.percentage)
+                {
+                }
             }
         }
     }
 
     var
+        IndexLines: Record ZYN_IndexLines;
         myInt: Integer;
-
-
 }

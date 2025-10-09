@@ -1,4 +1,4 @@
-page 50107 "My Cue Part"
+page 50107 ZYN_MyCuePart
 {
     PageType = CardPart;
     SourceTable = customer;
@@ -18,7 +18,7 @@ page 50107 "My Cue Part"
 
                     trigger OnDrillDown()
                     var
-                        VisitLogRec: Record "Visitlog";
+                        VisitLogRec: Record ZYN_Visitlog;
                         CustomerRec: Record Customer;
                         TempCustomer: Record Customer temporary;
                         today: Date;
@@ -48,7 +48,7 @@ page 50107 "My Cue Part"
     }
     var
         Visitlogcount: Integer;
-        visitlogRec: Record "Visitlog";
+        visitlogRec: Record ZYN_Visitlog;
         today: Date;
 
     trigger OnOpenPage()

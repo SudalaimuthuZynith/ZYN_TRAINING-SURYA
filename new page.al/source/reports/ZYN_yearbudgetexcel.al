@@ -1,10 +1,11 @@
-report 50161 "Export Budget vs Actual"
+report 50161 ZYN_ExportBudgetvsActual
 {
     Caption = 'Export Budget vs Actual';
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
     ProcessingOnly = true;
 
+    // --- Request Page for Year Input ---
     requestpage
     {
         layout
@@ -13,7 +14,6 @@ report 50161 "Export Budget vs Actual"
             {
                 field(SelectedYear; SelectedYear)
                 {
-                    ApplicationArea = All;
                     Caption = 'Year';
                     ToolTip = 'Enter the year (e.g., 2025) to export Actuals vs Budget per Category, per Month.';
                 }
@@ -21,26 +21,29 @@ report 50161 "Export Budget vs Actual"
         }
     }
 
+    // --- Variables ---
     var
-        SelectedYear: Integer;
-        StartDate: Date;
-        EndDate: Date;
-        ExcelBuf: Record "Excel Buffer" temporary;
-        Expense: Record Expenses;
-        Budget: Record ZYNBudgetTable;
-        Category: Record ZYNExpenseCatagory;
-        income: Record income;
-        MonthStart: Date;
-        MonthEnd: Date;
-        MonthNo: Integer;
-        TotalExpense: Decimal;
-        BudgetAmount: Decimal;
-        Total: Decimal;
-        TotalIncome: Decimal;
-        Savings: Decimal;
+        SelectedYear: Integer;              // Year entered by user
+        StartDate: Date;                    // First day of the year
+        EndDate: Date;                      // Last day of the year
+        ExcelBuf: Record "Excel Buffer" temporary; // Excel buffer for export
+        Expense: Record ZYN_Expenses;           // Expense records
+        Budget: Record ZYNBudgetTable;      // Budget records
+        Category: Record "ZYN Expense Category"; // Categories
+        income: Record ZYN_Income;              // Income records
+        MonthStart: Date;                   // Start date of month
+        MonthEnd: Date;                     // End date of month
+        MonthNo: Integer;                   // Month counter
+        TotalExpense: Decimal;              // Expense total per category
+        BudgetAmount: Decimal;              // Budget amount per category
+        Total: Decimal;                     // Total expense for month
+        TotalIncome: Decimal;               // Total income for month
+        Savings: Decimal;                   // Savings = TotalIncome - Total
 
+    // --- Trigger executed after report runs ---
     trigger OnPostReport()
     begin
+        // Validate Year
         if SelectedYear = 0 then
             Error('Please enter a valid Year.');
 
@@ -49,7 +52,7 @@ report 50161 "Export Budget vs Actual"
 
         Clear(ExcelBuf);
 
-        // Header row
+        // --- Header Row ---
         ExcelBuf.AddColumn('Month', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);
         ExcelBuf.AddColumn('Category', false, '', true, false, true, '', ExcelBuf."Cell Type"::Text);
         ExcelBuf.AddColumn('Budget', false, '', true, false, true, '', ExcelBuf."Cell Type"::Number);
@@ -59,19 +62,26 @@ report 50161 "Export Budget vs Actual"
         ExcelBuf.AddColumn('Savings', false, '', true, false, true, '', ExcelBuf."Cell Type"::Number);
         ExcelBuf.NewRow;
 
+        // --- Loop through each month ---
         for MonthNo := 1 to 12 do begin
             MonthStart := DMY2DATE(1, MonthNo, SelectedYear);
             MonthEnd := CalcDate('<CM>', MonthStart);
+
             ExcelBuf.AddColumn(Format(MonthStart, 0, '<Month Text>'), false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);
             ExcelBuf.NewRow();
+
+            // Loop through each Category
             if Category.FindSet() then
                 repeat
+                    // Get Budget Amount
                     BudgetAmount := 0;
                     Budget.Reset();
                     Budget.SetRange("Catagory Name", Category.Name);
                     Budget.SetRange("From Date", MonthStart, MonthEnd);
                     if Budget.FindFirst() then
                         BudgetAmount := Budget.Amount;
+
+                    // Calculate Total Income for Month
                     TotalIncome := 0;
                     income.Reset();
                     income.SetRange(Date, MonthStart, MonthEnd);
@@ -79,14 +89,18 @@ report 50161 "Export Budget vs Actual"
                         repeat
                             TotalIncome += income.Amount;
                         until income.Next() = 0;
+
+                    // Calculate Total Expense for Category
                     TotalExpense := 0;
                     Expense.Reset();
-                    Expense.SetRange(Catagory, Category.Name);
+                    Expense.SetRange(Category, Category.Name);
                     Expense.SetRange(Date, MonthStart, MonthEnd);
                     if Expense.FindSet() then
                         repeat
                             TotalExpense += Expense.Amount;
                         until Expense.Next() = 0;
+
+                    // Calculate Total Expense for Month
                     Total := 0;
                     Expense.Reset();
                     Expense.SetRange(Date, MonthStart, MonthEnd);
@@ -94,13 +108,19 @@ report 50161 "Export Budget vs Actual"
                         repeat
                             Total += Expense.Amount;
                         until Expense.Next() = 0;
+
+                    // Calculate Savings
                     Savings := TotalIncome - Total;
+
+                    // Add row to Excel
                     ExcelBuf.AddColumn('', false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);
                     ExcelBuf.AddColumn(Category.Name, false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);
                     ExcelBuf.AddColumn(BudgetAmount, false, '', false, false, false, '', ExcelBuf."Cell Type"::Number);
                     ExcelBuf.AddColumn(TotalExpense, false, '', false, false, false, '', ExcelBuf."Cell Type"::Number);
                     ExcelBuf.NewRow;
                 until Category.Next() = 0;
+
+            // --- Add Monthly Totals Row ---
             ExcelBuf.AddColumn('', false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);
             ExcelBuf.AddColumn('', false, '', false, false, false, '', ExcelBuf."Cell Type"::Text);
             ExcelBuf.AddColumn('', false, '', false, false, false, '', ExcelBuf."Cell Type"::Number);
@@ -109,9 +129,9 @@ report 50161 "Export Budget vs Actual"
             ExcelBuf.AddColumn(TotalIncome, false, '', false, false, false, '', ExcelBuf."Cell Type"::Number);
             ExcelBuf.AddColumn(Savings, false, '', false, false, false, '', ExcelBuf."Cell Type"::Number);
             ExcelBuf.NewRow;
-
         end;
 
+        // --- Export to Excel ---
         ExcelBuf.CreateNewBook('Budget vs Actual Report');
         ExcelBuf.WriteSheet('Report', CompanyName, UserId);
         ExcelBuf.CloseBook;

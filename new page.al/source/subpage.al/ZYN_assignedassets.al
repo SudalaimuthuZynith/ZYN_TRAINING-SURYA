@@ -52,7 +52,7 @@
 //         AssignedAssets := income.Count;
 //     end;
 // }
-page 50193 AssignedAssetsPage
+page 50193 ZYN_AssignedAssets
 {
     PageType = ListPart;
     ApplicationArea = All;
@@ -67,29 +67,28 @@ page 50193 AssignedAssetsPage
             {
                 field(AssignedAssets; AssignedAssets)
                 {
-                    ApplicationArea = All;
+                    Caption = 'Assigned Assets';
                     DrillDown = true;
                     trigger OnDrillDown()
                     var
-                        AssetRec: Record ZYNAssetsList;
-                        HistRec: Record ZYNEmployeeAssetList;
+                        ZYNAssetsList: Record ZYNAssetsList;
+                        ZYNEmployeeAssetList: Record ZYNEmployeeAssetList;
                         TempRec: Record ZYNEmployeeAssetList temporary;
                     begin
-
                         TempRec.DeleteAll();
 
-                        AssetRec.Reset();
-                        if AssetRec.FindSet() then
+                        ZYNAssetsList.Reset();
+                        if ZYNAssetsList.FindSet() then
                             repeat
-                                HistRec.Reset();
-                                HistRec.SetRange("serial no", AssetRec."Serial No");
+                                ZYNEmployeeAssetList.Reset();
+                                ZYNEmployeeAssetList.SetRange("serial no", ZYNAssetsList."Serial No");
 
-                                if HistRec.FindLast() then
-                                    if HistRec.Status = HistRec.Status::Assigned then begin
-                                        TempRec := HistRec;
+                                if ZYNEmployeeAssetList.FindLast() then
+                                    if ZYNEmployeeAssetList.Status = ZYNEmployeeAssetList.Status::Assigned then begin
+                                        TempRec := ZYNEmployeeAssetList;
                                         TempRec.Insert();
                                     end;
-                            until AssetRec.Next() = 0;
+                            until ZYNAssetsList.Next() = 0;
 
                         Page.RunModal(Page::ZYNEmployeeAssetsList, TempRec);
                     end;
@@ -98,40 +97,26 @@ page 50193 AssignedAssetsPage
         }
     }
 
-    actions
-    {
-        area(Processing)
-        {
-            action(ActionName)
-            {
-                trigger OnAction()
-                begin
-                end;
-            }
-        }
-    }
-
     var
         AssignedAssets: Integer;
-        income: Record ZYNEmployeeAssetList;
+        ZYNEmployeeAssetList: Record ZYNEmployeeAssetList;
 
     trigger OnAfterGetCurrRecord()
     var
-        AssetRec: Record ZYNAssetsList;
-        HistRec: Record ZYNEmployeeAssetList;
+        ZYNAssetsList: Record ZYNAssetsList;
+        ZYNEmployeeAssetList: Record ZYNEmployeeAssetList;
     begin
         AssignedAssets := 0;
 
-        AssetRec.Reset();
-        if AssetRec.FindSet() then
+        ZYNAssetsList.Reset();
+        if ZYNAssetsList.FindSet() then
             repeat
-                HistRec.Reset();
-                HistRec.SetRange("serial no", AssetRec."Serial No");
-                if HistRec.FindLast() then begin
-                    if HistRec.Status = HistRec.Status::Assigned then
+                ZYNEmployeeAssetList.Reset();
+                ZYNEmployeeAssetList.SetRange("serial no", ZYNAssetsList."Serial No");
+                if ZYNEmployeeAssetList.FindLast() then begin
+                    if ZYNEmployeeAssetList.Status = ZYNEmployeeAssetList.Status::Assigned then
                         AssignedAssets += 1;
                 end;
-            until AssetRec.Next() = 0;
+            until ZYNAssetsList.Next() = 0;
     end;
-
 }

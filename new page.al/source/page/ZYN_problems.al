@@ -4,7 +4,7 @@ page 50110 ZYNProblemsCard
     ApplicationArea = All;
     UsageCategory = Administration;
     SourceTable = ZYNProblems;
-    Caption='Problems Card';
+    Caption = 'Problems Card';
 
     layout
     {
@@ -29,7 +29,7 @@ page 50110 ZYNProblemsCard
                 }
                 field(tech_id; Rec.tech_id)
                 {
-                    TableRelation = technicians.tech_id where(problems = field(problems));
+                    TableRelation = ZYN_technicians.tech_id where(problems = field(problems));
                 }
             }
         }

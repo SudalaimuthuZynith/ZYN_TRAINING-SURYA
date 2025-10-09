@@ -1,4 +1,4 @@
-page 50132 IndexListPage
+page 50132 ZYN_IndexList
 {
     PageType = List;
     ApplicationArea = All;

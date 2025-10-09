@@ -1,51 +1,76 @@
-table 50105 ZYNExpenseCatagory
+table 50105 "ZYN Expense Category"
 {
     DataClassification = ToBeClassified;
+    Caption = 'Expense Category';
 
     fields
     {
-
-        field(8; Name; code[30])
+        field(8; Name; Code[30])
         {
+            Caption = 'Category Name';
+            Tooltip = 'Specifies the name of the expense category.';
             DataClassification = ToBeClassified;
         }
+
         field(9; Description; Text[30])
         {
+            Caption = 'Description';
+            Tooltip = 'Provides a short description of the expense category.';
             DataClassification = ToBeClassified;
         }
+
         field(5; "Date Filter"; Date)
         {
+            Caption = 'Date Filter';
+            Tooltip = 'Specifies a date filter to calculate filtered totals.';
             FieldClass = FlowFilter;
         }
 
-        // One FlowField, reused
         field(1; "Total Amount Filtered"; Decimal)
         {
+            Caption = 'Total Amount (Filtered)';
+            Tooltip = 'Displays the total expense amount based on applied category and date filter.';
             FieldClass = FlowField;
-            CalcFormula = sum(Expenses.Amount where(
-                                Catagory = field(Name),
-                                Date = field("Date Filter")
+            CalcFormula = Sum(ZYN_Expenses.Amount WHERE(
+                                Category = FIELD(Name),
+                                Date = FIELD("Date Filter")
                               ));
         }
+
         field(11; "Remaining Budget"; Decimal)
         {
+            Caption = 'Remaining Budget';
+            Tooltip = 'Specifies the remaining budget available for this category.';
             DataClassification = ToBeClassified;
         }
 
-        // Normal fields to store calculated values
         field(70010; "Total Amount CurrentMonth"; Decimal)
-        { }
-        field(70011; "Total Amount CurrentQuarter"; Decimal)
-        { }
-        field(70012; "Total Amount CurrentHalf"; Decimal) { }
-        field(70013; "Total Amount CurrentYear"; Decimal)
         {
-            //     FieldClass=FlowField;
-            //     CalcFormula = sum(Expenses.Amount 
-            // where(Date=filter(CalcDate('-CY', WorkDate)..CalcDate('CY', WorkDate))));
+            Caption = 'Total Amount (Current Month)';
+            Tooltip = 'Shows the total expense amount for the current month.';
+            DataClassification = ToBeClassified;
         }
 
+        field(70011; "Total Amount CurrentQuarter"; Decimal)
+        {
+            Caption = 'Total Amount (Current Quarter)';
+            Tooltip = 'Shows the total expense amount for the current quarter.';
+            DataClassification = ToBeClassified;
+        }
 
+        field(70012; "Total Amount CurrentHalf"; Decimal)
+        {
+            Caption = 'Total Amount (Current Half-Year)';
+            Tooltip = 'Shows the total expense amount for the current half-year.';
+            DataClassification = ToBeClassified;
+        }
+
+        field(70013; "Total Amount CurrentYear"; Decimal)
+        {
+            Caption = 'Total Amount (Current Year)';
+            Tooltip = 'Shows the total expense amount for the current year.';
+            DataClassification = ToBeClassified;
+        }
     }
 
     keys
@@ -55,32 +80,22 @@ table 50105 ZYNExpenseCatagory
             Clustered = true;
         }
     }
+
     fieldgroups
     {
-        fieldgroup(DropDown; Name) { }
+        fieldgroup(DropDown; Name)
+        {
+            // Displays category name in lookup drop-downs
+        }
     }
-    var
-        myInt: Integer;
-
-
-
-    trigger OnModify()
-    begin
-
-    end;
 
     trigger OnDelete()
     var
-        catagory: Record ZYNExpenseCatagory;
+        ZYNExpenseCatagory: Record "ZYN Expense Category";
     begin
-        catagory.SetRange(Name, Name);
-        if catagory.FindSet() then
-            catagory.DeleteAll();
+        // Delete all records with same category name if present
+        ZYNExpenseCatagory.SetRange(Name, Name);
+        if ZYNExpenseCatagory.FindSet() then
+            ZYNExpenseCatagory.DeleteAll();
     end;
-
-    trigger OnRename()
-    begin
-
-    end;
-
 }

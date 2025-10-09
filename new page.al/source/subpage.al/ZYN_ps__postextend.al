@@ -1,8 +1,8 @@
-page 50117 "postextentdtext"
+page 50117 ZYN_PostExtenddText
 {
     PageType = ListPart;
-    SourceTable = ExtendedTextTable;
     ApplicationArea = All;
+    SourceTable = ZYN_ExtendedTextTable;
 
     layout
     {
@@ -12,18 +12,14 @@ page 50117 "postextentdtext"
             {
                 field("Lino No."; Rec."Lino No.")
                 {
-                    ApplicationArea = All;
                 }
                 field("Language code"; Rec."Language code")
                 {
-                    ApplicationArea = All;
                 }
                 field(Text; Rec.Text)
                 {
-                    ApplicationArea = All;
                 }
             }
         }
     }
 }
-

@@ -1,40 +1,44 @@
-page 50142 sales_order_subpage
+page 50142 ZYN_SalesOrderSubpage
 {
-    PageType = listpart;
+    PageType = ListPart;
     ApplicationArea = All;
     UsageCategory = Administration;
     SourceTable = "Sales Header";
     SourceTableView = where("Document Type" = const(Order));
+
     layout
     {
         area(Content)
         {
             repeater(group)
             {
-
                 field("No."; Rec."No.")
                 {
-                    ApplicationArea = all;
                     DrillDown = true;
                     trigger OnDrillDown()
                     var
-                        sales: Page "Sales Order";
-                        
+                        Sales: Page "Sales Order";
                     begin
-                        sales.SetRecord(Rec);
-                        sales.Run();
+                        Sales.SetRecord(Rec);
+                        Sales.Run();
                     end;
                 }
 
-                field("Sell-to Customer Name"; Rec."Sell-to Customer Name") { }
+                field("Sell-to Customer Name"; Rec."Sell-to Customer Name")
+                {
+                }
 
-                field("Sell-to Contact No."; Rec."Sell-to Contact No.") { }
+                field("Sell-to Contact No."; Rec."Sell-to Contact No.")
+                {
+                }
 
-                field(Invoice; Rec.Invoice) { }
-
+                field(Invoice; Rec.Invoice)
+                {
+                }
             }
         }
     }
 
-
+    var
+        "Sales Header": Record "Sales Header";
 }

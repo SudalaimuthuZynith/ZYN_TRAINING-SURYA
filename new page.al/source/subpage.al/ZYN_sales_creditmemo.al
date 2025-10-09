@@ -1,40 +1,41 @@
-page 50149 sales_creditmemo_subpage
+page 50149 ZYN_SalesCreditMemoSubpage
 {
-    PageType = listpart;
+    PageType = ListPart;
     ApplicationArea = All;
     UsageCategory = Administration;
     SourceTable = "Sales Header";
     SourceTableView = where("Document Type" = const("Credit Memo"));
+
     layout
     {
         area(Content)
         {
             repeater(group)
             {
-
                 field("No."; Rec."No.")
                 {
-                    ApplicationArea = all;
                     DrillDown = true;
                     trigger OnDrillDown()
                     var
-                        sales: Page "Sales Credit Memo";
-
+                        Sales: Page "Sales Credit Memo";
                     begin
-                        sales.SetRecord(Rec);
-                        sales.Run();
+                        Sales.SetRecord(Rec);
+                        Sales.Run();
                     end;
                 }
 
-                field("Sell-to Customer Name"; Rec."Sell-to Customer Name") { }
+                field("Sell-to Customer Name"; Rec."Sell-to Customer Name")
+                {
+                }
 
-                field("Sell-to Contact No."; Rec."Sell-to Contact No.") { }
+                field("Sell-to Contact No."; Rec."Sell-to Contact No.")
+                {
+                }
 
-                field(Invoice; Rec.Invoice) { }
-
+                field(Invoice; Rec.Invoice)
+                {
+                }
             }
         }
     }
-
-
 }

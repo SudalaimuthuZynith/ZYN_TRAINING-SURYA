@@ -1,37 +1,46 @@
-table 50130 technicians
+table 50130 ZYN_technicians
 {
+    Caption = 'Technicians';
     DataClassification = ToBeClassified;
 
     fields
     {
         field(1; tech_id; Code[20])
         {
+            Caption = 'Technician ID';
+            Tooltip = 'Unique identifier for each technician.';
             DataClassification = SystemMetadata;
             Editable = false;
         }
+
         field(2; tech_name; Text[30])
         {
+            Caption = 'Technician Name';
+            Tooltip = 'Full name of the technician.';
             DataClassification = SystemMetadata;
-
-
         }
-        field(3; tech_phone_no; code[10])
+
+        field(3; tech_phone_no; Code[10])
         {
+            Caption = 'Phone Number';
+            Tooltip = 'Contact phone number of the technician.';
             DataClassification = SystemMetadata;
-
         }
-        field(4; problems; Enum "problems")
+
+        field(4; problems; Enum problems)
         {
-            Caption = 'skills';
+            Caption = 'Skills';
+            Tooltip = 'Primary skill area of the technician (IT, Network, Hardware).';
             DataClassification = SystemMetadata;
-
         }
+
         field(7; count; Integer)
         {
+            Caption = 'Assigned Problem Count';
+            Tooltip = 'Number of problems assigned to the technician.';
             FieldClass = FlowField;
             CalcFormula = count(ZYNProblems where(tech_id = field(tech_id)));
         }
-
     }
 
     keys
@@ -42,53 +51,26 @@ table 50130 technicians
         }
     }
 
-    // fieldgroups
-    // {
-    //     // Add changes to field groups here
-    // }
-
-    // var
-    //     myInt: Integer;
-
-    // trigger OnInsert()
     trigger OnInsert()
     var
-        LastTech: Record technicians;
+        LastTech: Record ZYN_technicians;
         LastId: Integer;
         LastIdStr: Code[20];
     begin
+        // Auto-generate Technician ID if empty
         if tech_id = '' then begin
-            if LastTech.FindLast() then begin
-
-                Evaluate(LastId, COPYSTR(LastTech.tech_id, 2));
-            end else
+            if LastTech.FindLast() then
+                Evaluate(LastId, CopyStr(LastTech.tech_id, 2))
+            else
                 LastId := 0;
 
             LastId += 1;
-
-
-            LastIdStr := 'A' + PADSTR(Format(LastId), 3, '0');
+            LastIdStr := 'A' + PadStr(Format(LastId), 3, '0');
             tech_id := LastIdStr;
         end;
     end;
-
-
-    // trigger OnModify()
-    // begin
-
-    // end;
-
-    // trigger OnDelete()
-    // begin
-
-    // end;
-
-    // trigger OnRename()
-    // begin
-
-    // end;
-
 }
+
 enum 50126 problems
 {
     value(0; IT) { }

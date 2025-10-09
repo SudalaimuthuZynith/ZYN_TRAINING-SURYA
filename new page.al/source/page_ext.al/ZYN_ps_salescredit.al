@@ -17,12 +17,12 @@ pageextension 50133 "salescrediteext" extends "Sales Credit Memo"
 
                 }
 
-                part(SalesInvoiceTexts; extentdtext)
+                part(SalesInvoiceTexts; ZYNextentdtext)
                 {
                     SubPageLink = "Document No." = field("No."), selection = const("begin text");
                     ApplicationArea = All;
                 }
-                part(SalesInvoice; extentdtext)
+                part(SalesInvoice; ZYNextentdtext)
                 {
                     SubPageLink = "Document No." = field("No."), selection = const("end text");
                     ApplicationArea = All;

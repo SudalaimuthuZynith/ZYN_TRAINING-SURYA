@@ -24,12 +24,12 @@ pageextension 50139 "salesorderext" extends "Sales Order"
                 {
                     ApplicationArea = all;
                 }
-                part(SalesInvoiceTexts; extentdtext)
+                part(SalesInvoiceTexts; ZYNextentdtext)
                 {
                     SubPageLink = "Document No." = field("No."), selection = const("begin text");
                     ApplicationArea = All;
                 }
-                part(SalesInvoice; extentdtext)
+                part(SalesInvoice; ZYNextentdtext)
                 {
                     SubPageLink = "Document No." = field("No."), selection = const("end text");
                     ApplicationArea = All;
@@ -51,7 +51,7 @@ pageextension 50139 "salesorderext" extends "Sales Order"
 
     trigger OnAfterGetRecord()
     var
-        lastprice: Record "last sold";
+        lastprice: Record ZYN_LastSold;
         latestDate: Date;
         maxPrice: Decimal;
     begin
@@ -68,7 +68,7 @@ pageextension 50139 "salesorderext" extends "Sales Order"
             maxPrice := 0;
             if lastprice.FindSet() then
                 repeat
-                    if lastprice."Item Price" > maxPrice then 
+                    if lastprice."Item Price" > maxPrice then
                         maxPrice := lastprice."Item Price";
                 until lastprice.Next() = 0;
             lastsoldprice := maxPrice;

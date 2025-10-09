@@ -86,20 +86,22 @@
 //         ToDate: Date;
 // }
 
-report 50199 "  Income Excel Report"
+report 50199 ZYN_IncomeExcelReport
 {
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
     ProcessingOnly = true;
 
+    // --- Dataset ---
     dataset
     {
-        dataitem(Expense; income)
+        dataitem(Income; ZYN_Income)
         {
-            // No RequestFilterFields because we’re using our own From/To Date
+            // No RequestFilterFields because we are using custom From/To Date filters
         }
     }
 
+    // --- Request Page for User Filters ---
     requestpage
     {
         layout
@@ -108,20 +110,22 @@ report 50199 "  Income Excel Report"
             {
                 group(Filter)
                 {
+                    // Filter for Income Category
                     field(Category; Category)
                     {
-                        ApplicationArea = All;
                         Caption = 'Category';
-                        TableRelation = ZYNExpenseCatagory.Name;
+                        TableRelation = "ZYN Expense Category".Name;
                     }
+
+                    // Filter for starting date
                     field(FromDate; FromDate)
                     {
-                        ApplicationArea = All;
                         Caption = 'From Date';
                     }
+
+                    // Filter for ending date
                     field(ToDate; ToDate)
                     {
-                        ApplicationArea = All;
                         Caption = 'To Date';
                     }
                 }
@@ -129,54 +133,57 @@ report 50199 "  Income Excel Report"
         }
     }
 
+    // --- Variables ---
     var
-        Category: Code[20];
-        FromDate: Date;
-        ToDate: Date;
-        ExcelBuffer: Record "Excel Buffer";
-        CatRec: Record IncomeCatagoryTable;
-        IncomeRec: Record income;
-        CompanyInfo: Record "Company Information";
-        CompanyName: Text[100];
-        UserIdTxt: Text[50];
-        TotalAmount: Decimal;   // <-- Add this
+        Category: Code[20];                        // Selected Income Category
+        FromDate: Date;                             // Start Date filter
+        ToDate: Date;                               // End Date filter
+        ExcelBuffer: Record "Excel Buffer";        // Handles Excel operations
+        CatRec: Record ZYN_IncomeCategoryTable;    // Category record
+        IncomeRec: Record ZYN_Income;                  // Income record
+        CompanyInfo: Record "Company Information";// Company Info for header
+        CompanyName: Text[100];                    // Name of the Company
+        UserIdTxt: Text[50];                       // Current User ID
+        TotalAmount: Decimal;                       // Total of Amount column
 
+    // --- Trigger executed before generating the report ---
     trigger OnPreReport()
     begin
+        // Clear existing data in ExcelBuffer
         ExcelBuffer.DeleteAll();
 
-        // --- Add Headers ---
+        // --- Add Header Row ---
         ExcelBuffer.AddColumn('ExpenseID', FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuffer."Cell Type"::Text);
         ExcelBuffer.AddColumn('Description', FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuffer."Cell Type"::Text);
         ExcelBuffer.AddColumn('Amount', FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuffer."Cell Type"::Number);
         ExcelBuffer.AddColumn('Category', FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuffer."Cell Type"::Text);
         ExcelBuffer.AddColumn('Date', FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuffer."Cell Type"::Date);
 
-        // --- Apply Filters ---
+        // --- Apply Filters to Income ---
         IncomeRec.Reset();
         if Category <> '' then
-            IncomeRec.SetRange(Catagory, Category);
+            IncomeRec.SetRange(Catagory, Category); // Filter by category
         if (FromDate <> 0D) and (ToDate <> 0D) then
-            IncomeRec.SetRange(Date, FromDate, ToDate);
+            IncomeRec.SetRange(Date, FromDate, ToDate); // Filter by date range
 
-        // --- Write Data Rows ---
+        // --- Write Data Rows to Excel ---
         TotalAmount := 0;
         if IncomeRec.FindSet() then
             repeat
                 ExcelBuffer.NewRow();
+
+                // Add individual fields
                 ExcelBuffer.AddColumn(IncomeRec."Income ID", FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuffer."Cell Type"::Text);
                 ExcelBuffer.AddColumn(IncomeRec.Description, FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuffer."Cell Type"::Text);
                 ExcelBuffer.AddColumn(IncomeRec.Amount, FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuffer."Cell Type"::Number);
 
-                //if CatRec.Get(ExpenseRec.Catagory) then
+                // Add Category name
                 ExcelBuffer.AddColumn(CatRec.Name, FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuffer."Cell Type"::Text);
-                // else
-                //     ExcelBuffer.AddColumn('', FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuffer."Cell Type"::Text);
 
-                //ExcelBuffer.AddColumn(ExpenseRec.Date, FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuffer."Cell Type"::Date);
+                // Format Date as Month/Day/Year
                 ExcelBuffer.AddColumn(FORMAT(IncomeRec.Date, 0, '<Month,2>/<Day,2>/<Year4>'), FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuffer."Cell Type"::Text);
 
-                // Add to Total
+                // Add to TotalAmount
                 TotalAmount += IncomeRec.Amount;
             until IncomeRec.Next() = 0;
 
@@ -188,17 +195,16 @@ report 50199 "  Income Excel Report"
         ExcelBuffer.AddColumn('', FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuffer."Cell Type"::Text);
         ExcelBuffer.AddColumn('', FALSE, '', FALSE, FALSE, FALSE, '', ExcelBuffer."Cell Type"::Text);
 
-        // --- Create Excel ---
+        // --- Create Excel File ---
         if CompanyInfo.Get() then
             CompanyName := CompanyInfo.Name
         else
             CompanyName := '';
         UserIdTxt := UserId();
 
-        ExcelBuffer.CreateNewBook('Expense List');
-        ExcelBuffer.WriteSheet('Expenses', CompanyName, UserIdTxt);
-        ExcelBuffer.CloseBook();
-        ExcelBuffer.OpenExcel();
+        ExcelBuffer.CreateNewBook('Income List');          // Create new Excel workbook
+        ExcelBuffer.WriteSheet('Income', CompanyName, UserIdTxt); // Write sheet with headers
+        ExcelBuffer.CloseBook();                            // Close Excel book
+        ExcelBuffer.OpenExcel();                             // Open Excel for user
     end;
-
 }

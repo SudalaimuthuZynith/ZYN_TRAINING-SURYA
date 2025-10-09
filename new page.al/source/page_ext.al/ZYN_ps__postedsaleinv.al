@@ -8,7 +8,7 @@ pageextension 50132 postsalesinvext extends "Posted Sales Invoice"
             {
                 ApplicationArea = all;
             }
-            part(SalesInvoiceTexts; postextentdtext)
+            part(SalesInvoiceTexts; ZYN_PostExtenddText)
             {
                 SubPageLink = "Document No." = field("No."), selection = const("begin text");
                 ApplicationArea = All;
@@ -18,7 +18,7 @@ pageextension 50132 postsalesinvext extends "Posted Sales Invoice"
             {
                 ApplicationArea = all;
             }
-            part(SalesInvoice; postextentdtext)
+            part(SalesInvoice; ZYN_PostExtenddText)
             {
                 SubPageLink = "Document No." = field("No."), selection = const("end text");
                 ApplicationArea = All;
@@ -41,7 +41,7 @@ pageextension 50132 postsalesinvext extends "Posted Sales Invoice"
                     SalesInvoiceHeader: Record "Sales Invoice Header";
                 begin
                     SalesInvoiceHeader.Get(Rec."No.");
-                    Report.RunModal(Report::sales_invoice_report, true, true);
+                    Report.RunModal(Report::ZYN_SalesInvoiceReport, true, true);
                 end;
             }
         }

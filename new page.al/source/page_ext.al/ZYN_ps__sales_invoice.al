@@ -16,21 +16,21 @@ pageextension 50131 "salesinvoiceext" extends "Sales Invoice"
                     ApplicationArea = All;
 
                 }
-                
 
-                part(SalesInvoiceTexts; extentdtext)
+
+                part(SalesInvoiceTexts; ZYNextentdtext)
                 {
                     SubPageLink = "Document No." = field("No."), selection = const("begin text");
                     ApplicationArea = All;
                 }
-                part(SalesInvoice; extentdtext)
+                part(SalesInvoice; ZYNextentdtext)
                 {
                     SubPageLink = "Document No." = field("No."), selection = const("end text");
                     ApplicationArea = All;
                 }
             }
         }
-         addlast(General)
+        addlast(General)
         {
             field("From Subscription"; Rec."From Subscription")
             {
@@ -38,6 +38,6 @@ pageextension 50131 "salesinvoiceext" extends "Sales Invoice"
             }
         }
     }
-    
-    
+
+
 }

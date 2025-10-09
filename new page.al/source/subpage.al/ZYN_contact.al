@@ -1,53 +1,58 @@
-page 50121 factbox
+page 50121 ZYN_Factbox
 {
     PageType = CardPart;
-    ApplicationArea = All;
+    ApplicationArea = All; // Page available in all application areas
     SourceTable = Customer;
 
     layout
     {
         area(Content)
         {
-            group(factbox)
+            group(Factbox)
             {
-                group(contact)
+                // Contact information group
+                group(Contact)
                 {
-                    Visible = hasvalue;
-                    field(name; name)
-                    {
+                    Visible = hasvalue; // Show only if a contact exists
 
+                    // Contact Name field
+                    field(Name; Name)
+                    {
                         Caption = 'NAME';
-                        ApplicationArea = all;
+                        DrillDown = true;
                         trigger OnDrillDown()
                         var
                             "Contact Card": Page "Contact Card";
-
                         begin
                             "Contact Card".SetRecord("Contact");
                             "Contact Card".Run();
                         end;
                     }
-                    field(no; no)
+
+                    // Contact No. field
+                    field(No; No)
                     {
                         Caption = 'NO';
-                        ApplicationArea = all;
+                        DrillDown = true;
                         trigger OnDrillDown()
                         var
                             "Contact Card": Page "Contact Card";
-
                         begin
                             "Contact Card".SetRecord("Contact");
                             "Contact Card".Run();
                         end;
                     }
                 }
-                cuegroup(overview)
+
+                // Overview of invoices and orders
+                cuegroup(Overview)
                 {
                     Caption = 'INVOICE';
-                    field("invoice count"; invoicecount)
+
+                    // Open invoices count field
+                    field("Invoice Count"; InvoiceCount)
                     {
-                        ApplicationArea = All;
-                        Caption = 'INVOICRE';
+                        Caption = 'INVOICE';
                         DrillDown = true;
                         trigger OnDrillDown()
                         begin
@@ -58,10 +63,10 @@ page 50121 factbox
                             PAGE.RunModal(PAGE::"Sales Invoice List", salesheader);
                         end;
                     }
-                    field("order count"; ordercount)
-                    {
-                        ApplicationArea = All;
 
+                    // Open orders count field
+                    field("Order Count"; OrderCount)
+                    {
                         Caption = 'ORDER';
                         DrillDown = true;
                         trigger OnDrillDown()
@@ -70,46 +75,51 @@ page 50121 factbox
                             salesheader.SetRange("Document Type", salesheader."Document Type"::Order);
                             salesheader.SetRange("Sell-to Customer No.", Rec."No.");
                             salesheader.SetRange(Status, salesheader.Status::Open);
-
                             PAGE.RunModal(PAGE::"Sales Order List", salesheader);
                         end;
                     }
                 }
             }
         }
-
     }
+
     var
-        hasvalue: Boolean;
-        name: Text[30];
-        no: Code[30];
-        invoicecount: Integer;
-        ordercount: Integer;
-        salesheader: Record "Sales Header";
-        "Contact": Record Contact;
+        hasvalue: Boolean; // Determines if contact info is available
+        Name: Text[30];    // Contact name
+        No: Code[30];      // Contact number
+        InvoiceCount: Integer; // Number of open invoices
+        OrderCount: Integer;   // Number of open orders
+        SalesHeader: Record "Sales Header"; // Sales document records
+        "Contact": Record Contact; // Contact record
 
     trigger OnAfterGetRecord()
     begin
-
-        Clear(name);
-        Clear(no);
+        // Initialize variables
+        Clear(Name);
+        Clear(No);
         hasvalue := false;
+
+        // Load primary contact details if available
         if (Rec."Primary Contact No." <> '') and (Rec.Contact <> '') then begin
             if "Contact".Get(Rec."Primary Contact No.") then begin
-                name := "Contact".Name;
-                no := "Contact"."No.";
+                Name := "Contact".Name;
+                No := "Contact"."No.";
                 hasvalue := true;
             end;
         end;
-        salesheader.Reset();
-        salesheader.SetRange("Document Type", salesheader."Document Type"::Invoice);
-        salesheader.SetRange("Sell-to Customer No.", Rec."No.");
-        salesheader.SetRange(Status, salesheader.Status::Open);
-        invoicecount := salesheader.Count;
-        salesheader.Reset();
-        salesheader.SetRange("Document Type", salesheader."Document Type"::Order);
-        salesheader.SetRange("Sell-to Customer No.", Rec."No.");
-        salesheader.SetRange(Status, salesheader.Status::Open);
-        ordercount := salesheader.Count;
+
+        // Calculate open invoice count
+        SalesHeader.Reset();
+        SalesHeader.SetRange("Document Type", SalesHeader."Document Type"::Invoice);
+        SalesHeader.SetRange("Sell-to Customer No.", Rec."No.");
+        SalesHeader.SetRange(Status, SalesHeader.Status::Open);
+        InvoiceCount := SalesHeader.Count;
+
+        // Calculate open order count
+        SalesHeader.Reset();
+        SalesHeader.SetRange("Document Type", SalesHeader."Document Type"::Order);
+        SalesHeader.SetRange("Sell-to Customer No.", Rec."No.");
+        SalesHeader.SetRange(Status, SalesHeader.Status::Open);
+        OrderCount := SalesHeader.Count;
     end;
 }

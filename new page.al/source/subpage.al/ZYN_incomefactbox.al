@@ -1,44 +1,45 @@
-page 50171 IncomeFactboxPage
+page 50171 ZYN_IncomeFactboxPage
 {
     PageType = CardPart;
-    ApplicationArea = All;
-    SourceTable = IncomeCatagoryTable;
+    ApplicationArea = All; // Page available in all application areas
+    SourceTable = ZYN_IncomeCategoryTable;
 
     layout
     {
         area(Content)
         {
-            cuegroup(income)
+            // Cuegroup showing income summaries
+            cuegroup(Income)
             {
+                // Current Month income
                 field("CurrentMonth"; Rec."Total Amount CurrentMonth")
                 {
-                    ApplicationArea = All;
                     DrillDown = true;
                     trigger OnDrillDown()
                     begin
-                        income.Reset();
-                        income.SetRange(Date, CalcDate('<-CM>', WorkDate), CalcDate('<CM>', WorkDate));
-                        income.SetRange(Catagory, Rec.Name);  // Ensure spelling matches table field
-                        Page.RunModal(Page::IncomeListPage, income);
+                        Income.Reset();
+                        Income.SetRange(Date, CalcDate('<-CM>', WorkDate), CalcDate('<CM>', WorkDate));
+                        Income.SetRange(Catagory, Rec.Name);
+                        Page.RunModal(Page::ZYN_IncomeList, Income);
                     end;
                 }
 
+                // Current Quarter income
                 field("CurrentQuarter"; Rec."Total Amount CurrentQuarter")
                 {
-                    ApplicationArea = All;
                     DrillDown = true;
                     trigger OnDrillDown()
                     begin
-                        income.Reset();
-                        income.SetRange(Date, CalcDate('<-CQ>', WorkDate), CalcDate('<CQ>', WorkDate));
-                        income.SetRange(Catagory, Rec.Name);
-                        Page.RunModal(Page::IncomeListPage, income);
+                        Income.Reset();
+                        Income.SetRange(Date, CalcDate('<-CQ>', WorkDate), CalcDate('<CQ>', WorkDate));
+                        Income.SetRange(Catagory, Rec.Name);
+                        Page.RunModal(Page::ZYN_IncomeList, Income);
                     end;
                 }
 
+                // Current Half-Year income
                 field("CurrentHalf"; Rec."Total Amount CurrentHalf")
                 {
-                    ApplicationArea = All;
                     DrillDown = true;
                     trigger OnDrillDown()
                     begin
@@ -53,23 +54,23 @@ page 50171 IncomeFactboxPage
                             EndDate := CalcDate('<CM>', DMY2Date(1, 12, CurrentYear)); // last day of December
                         end;
 
-                        income.Reset();
-                        income.SetRange(Date, StartDate, EndDate);
-                        income.SetRange(Catagory, Rec.Name);
-                        Page.RunModal(Page::IncomeListPage, income);
+                        Income.Reset();
+                        Income.SetRange(Date, StartDate, EndDate);
+                        Income.SetRange(Catagory, Rec.Name);
+                        Page.RunModal(Page::ZYN_IncomeList, Income);
                     end;
                 }
 
+                // Current Year income
                 field("CurrentYear"; Rec."Total Amount CurrentYear")
                 {
-                    ApplicationArea = All;
                     DrillDown = true;
                     trigger OnDrillDown()
                     begin
-                        income.Reset();
-                        income.SetRange(Date, CalcDate('<-CY>', WorkDate), CalcDate('<CY>', WorkDate));
-                        income.SetRange(Catagory, Rec.Name);
-                        Page.RunModal(Page::IncomeListPage, income);
+                        Income.Reset();
+                        Income.SetRange(Date, CalcDate('<-CY>', WorkDate), CalcDate('<CY>', WorkDate));
+                        Income.SetRange(Catagory, Rec.Name);
+                        Page.RunModal(Page::ZYN_IncomeList, Income);
                     end;
                 }
             }
@@ -77,11 +78,11 @@ page 50171 IncomeFactboxPage
     }
 
     var
-        StartDate: Date;
-        EndDate: Date;
-        MonthNo: Integer;
-        CurrentYear: Integer;
-        income: Record Income;
+        StartDate: Date;        // Start date for half-year calculations
+        EndDate: Date;          // End date for half-year calculations
+        MonthNo: Integer;       // Current month number
+        CurrentYear: Integer;   // Current year
+        Income: Record ZYN_Income;  // Records for Income table
 
     trigger OnAfterGetRecord()
     begin
@@ -98,7 +99,7 @@ page 50171 IncomeFactboxPage
         Rec.CalcFields("Total Amount Filtered");
         Rec."Total Amount CurrentQuarter" := Rec."Total Amount Filtered";
 
-        // Current Half Year
+        // Current Half-Year
         if MonthNo in [1 .. 6] then begin
             StartDate := DMY2Date(1, 1, CurrentYear);
             EndDate := CalcDate('<CM>', DMY2Date(1, 6, CurrentYear)); // last day of June

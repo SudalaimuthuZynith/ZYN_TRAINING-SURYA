@@ -1,21 +1,28 @@
-report 50138 sales_invoice_report
+report 50138 ZYN_SalesInvoiceReport
 {
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
     ProcessingOnly = true;
-    Caption = 'sales invoice report';
+    Caption = 'Sales Invoice Report';
+
+    // --- Dataset ---
     dataset
     {
         dataitem("Sales Header"; "Sales Header")
         {
+            // Only process Invoices
             DataItemTableView = where("Document Type" = const(Invoice));
+
+            // Fields available on request page for filtering
             RequestFilterFields = "No.", "Sell-to Customer Name", "Posting Date";
+
+            // --- Trigger executed after each record is processed ---
             trigger OnPostDataItem()
             var
-                salespost: Codeunit "Sales-Post";
+                SalesPost: Codeunit "Sales-Post"; // Codeunit to post the invoice
             begin
-                salespost.Run("Sales Header");
-                Message('Invoice %1 posted successfully.', "Sales Header"."No.");
+                SalesPost.Run("Sales Header"); // Post the invoice
+                Message('Invoice %1 posted successfully.', "Sales Header"."No."); // Confirmation message
             end;
         }
     }

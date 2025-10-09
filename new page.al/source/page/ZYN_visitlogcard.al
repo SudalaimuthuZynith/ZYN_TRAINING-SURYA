@@ -1,9 +1,9 @@
-page 50105 "Visit Log Card"
+page 50105 ZYN_VisitLogCard
 {
     PageType = Card;
     ApplicationArea = All;
 
-    SourceTable = Visitlog;
+    SourceTable = ZYN_Visitlog;
 
     layout
     {

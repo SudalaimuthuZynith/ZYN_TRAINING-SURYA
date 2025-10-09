@@ -73,7 +73,7 @@ page 50185 ZYNEmployeeAssetsCard
                     end;
                 }
 
-                field("Returned date date"; Rec."Returned date date")
+                field("Returned date date"; Rec."Returned Date")
                 {
                     Editable = ReturnDateEditable;
                 }

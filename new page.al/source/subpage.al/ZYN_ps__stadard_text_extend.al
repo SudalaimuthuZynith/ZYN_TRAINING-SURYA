@@ -1,7 +1,7 @@
-page 50144 "extentdtext"
+page 50144 ZYNextentdtext
 {
     PageType = ListPart;
-    SourceTable = ExtendedTextTable;
+    SourceTable = ZYN_ExtendedTextTable;
     ApplicationArea = All;
 
     layout
@@ -12,15 +12,12 @@ page 50144 "extentdtext"
             {
                 field("Lino No."; Rec."Lino No.")
                 {
-                    ApplicationArea = All;
                 }
                 field("Language code"; Rec."Language code")
                 {
-                    ApplicationArea = All;
                 }
                 field(Text; Rec.Text)
                 {
-                    ApplicationArea = All;
                 }
             }
         }

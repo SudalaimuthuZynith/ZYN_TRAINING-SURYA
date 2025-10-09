@@ -4,7 +4,7 @@ codeunit 50121 Upgrades
 
     trigger OnUpgradePerCompany()
     var
-        lastsold: Record "last sold";
+        lastsold: Record ZYN_LastSold;
         salesinvline: Record "Sales Invoice Line";
         SalesInvHeader: Record "Sales Invoice Header";
         highestamt: Decimal;
@@ -32,7 +32,7 @@ codeunit 50121 Upgrades
                                     lastsold.Validate("Item Price", highestamt);
                                     lastsold."Posting Date" := salesinvline."Posting Date";
                                     lastsold.Modify();
-                                end else begin  
+                                end else begin
                                     lastsold.Init();
                                     lastsold."Customer No" := salesinvline."Sell-to Customer No.";
                                     lastsold.Validate("Item No", salesinvline."No.");

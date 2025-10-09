@@ -1,9 +1,9 @@
-page 50102 "Visit Log list"
+page 50102 ZYN_VisitLoglist
 {
     PageType = List;
     ApplicationArea = All;
-    CardPageId = "Visit Log Card";
-    SourceTable = Visitlog;
+    CardPageId = ZYN_VisitLogCard;
+    SourceTable = ZYN_Visitlog;
     InsertAllowed = false;
     Editable = false;
     layout

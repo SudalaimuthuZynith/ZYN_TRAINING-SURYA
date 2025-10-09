@@ -2,8 +2,8 @@ page 50106 ZYNExpenseCatagory
 {
     PageType = List;
     ApplicationArea = All;
-    SourceTable = ZYNExpenseCatagory;
-    Caption='Expense Catagory List';
+    SourceTable = "ZYN Expense Category";
+    Caption = 'Expense Catagory List';
 
     layout
     {
@@ -22,11 +22,11 @@ page 50106 ZYNExpenseCatagory
         }
         area(FactBoxes)
         {
-            part(ExpenseFactboxPage; ExpenseFactboxPage)
+            part(ExpenseFactboxPage; ZYN_ExpenseFactboxPage)
             {
                 SubPageLink = Name = field(Name);
             }
-            part(BudgetFactboxPage; BudgetFactboxPage)
+            part(BudgetFactboxPage; ZYN_BudgetFactboxPage)
             {
                 ApplicationArea = all;
                 SubPageLink = "Catagory Name" = field(Name);

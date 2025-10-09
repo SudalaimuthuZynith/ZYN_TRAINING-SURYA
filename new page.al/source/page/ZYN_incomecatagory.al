@@ -1,8 +1,8 @@
-page 50176 IncomeCatagoryPage
+page 50176 ZYN_IncomeCatagory
 {
     PageType = List;
     ApplicationArea = All;
-    SourceTable = IncomeCatagoryTable;
+    SourceTable = ZYN_IncomeCategoryTable;
     Caption = 'Income Catagory List';
 
     layout
@@ -21,7 +21,7 @@ page 50176 IncomeCatagoryPage
         }
         area(FactBoxes)
         {
-            part(ExpenseFactboxPage; IncomeFactboxPage)
+            part(ExpenseFactboxPage; ZYN_IncomeFactboxPage)
             {
                 SubPageLink = Name = field(Name);
             }

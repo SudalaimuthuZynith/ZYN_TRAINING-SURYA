@@ -4,7 +4,7 @@ pageextension 50135 CustomerCardExt extends "Customer Card"
     {
         addfirst(factboxes)
         {
-            part(cutomer; factbox)
+            part(cutomer; ZYN_Factbox)
             {
                 SubPageLink = "No." = field("No.");
                 ApplicationArea = all;
@@ -47,11 +47,11 @@ pageextension 50135 CustomerCardExt extends "Customer Card"
                 Image = View;
                 trigger OnAction()
                 var
-                    visitlogrec: Record Visitlog;
+                    visitlogrec: Record ZYN_Visitlog;
                 begin
                     visitlogrec.Init();
                     visitlogrec.SetRange(CustomerNo, Rec."No.");
-                    Page.RunModal(PAGE::"Visit Log list", visitlogrec);
+                    Page.RunModal(PAGE::ZYN_VisitLoglist, visitlogrec);
                 end;
 
 
@@ -78,19 +78,19 @@ pageextension 50135 CustomerCardExt extends "Customer Card"
                     Page.Run(Page::ZYNProblemsCard, problemrec);
                 end;
             }
-             action("Send To Slave")
+            action("Send To Slave")
             {
-                ApplicationArea=all;
-                Caption='Send to';
-                Image=SendTo;
+                ApplicationArea = all;
+                Caption = 'Send to';
+                Image = SendTo;
                 trigger OnAction()
                 var
-                zyncompany:Record ZYN_Company;
+                    zyncompany: Record ZYN_Company;
                 begin
-                     if PAGE.RunModal(Page::ZYN_Company,zyncompany) = ACTION::LookupOK then
-                     begin
-                        
-                     end; ;
+                    if PAGE.RunModal(Page::ZYN_Company, zyncompany) = ACTION::LookupOK then begin
+
+                    end;
+                    ;
                 end;
             }
         }

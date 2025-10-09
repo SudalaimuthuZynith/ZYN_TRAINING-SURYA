@@ -1,40 +1,45 @@
-table 50179 income
+table 50179 ZYN_Income
 {
+    Caption = 'Income';
     DataClassification = ToBeClassified;
 
     fields
     {
-        field(1; "Income ID"; code[20])
+        field(1; "Income ID"; Code[20])
         {
+            Caption = 'Income ID';
+            Tooltip = 'Specifies the unique identifier for each income entry.';
             DataClassification = ToBeClassified;
         }
+
         field(2; Description; Text[30])
         {
+            Caption = 'Description';
+            Tooltip = 'Provides a short description of the income source.';
             DataClassification = ToBeClassified;
-
         }
+
         field(3; Amount; Decimal)
         {
+            Caption = 'Amount';
+            Tooltip = 'Specifies the total income amount received.';
             DataClassification = ToBeClassified;
-
         }
+
         field(5; Date; Date)
         {
+            Caption = 'Date';
+            Tooltip = 'Specifies the date when the income was recorded.';
             DataClassification = ToBeClassified;
-
         }
+
         field(4; Catagory; Code[30])
         {
+            Caption = 'Category';
+            Tooltip = 'Specifies the category to which this income belongs.';
             DataClassification = ToBeClassified;
-            TableRelation = IncomeCatagoryTable.Name;
-
+            TableRelation = ZYN_IncomeCategoryTable.Name;
         }
-        // field(6; "Category Name"; Text[100])
-        // {
-        //     FieldClass = FlowField;
-        //     CalcFormula = lookup(ExpenseCatagoryTable.Name where("Catagory ID" = field(Catagory)));
-        // }
-
     }
 
     keys
@@ -47,48 +52,36 @@ table 50179 income
 
     fieldgroups
     {
-        // Add changes to field groups here
+        fieldgroup(DropDown; "Income ID", Description, Amount)
+        {
+            // Displays key income details in lookup dropdowns
+        }
     }
-
-    var
-        myInt: Integer;
 
     trigger OnInsert()
     var
-        Expense: Record income;
-        
-        Lastid: Integer;
+        Income: Record ZYN_Income;
+        LastID: Integer;
     begin
+        // Auto-generate a unique Income ID if not manually entered
         if "Income ID" = '' then begin
-            if expense.FindLast() then
-                Evaluate(lastid, CopyStr(expense."Income ID", 8))
+            if Income.FindLast() then
+                Evaluate(LastID, CopyStr(Income."Income ID", 8))
             else
-                lastid := 0;
-            Lastid += 1;
-            "Income ID" := 'INCOMEE' + PadStr(Format(lastid), 3, '0');
+                LastID := 0;
+
+            LastID += 1;
+            "Income ID" := 'INCOMEE' + PadStr(Format(LastID), 3, '0');
         end;
-        
-    end;
-
-    trigger OnModify()
-    begin
-
     end;
 
     trigger OnDelete()
-
     var
-        Expense: Record income;
+        Income: Record ZYN_Income;
     begin
-        Expense.SetRange("Income ID", "Income ID");
-        if Expense.FindSet() then
-            Expense.DeleteAll();
-
+        // Delete all records matching the same Income ID
+        Income.SetRange("Income ID", "Income ID");
+        if Income.FindSet() then
+            Income.DeleteAll();
     end;
-
-    trigger OnRename()
-    begin
-
-    end;
-
 }

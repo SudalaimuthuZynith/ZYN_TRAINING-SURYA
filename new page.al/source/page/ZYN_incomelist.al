@@ -1,9 +1,9 @@
-page 50167 IncomeListPage
+page 50167 ZYN_IncomeList
 {
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Administration;
-    SourceTable = income;
+    SourceTable = ZYN_Income;
     CardPageId = ZYNIncomeCard;
     InsertAllowed = false;
     Editable = false;
@@ -40,11 +40,11 @@ page 50167 IncomeListPage
             action(catagories)
             {
 
-                RunObject = page IncomeCatagoryPage;
+                RunObject = page ZYN_IncomeCatagory;
             }
             action(ExportReport)
             {
-                RunObject = report "  Income Excel Report";
+                RunObject = report ZYN_IncomeExcelReport;
             }
         }
     }

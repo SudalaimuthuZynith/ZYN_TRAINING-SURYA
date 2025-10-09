@@ -36,17 +36,17 @@ page 50136 ZYNTempCustomer
                     }
                 }
             }
-            part(salesorder; sales_order_subpage)
+            part(salesorder; ZYN_SalesOrderSubpage)
             {
                 SubPageLink = "Sell-to Customer No." = field("No.");
                 ApplicationArea = all;
             }
-            part(salesinvoice; sales_invoice_subpage)
+            part(salesinvoice; ZYN_SalesInvoiceSubpage)
             {
                 SubPageLink = "Sell-to Customer No." = field("No.");
                 ApplicationArea = all;
             }
-            part(salescreditmemo; sales_creditmemo_subpage)
+            part(salescreditmemo; ZYN_SalesCreditMemoSubpage)
             {
                 SubPageLink = "Sell-to Customer No." = field("No.");
                 ApplicationArea = all;

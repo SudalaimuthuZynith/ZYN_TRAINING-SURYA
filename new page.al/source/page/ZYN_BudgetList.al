@@ -7,7 +7,7 @@ page 50169 ZYNBudgetList
     SourceTable = ZYNBudgetTable;
     Editable = false;
     Caption = 'Budget List';
-    
+
     layout
     {
         area(Content)
@@ -30,7 +30,7 @@ page 50169 ZYNBudgetList
         }
         area(FactBoxes)
         {
-            part(BudgetFactboxPage; BudgetFactboxPage)
+            part(BudgetFactboxPage; ZYN_BudgetFactboxPage)
             {
                 ApplicationArea = all;
                 SubPageLink = "Catagory Name" = field("Catagory Name"), "From Date" = field("From Date");

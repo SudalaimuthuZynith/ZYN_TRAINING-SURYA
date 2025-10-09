@@ -1,33 +1,41 @@
-report 50133 "NEWREPORT"
+report 50133 ZYN_NEWREPORT
 {
     UsageCategory = ReportsAndAnalysis;
     ApplicationArea = All;
     ProcessingOnly = true;
     Caption = 'NEWREPORT';
 
+    // --- Dataset ---
     dataset
     {
         dataitem("Sales Header"; "Sales Header")
         {
-            DataItemTableView =where("Document Type" = const(Order),Status = const(Open));
+            // Only open Orders
+            DataItemTableView = where("Document Type" = const(Order), Status = const(Open));
+
+            // --- Trigger executed for each record ---
             trigger OnAfterGetRecord()
             var
-                SalesHeader: Record "Sales Header";
+                SalesHeader: Record "Sales Header"; // Local record variable
             begin
+                // Update Posting Date
                 SalesHeader."Posting Date" := newdate;
                 SalesHeader.Modify();
-                counter += 1;
                 
+                // Increment counter
+                counter += 1;
             end;
 
+            // --- Trigger executed after all records are processed ---
             trigger OnPostDataItem()
             begin
+                // Display message with total updated records
                 Message('%1 Sales Orders were updated with new Posting Date.', counter);
             end;
-            
         }
     }
 
+    // --- Request Page for User Input ---
     requestpage
     {
         layout
@@ -36,17 +44,18 @@ report 50133 "NEWREPORT"
             {
                 group(Options)
                 {
+                    // Field to select new Posting Date
                     field(newdate; newdate)
                     {
                         Caption = 'New Posting Date';
-                        ApplicationArea = All;
                     }
                 }
             }
         }
     }
 
+    // --- Variables ---
     var
-        counter: Integer;
-        newdate: Date;
+        counter: Integer;   // Counts updated records
+        newdate: Date;      // New Posting Date entered by user
 }

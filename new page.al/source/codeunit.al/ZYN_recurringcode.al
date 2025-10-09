@@ -5,7 +5,7 @@ codeunit 50191 Recurring
     trigger OnRun()
     var
         recurr: Record ZYNRecurringExpense;
-        expense: Record Expenses;
+        expense: Record ZYN_Expenses;
         NextDate: Date;
         CurrentCycleDate: Date;
         BaseDate: Date;
@@ -35,7 +35,7 @@ codeunit 50191 Recurring
 
                 Clear(expense);
                 expense.Init();
-                expense.Catagory := recurr.Catagory;
+                expense.Category := recurr.Catagory;
                 expense.Description := recurr.Description;
                 expense.Amount := recurr.Amount;
                 expense.Date := CurrentCycleDate;

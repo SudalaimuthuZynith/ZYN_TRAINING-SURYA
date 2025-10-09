@@ -30,7 +30,7 @@ page 50195 ZYNEmployeeAssetsList
                 field("Assigned date"; Rec."Assigned date")
                 {
                 }
-                field("Returned date date"; Rec."Returned date date")
+                field("Returned date date"; Rec."Returned Date")
                 {
                 }
                 field("Lost date"; Rec."Lost date")

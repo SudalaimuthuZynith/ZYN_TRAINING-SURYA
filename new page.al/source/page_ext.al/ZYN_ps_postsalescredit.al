@@ -8,7 +8,7 @@ pageextension 50136 postsalescreditext extends "Posted Sales Credit Memo"
             {
                 ApplicationArea = all;
             }
-            part(SalesInvoiceTexts; postextentdtext)
+            part(SalesInvoiceTexts; ZYN_PostExtenddText)
             {
                 SubPageLink = "Document No." = field("No."), selection = const("begin text");
                 ApplicationArea = All;
@@ -18,7 +18,7 @@ pageextension 50136 postsalescreditext extends "Posted Sales Credit Memo"
             {
                 ApplicationArea = all;
             }
-            part(SalesInvoice; postextentdtext)
+            part(SalesInvoice; ZYN_PostExtenddText)
             {
                 SubPageLink = "Document No." = field("No."), selection = const("end text");
                 ApplicationArea = All;

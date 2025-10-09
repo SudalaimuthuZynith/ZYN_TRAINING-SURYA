@@ -2,7 +2,7 @@ page 50184 ZYNIncomeCard
 {
     PageType = Card;
     ApplicationArea = All;
-    SourceTable = income;
+    SourceTable = ZYN_Income;
     Caption = 'Income Card';
     layout
     {

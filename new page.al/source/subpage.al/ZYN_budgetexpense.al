@@ -1,4 +1,4 @@
-page 50188 BudgetPage
+page 50188 ZYN_Budget
 {
     PageType = ListPart;
     ApplicationArea = All;
@@ -11,29 +11,22 @@ page 50188 BudgetPage
         {
             repeater(Group)
             {
-                field("From Date"; Rec."From Date") { }
-                field("To Date"; Rec."To Date") { }
-                field("Catagory Name"; Rec."Catagory Name") { }
-                field(Amount; Rec.Amount) { }
-            }
-        }
-
-    }
-
-    actions
-    {
-        area(Processing)
-        {
-            action(ActionName)
-            {
-
-                trigger OnAction()
-                begin
-
-                end;
+                field("From Date"; Rec."From Date")
+                {
+                }
+                field("To Date"; Rec."To Date")
+                {
+                }
+                field("Catagory Name"; Rec."Catagory Name")
+                {
+                }
+                field(Amount; Rec.Amount)
+                {
+                }
             }
         }
     }
+
     trigger OnOpenPage()
     var
         start: Date;

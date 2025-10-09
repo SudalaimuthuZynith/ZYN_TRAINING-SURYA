@@ -57,7 +57,7 @@ codeunit 50122 "Extended Text Handler"
     procedure LoadExtendedTextGeneric(SalesHeader: Record "Sales Header"; StandardTextCode: Code[200]; Selection: Enum selection)
     var
         ExtTextLine: Record "Extended Text Line";
-        CustomExtText: Record "ExtendedTextTable";
+        CustomExtText: Record ZYN_ExtendedTextTable;
         CustomerRec: Record Customer;
         LangCode: Code[10];
     begin
@@ -179,8 +179,8 @@ codeunit 50122 "Extended Text Handler"
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Sales-Post", OnAfterSalesCrMemoHeaderInsert, '', true, true)]
     procedure HandlePostedcreditText(var SalesCrMemoHeader: Record "Sales Cr.Memo Header"; SalesHeader: Record "Sales Header"; CommitIsSuppressed: Boolean; WhseShip: Boolean; WhseReceive: Boolean; var TempWhseShptHeader: Record "Warehouse Shipment Header"; var TempWhseRcptHeader: Record "Warehouse Receipt Header")
     var
-        PostedExtendedTextTable: Record ExtendedTextTable;
-        ExtendedTextTable: Record ExtendedTextTable;
+        PostedExtendedTextTable: Record ZYN_ExtendedTextTable;
+        ExtendedTextTable: Record ZYN_ExtendedTextTable;
         SelectionEnum: Enum selection;
         i: Integer;
     begin
@@ -219,8 +219,8 @@ codeunit 50122 "Extended Text Handler"
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Sales-Quote to Order", OnAfterInsertSalesOrderHeader, '', true, true)]
     procedure HandlePostedsalesquotwText(var SalesOrderHeader: Record "Sales Header"; SalesQuoteHeader: Record "Sales Header")
     var
-        PostedExtendedTextTable: Record ExtendedTextTable;
-        ExtendedTextTable: Record ExtendedTextTable;
+        PostedExtendedTextTable: Record ZYN_ExtendedTextTable;
+        ExtendedTextTable: Record ZYN_ExtendedTextTable;
         SelectionEnum: Enum selection;
         i: Integer;
     begin
@@ -259,8 +259,8 @@ codeunit 50122 "Extended Text Handler"
     [EventSubscriber(ObjectType::Codeunit, Codeunit::"Sales-Post", OnAfterSalesInvHeaderInsert, '', true, true)]
     procedure HandlePostedInvoice(var SalesInvHeader: Record "Sales Invoice Header"; SalesHeader: Record "Sales Header")
     var
-        PostedExtendedTextTable: Record ExtendedTextTable;
-        ExtendedTextTable: Record ExtendedTextTable;
+        PostedExtendedTextTable: Record ZYN_ExtendedTextTable;
+        ExtendedTextTable: Record ZYN_ExtendedTextTable;
         ExtendLine: Record "Extended Text Line";
         SelectionEnum: Enum selection;
         StandardTextCode: Code[20];

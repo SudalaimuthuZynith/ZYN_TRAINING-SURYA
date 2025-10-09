@@ -1,82 +1,96 @@
-table 50180 Expenses
+table 50180 ZYN_Expenses
 {
+    Caption = 'Expenses';
     DataClassification = ToBeClassified;
 
     fields
     {
-
-        field(1; "Expense ID"; code[20])
+        field(1; "Expense ID"; Code[20])
         {
+            Caption = 'Expense ID';
+            ToolTip = 'Unique identifier for the expense record.';
             DataClassification = ToBeClassified;
         }
+
         field(2; Description; Text[30])
         {
+            Caption = 'Description';
+            ToolTip = 'Brief description of the expense.';
             DataClassification = ToBeClassified;
-
         }
+
         field(3; Amount; Decimal)
         {
+            Caption = 'Amount';
+            ToolTip = 'Amount spent for this expense.';
             DataClassification = ToBeClassified;
-
         }
+
         field(5; Date; Date)
         {
+            Caption = 'Expense Date';
+            ToolTip = 'Date when the expense occurred.';
             DataClassification = ToBeClassified;
-
         }
+
         field(16; "Date Filter"; Date)
         {
+            Caption = 'Date Filter';
+            ToolTip = 'Used for filtering expenses in flowfield calculations.';
             FieldClass = FlowFilter;
         }
-        field(4; Catagory; Code[30])
+
+        field(4; Category; Code[30])
         {
+            Caption = 'Category';
+            ToolTip = 'Category of the expense (linked to budget).';
             DataClassification = ToBeClassified;
-            TableRelation = ZYNExpenseCatagory.Name;
+            TableRelation = ZYN_ExpenseCatagoryTable.Name;
+
             trigger OnValidate()
             var
-                budget: Record ZYNBudgetTable;
-                expense: Record Expenses;
-                totalexpense: Decimal;
-                startDate: Date;
-                endDate: Date;
+                Expenses: Record ZYN_Expenses;       // same as table name
+                ZYNBudgetTable: Record ZYNBudgetTable; // same as table name
+                TotalExpense: Decimal;
+                StartDate: Date;
+                EndDate: Date;
             begin
-                startDate := CalcDate('<-CM>', WorkDate());
-                endDate := CalcDate('<CM>', WorkDate());
+                StartDate := CalcDate('<-CM>', WorkDate());
+                EndDate := CalcDate('<CM>', WorkDate());
 
-
-                expense.Reset();
-                expense.SetRange(Catagory, Rec.Catagory);
-                expense.SetRange(Date, startDate, endDate);
-                if expense.FindSet() then
+                // Calculate total expenses for the category in current month
+                Expenses.Reset();
+                Expenses.SetRange(Category, Rec.Category);
+                Expenses.SetRange(Date, StartDate, EndDate);
+                if Expenses.FindSet() then
                     repeat
-                        totalexpense += expense.Amount;
-                    until expense.Next() = 0;
+                        TotalExpense += Expenses.Amount;
+                    until Expenses.Next() = 0;
 
+                // Retrieve corresponding budget and calculate remaining
+                ZYNBudgetTable.Reset();
+                ZYNBudgetTable.SetRange("From Date", StartDate);
+                ZYNBudgetTable.SetRange("To Date", EndDate);
+                ZYNBudgetTable.SetRange("Catagory Name", Rec.Category);
 
-                budget.Reset();
-                budget.SetRange("From Date", startDate);
-                budget.SetRange("To Date", endDate);
-                budget.SetRange("Catagory Name", Rec.Catagory);
-
-                if budget.FindFirst() then
-                    Rec."Remaining Budget" := budget.Amount - totalexpense
+                if ZYNBudgetTable.FindFirst() then
+                    Rec."Remaining Budget" := ZYNBudgetTable.Amount - TotalExpense
                 else
-                    Rec."Remaining Budget" -= totalexpense;
+                    Rec."Remaining Budget" := -TotalExpense;
             end;
-
-
-
         }
+
         field(6; "Remaining Budget"; Decimal)
         {
+            Caption = 'Remaining Budget';
+            ToolTip = 'Displays the remaining budget for the expense category in the current month.';
             Editable = false;
         }
-
     }
 
     keys
     {
-        key(Key1; "Expense ID")
+        key(PK; "Expense ID")
         {
             Clustered = true;
         }
@@ -84,46 +98,33 @@ table 50180 Expenses
 
     fieldgroups
     {
-        // Add changes to field groups here
+        fieldgroup(DropDown; "Category", Date, Amount) { }
     }
 
-    var
-        myInt: Integer;
-
+    // Auto-generate Expense ID if not provided
     trigger OnInsert()
     var
-        Expense: Record Expenses;
-        Lastid: Integer;
+        Expenses: Record ZYN_Expenses; // variable same as table
+        LastID: Integer;
     begin
         if "Expense ID" = '' then begin
-            if expense.FindLast() then
-                Evaluate(lastid, CopyStr(expense."Expense ID", 8))
+            if Expenses.FindLast() then
+                Evaluate(LastID, CopyStr(Expenses."Expense ID", 8))
             else
-                lastid := 0;
-            Lastid += 1;
-            "Expense ID" := 'EXPENSE' + PadStr(Format(lastid), 3, '0');
+                LastID := 0;
+
+            LastID += 1;
+            "Expense ID" := 'EXPENSE' + PadStr(Format(LastID), 3, '0');
         end;
     end;
 
-    trigger OnModify()
-    begin
-
-    end;
-
+    // Delete all matching expense records on delete
     trigger OnDelete()
-
     var
-        Expense: Record Expenses;
+        Expenses: Record ZYN_Expenses; // variable same as table
     begin
-        Expense.SetRange("Expense ID", "Expense ID");
-        if Expense.FindSet() then
-            Expense.DeleteAll();
-
+        Expenses.SetRange("Expense ID", "Expense ID");
+        if Expenses.FindSet() then
+            Expenses.DeleteAll();
     end;
-
-    trigger OnRename()
-    begin
-
-    end;
-
 }

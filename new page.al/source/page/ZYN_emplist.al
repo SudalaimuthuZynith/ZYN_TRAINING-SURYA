@@ -30,7 +30,7 @@ page 50173 ZYNEmployeeList
         }
         area(FactBoxes)
         {
-            part(EmployeeAssetsHistoryPage; EmployeeAssetsHistoryPage)
+            part(EmployeeAssetsHistoryPage; ZYN_EmployeeAssetsHistory)
             {
                 ApplicationArea = all;
                 SubPageLink = Employee = field("Employee ID");

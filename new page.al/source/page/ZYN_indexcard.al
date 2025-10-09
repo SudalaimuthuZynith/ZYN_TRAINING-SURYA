@@ -30,7 +30,7 @@ page 50135 ZYNIndex
             }
             group(subpage)
             {
-                part(indexlinespage; indexlinespage)
+                part(indexlinespage; ZYN_IndexLinesPage)
                 {
                     SubPageLink = Code = field(Code);
                     ApplicationArea = all;

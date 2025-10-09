@@ -11,10 +11,10 @@ pageextension 50122 salesinvoicelistext extends "Sales Invoice List"
                 Image = Post;
                 trigger OnAction()
                 var
-                    sales_invoice_report: Report sales_invoice_report;
+                    sales_invoice_report: Report ZYN_SalesInvoiceReport;
                 begin
                     sales_invoice_report.SetTableView(Rec);
-                    Report.RunModal(Report::sales_invoice_report, true, true);
+                    Report.RunModal(Report::ZYN_SalesInvoiceReport, true, true);
                 end;
             }
         }

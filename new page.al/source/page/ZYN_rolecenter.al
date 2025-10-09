@@ -1,4 +1,4 @@
-page 50125 "role Center"
+page 50125 ZYN_roleCenter
 {
     PageType = RoleCenter;
     ApplicationArea = All;
@@ -82,13 +82,13 @@ page 50125 "role Center"
                 action(IncomeList)
                 {
                     ApplicationArea = all;
-                    RunObject = page IncomeListPage;
+                    RunObject = page ZYN_IncomeList;
                     Image = Sales;
                 }
                 action(IncomeCatagoryList)
                 {
                     ApplicationArea = all;
-                    RunObject = page IncomeCatagoryPage;
+                    RunObject = page ZYN_IncomeCatagory;
                     Image = Purchase;
                 }
             }
@@ -113,7 +113,7 @@ page 50125 "role Center"
                 action(LeaveCatagoryList)
                 {
                     ApplicationArea = all;
-                    RunObject = page IncomeCatagoryPage;
+                    RunObject = page ZYN_IncomeCatagory;
                     Image = ApplyEntries;
                 }
                 action(LeaveRequestList)

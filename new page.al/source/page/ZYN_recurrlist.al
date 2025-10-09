@@ -1,4 +1,4 @@
-page 50179 RecurrListPage
+page 50179 ZYN_RecurrList
 {
     PageType = List;
     ApplicationArea = All;

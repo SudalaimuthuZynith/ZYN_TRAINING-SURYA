@@ -1,10 +1,10 @@
-page 50140 tech_list
+page 50140 ZYN_techlist
 {
     PageType = List;
     ApplicationArea = All;
     UsageCategory = Lists;
-    CardPageId = tech_card;
-    SourceTable = technicians;
+    CardPageId = ZYN_techcard;
+    SourceTable = ZYN_technicians;
 
     layout
     {
@@ -24,7 +24,7 @@ page 50140 tech_list
 
 
             }
-            part(problems_subpart; sub_problems)
+            part(problems_subpart; ZYN_SubProblems)
             {
                 SubPageLink = tech_id = field(tech_id);
                 ApplicationArea = all;

@@ -2,7 +2,7 @@ page 50124 ZYNExpenseCard
 {
     PageType = Card;
     ApplicationArea = All;
-    SourceTable = Expenses;
+    SourceTable = ZYN_Expenses;
     Caption = 'Expense Card';
 
     layout
@@ -20,7 +20,7 @@ page 50124 ZYNExpenseCard
                 field(Date; Rec.Date)
                 {
                 }
-                field(Catagory; Rec.Catagory)
+                field(Catagory; Rec.Category)
                 {
                 }
                 field("Remaining Budget"; Rec."Remaining Budget")

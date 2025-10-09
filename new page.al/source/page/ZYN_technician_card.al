@@ -1,9 +1,9 @@
-page 50118 tech_card
+page 50118 ZYN_techcard
 {
     PageType = card;
     ApplicationArea = All;
     UsageCategory = Administration;
-    SourceTable = technicians;
+    SourceTable = ZYN_technicians;
 
     layout
     {
@@ -20,7 +20,7 @@ page 50118 tech_card
                 field(tech_phone_no; Rec.tech_phone_no) { }
                 field(problems; Rec.problems)
                 {
-                    
+
                 }
 
             }

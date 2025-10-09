@@ -27,7 +27,7 @@ page 50127 "ZYN Field Selection"
                 field(Value; Value)
                 {
                     ApplicationArea = All;
-                    TableRelation = "Field Value Buffer"."Field Value";
+                    TableRelation = ZYN_FieldValueBuffer."Field Value";
                 }
                 field(newvalue; newvalue)
                 {
@@ -109,7 +109,7 @@ page 50127 "ZYN Field Selection"
     var
         RecRef: RecordRef;
         FieldRef: FieldRef;
-        FieldValueBuffer: Record "Field Value Buffer";
+        FieldValueBuffer: Record ZYN_FieldValueBuffer;
     begin
         FieldValueBuffer.DeleteAll();
         RecRef.Open(Tablename);
@@ -119,7 +119,7 @@ page 50127 "ZYN Field Selection"
                 if Format(FieldRef.Value) <> '' then begin
                     FieldValueBuffer.Init();
                     FieldValueBuffer."Field Value" := Format(FieldRef.Value);
-                    FieldValueBuffer.recordid := RecRef.RecordId;
+                    FieldValueBuffer."Record ID" := RecRef.RecordId;
                     FieldValueBuffer.Insert(true);
                 end;
                 if Format(FieldRef.Value) = Value then begin

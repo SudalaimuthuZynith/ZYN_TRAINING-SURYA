@@ -34,10 +34,10 @@ page 50194 ZYNAssetsList
         }
         area(FactBoxes)
         {
-            part(AssignedAssetsPage; AssignedAssetsPage)
+            part(AssignedAssetsPage; ZYN_AssignedAssets)
             {
             }
-            part(ReturnedAssetsPage; ReturnedAssetsPage)
+            part(ReturnedAssetsPage; ZYN_ReturnedAssets)
             {
             }
         }
