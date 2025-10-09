@@ -1,67 +1,131 @@
 codeunit 50223 ZYN_CompanySubscriber
 {
+    // Flag to prevent recursive updates
     var
         UpdatingContacts: Boolean;
 
+    // ======================================
+    // Event Subscribers
+    // ======================================
+
     [EventSubscriber(ObjectType::Table, Database::ZYN_Company, 'OnAfterInsertEvent', '', true, true)]
     local procedure InsertCompanyRecord(var Rec: Record ZYN_Company)
-    var
-        Company: Record Company;
     begin
-        if not Company.Get(Rec.Name) then begin
-            Company.Init();
-            Company.Name := Rec.Name;
-            Company."Evaluation Company" := Rec."Evaluation Company";
-            Company."Display Name" := Rec."Display Name";
-            Company."Business Profile Id" := Rec."Business Profile Id";
-            Company.Insert(true);
-        end;
+        InsertCompanyFromZYNCompany(Rec);
     end;
 
     [EventSubscriber(ObjectType::Table, Database::Company, 'OnAfterInsertEvent', '', true, true)]
     local procedure InsertZYNCompanyRecord(var Rec: Record Company)
-    var
-        ZYN_Company: Record ZYN_Company;
     begin
-        if not ZYN_Company.Get(Rec.Name) then begin
-            ZYN_Company.Init();
-            ZYN_Company.Name := Rec.Name;
-            ZYN_Company."Evaluation Company" := Rec."Evaluation Company";
-            ZYN_Company."Display Name" := Rec."Display Name";
-            ZYN_Company."Business Profile Id" := Rec."Business Profile Id";
-            ZYN_Company.Insert(true);
-        end;
+        InsertZYNCompanyFromCompany(Rec);
     end;
 
     [EventSubscriber(ObjectType::Table, Database::ZYN_Company, 'OnAfterModifyEvent', '', true, true)]
     local procedure ModifyCompanyFromZYN(var Rec: Record ZYN_Company)
-    var
-        Company: Record Company;
     begin
-        if not Company.Get(Rec.Name) then
-            exit;
-
-        Company."Evaluation Company" := Rec."Evaluation Company";
-        Company."Display Name" := Rec."Display Name";
-        Company."Business Profile Id" := Rec."Business Profile Id";
-        Company.Modify(false);
+        UpdateCompanyFromZYNCompany(Rec);
     end;
 
     [EventSubscriber(ObjectType::Table, Database::Company, 'OnAfterModifyEvent', '', true, true)]
     local procedure ModifyZYNCompanyRecord(var Rec: Record Company)
+    begin
+        UpdateZYNCompanyFromCompany(Rec);
+    end;
+
+    [EventSubscriber(ObjectType::Table, Database::ZYN_Company, 'OnAfterDeleteEvent', '', true, true)]
+    local procedure DeleteCompanyRecord(var Rec: Record ZYN_Company)
+    begin
+        DeleteCompanyFromZYNCompany(Rec);
+    end;
+
+    [EventSubscriber(ObjectType::Table, Database::Company, 'OnAfterDeleteEvent', '', true, true)]
+    local procedure DeleteZYNCompanyRecord(var Rec: Record Company)
+    begin
+        DeleteZYNCompanyFromCompany(Rec);
+    end;
+
+    // ======================================
+    // Local Procedures
+    // ======================================
+
+    // Insert a new Company record based on ZYN_Company
+    local procedure InsertCompanyFromZYNCompany(var ZYN_Company: Record ZYN_Company)
     var
-        MyCompany: Record ZYN_Company;
+        Company: Record Company;
+    begin
+        if not Company.Get(ZYN_Company.Name) then begin
+            Company.Init();
+            Company.Name := ZYN_Company.Name;
+            Company."Evaluation Company" := ZYN_Company."Evaluation Company";
+            Company."Display Name" := ZYN_Company."Display Name";
+            Company."Business Profile Id" := ZYN_Company."Business Profile Id";
+            Company.Insert(true);
+        end;
+    end;
+
+    // Insert a new ZYN_Company record based on Company
+    local procedure InsertZYNCompanyFromCompany(var Company: Record Company)
+    var
+        ZYN_Company: Record ZYN_Company;
+    begin
+        if not ZYN_Company.Get(Company.Name) then begin
+            ZYN_Company.Init();
+            ZYN_Company.Name := Company.Name;
+            ZYN_Company."Evaluation Company" := Company."Evaluation Company";
+            ZYN_Company."Display Name" := Company."Display Name";
+            ZYN_Company."Business Profile Id" := Company."Business Profile Id";
+            ZYN_Company.Insert(true);
+        end;
+    end;
+
+    // Update Company fields based on ZYN_Company
+    local procedure UpdateCompanyFromZYNCompany(var ZYN_Company: Record ZYN_Company)
+    var
+        Company: Record Company;
+    begin
+        if not Company.Get(ZYN_Company.Name) then
+            exit;
+
+        Company."Evaluation Company" := ZYN_Company."Evaluation Company";
+        Company."Display Name" := ZYN_Company."Display Name";
+        Company."Business Profile Id" := ZYN_Company."Business Profile Id";
+        Company.Modify(false);
+    end;
+
+    // Update ZYN_Company fields based on Company if there are changes
+    local procedure UpdateZYNCompanyFromCompany(var Company: Record Company)
+    var
+        ZYN_Company: Record ZYN_Company;
         Changed: Boolean;
     begin
-        if MyCompany.Get(Rec.Name) then begin
-            Changed := HasChanges(Rec, MyCompany);
+        if ZYN_Company.Get(Company.Name) then begin
+            Changed := HasChanges(Company, ZYN_Company);
             if Changed then begin
-                MyCompany.TransferFields(Rec, false);
-                MyCompany.Modify(false);
+                ZYN_Company.TransferFields(Company, false);
+                ZYN_Company.Modify(false);
             end;
         end;
     end;
 
+    // Delete Company record corresponding to ZYN_Company
+    local procedure DeleteCompanyFromZYNCompany(var ZYN_Company: Record ZYN_Company)
+    var
+        Company: Record Company;
+    begin
+        if Company.Get(ZYN_Company.Name) then
+            Company.Delete();
+    end;
+
+    // Delete ZYN_Company record corresponding to Company
+    local procedure DeleteZYNCompanyFromCompany(var Company: Record Company)
+    var
+        ZYN_Company: Record ZYN_Company;
+    begin
+        if ZYN_Company.Get(Company.Name) then
+            ZYN_Company.Delete();
+    end;
+
+    // Check if any field values differ between Source and Target records
     local procedure HasChanges(SourceRec: Variant; TargetRec: Variant): Boolean
     var
         SourceRef: RecordRef;
@@ -83,24 +147,7 @@ codeunit 50223 ZYN_CompanySubscriber
         end;
         exit(false);
     end;
-
-    [EventSubscriber(ObjectType::Table, Database::ZYN_Company, 'OnAfterDeleteEvent', '', true, true)]
-    local procedure DeleteCompanyRecord(var Rec: Record ZYN_Company)
-    var
-        Company: Record Company;
-    begin
-        if Company.Get(Rec.Name) then
-            Company.Delete();
-    end;
-
-    [EventSubscriber(ObjectType::Table, Database::Company, 'OnAfterDeleteEvent', '', true, true)]
-    local procedure DeleteZynCompanyRecord(var Rec: Record Company)
-    var
-        ZYN_Company: Record ZYN_Company;
-    begin
-        if ZYN_Company.Get(Rec.Name) then
-            ZYN_Company.Delete();
-    end;
+}
 
     // var
     //     IsContactSyncing: Boolean;
@@ -448,7 +495,6 @@ codeunit 50223 ZYN_CompanySubscriber
     // // end;
 
 
-}
 
 
 

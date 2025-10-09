@@ -1,31 +1,50 @@
-codeunit 50123 modifylogt
+codeunit 50123 ModifyLogT
 {
-    [EventSubscriber(ObjectType::Table, database::Customer, OnAfterModifyEvent, '', true, true)]
-    local procedure checkcall(var Rec: Record Customer; var xRec: Record Customer)
-    var
-        recref: RecordRef;
-        xrecref: RecordRef;
-        fieldref: FieldRef;
-        xfieldref: FieldRef;
-        i: Integer;
-        changelog: Record ZYNlog;
-        userid: Code[20];
+    // ======================================
+    // Event Subscriber
+    // ======================================
+    [EventSubscriber(ObjectType::Table, Database::Customer, OnAfterModifyEvent, '', true, true)]
+    local procedure CheckCall(var Rec: Record Customer; var xRec: Record Customer)
     begin
-        recref.GetTable(Rec);
-        xrecref.GetTable(xRec);
+        LogCustomerChanges(Rec, xRec);
+    end;
 
-        for i := 1 to recref.FieldCount do begin
-            fieldref := recref.FieldIndex(i);
-            xfieldref := xrecref.FieldIndex(i);
-            if fieldref.Value <> xfieldref.Value then begin
-                Clear(changelog);
-                changelog.Init();
-                changelog.customer_no := Rec."No.";
-                changelog.fieldname := CopyStr(fieldref.Name, 1, MaxStrLen(changelog.fieldname));
-                changelog.oldvalue := CopyStr(Format(xfieldref.Value), 1, MaxStrLen(changelog.oldvalue));
-                changelog.newvalue := CopyStr(Format(fieldref.Value), 1, MaxStrLen(changelog.newvalue));
-                changelog.user_id := userid;
-                changelog.Insert()
+    // ======================================
+    // Local Procedures
+    // ======================================
+
+    // Logs changes between modified Customer record and old record
+    local procedure LogCustomerChanges(var Customer: Record Customer; var OldCustomer: Record Customer)
+    var
+        CustomerRef: RecordRef;
+        OldCustomerRef: RecordRef;
+        FieldRefCurr: FieldRef;
+        FieldRefOld: FieldRef;
+        i: Integer;
+        ChangeLog: Record ZYNlog;
+        UserID: Code[20];
+    begin
+        // Get record references for field-level comparison
+        CustomerRef.GetTable(Customer);
+        OldCustomerRef.GetTable(OldCustomer);
+
+        // Loop through each field to detect changes
+        for i := 1 to CustomerRef.FieldCount do begin
+            FieldRefCurr := CustomerRef.FieldIndex(i);
+            FieldRefOld := OldCustomerRef.FieldIndex(i);
+
+            if FieldRefCurr.Value <> FieldRefOld.Value then begin
+                // Clear and initialize changelog
+                Clear(ChangeLog);
+                ChangeLog.Init();
+                
+                ChangeLog.customer_no := Customer."No.";
+                ChangeLog.fieldname := CopyStr(FieldRefCurr.Name, 1, MaxStrLen(ChangeLog.fieldname));
+                ChangeLog.oldvalue := CopyStr(Format(FieldRefOld.Value), 1, MaxStrLen(ChangeLog.oldvalue));
+                ChangeLog.newvalue := CopyStr(Format(FieldRefCurr.Value), 1, MaxStrLen(ChangeLog.newvalue));
+                ChangeLog.user_id := UserID;
+
+                ChangeLog.Insert();
             end;
         end;
     end;
